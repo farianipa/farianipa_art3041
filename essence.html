@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESSENCE — Movie Poster — Faria Hossain</title>
+<style>
+  :root{
+    --bg: #2b1b10;
+    --offwhite: #f3ead9;
+    --wave: #6b4a30;
+    --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-body: 'Jost', 'Century Gothic', 'Trebuchet MS', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--offwhite);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+    font-weight: 300;
+    text-transform: uppercase;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+  h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
+  h3 { font-size: clamp(1rem, 2vw, 1.2rem); letter-spacing: 0.08em; }
+
+  p { max-width: 62ch; }
+
+  a { color: var(--offwhite); }
+
+  /* ---------- drifting waves background ---------- */
+  .waves {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .waves svg {
+    position: absolute;
+    left: 0;
+    width: 200%;
+    height: auto;
+  }
+  .wave-1 { top: 4%;   animation: drift 15s linear infinite; }
+  .wave-2 { top: 48%;  animation: drift-reverse 13s linear infinite; }
+  .wave-3 { top: 90%;  animation: drift 16s linear infinite; }
+
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes drift-reverse {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wave-1, .wave-2, .wave-3 { animation: none; }
+  }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.6rem;
+  }
+
+  /* ---------- top nav ---------- */
+  .topnav {
+    padding: 2rem 0 0.5rem;
+  }
+  .topnav a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    color: var(--offwhite);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease;
+  }
+  .topnav a:hover, .topnav a:focus-visible {
+    border-color: var(--offwhite);
+  }
+
+  /* ---------- header ---------- */
+  header.page-head {
+    padding: 2.5rem 0 3rem;
+    border-bottom: 1px solid rgba(243, 234, 217, 0.15);
+    margin-bottom: 3rem;
+  }
+  .kicker {
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    margin: 0 0 0.6rem;
+    opacity: 0.85;
+  }
+  .page-head p.intro {
+    margin-top: 1.2rem;
+  }
+
+  /* ---------- steps ---------- */
+  section.step {
+    padding-bottom: 4.5rem;
+  }
+  .step-label {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba(243, 234, 217, 0.4);
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+  .step h2 {
+    margin-bottom: 0.9rem;
+  }
+  .step figure {
+    margin: 1.6rem 0;
+  }
+  .step img {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    border: 1px solid rgba(243, 234, 217, 0.2);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+  }
+  .step figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.85rem;
+    opacity: 0.75;
+    max-width: 420px;
+  }
+  .step .note {
+    margin-top: 1rem;
+    opacity: 0.9;
+  }
+  .prompt-box {
+    margin-top: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(243, 234, 217, 0.06);
+    border-left: 2px solid rgba(243, 234, 217, 0.4);
+    font-style: italic;
+    max-width: 62ch;
+  }
+
+  .arrow {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    opacity: 0.6;
+    margin: 0.5rem 0 2rem;
+  }
+
+  /* ---------- featured final poster ---------- */
+  .featured {
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid rgba(243, 234, 217, 0.15);
+    text-align: center;
+  }
+  .featured .step-label {
+    margin-bottom: 1.2rem;
+  }
+  .featured img {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid rgba(243, 234, 217, 0.25);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  }
+  .featured figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+
+  .process-head {
+    margin-bottom: 2.5rem;
+  }
+  .process-head p {
+    margin-top: 0.8rem;
+  }
+
+  footer {
+    padding: 2rem 0 4rem;
+    font-size: 0.85rem;
+    color: var(--offwhite);
+    opacity: 0.8;
+    border-top: 1px solid rgba(243, 234, 217, 0.15);
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="waves" aria-hidden="true">
+  <svg class="wave-1" viewBox="0 0 2400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C 200,10 400,110 600,60 C 800,10 1000,110 1200,60 C 1400,10 1600,110 1800,60 C 2000,10 2200,110 2400,60 L2400,120 L0,120 Z" fill="#6b4a30" opacity="0.35"></path>
+  </svg>
+  <svg class="wave-2" viewBox="0 0 2400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,70 C 220,20 420,120 640,70 C 860,20 1060,120 1280,70 C 1500,20 1700,120 1920,70 C 2140,20 2340,120 2400,90 L2400,120 L0,120 Z" fill="#6b4a30" opacity="0.28"></path>
+  </svg>
+  <svg class="wave-3" viewBox="0 0 2400 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,50 C 180,90 380,10 580,50 C 780,90 980,10 1180,50 C 1380,90 1580,10 1780,50 C 1980,90 2180,10 2400,50 L2400,120 L0,120 Z" fill="#6b4a30" opacity="0.22"></path>
+  </svg>
+</div>
+
+<div class="wrap">
+  <nav class="topnav"><a href="index.html">&larr; Back to index</a></nav>
+
+  <header class="page-head">
+    <p class="kicker">A.I. FOR DESIGNERS · ART 3041 · Fall 2026</p>
+    <h1>Essence</h1>
+    <p class="intro">A promotional movie poster built from a hand sketch, developed with AI, then refined by hand in post.</p>
+  </header>
+
+  <section class="featured">
+    <span class="step-label">Final Poster</span>
+    <figure>
+      <img src="essence-assets/essence-final.jpg" alt="Final ESSENCE poster: vertical title text on the left, a faceless woman with long dark hair holding a black cat, and the tagline Coming Soon to Theaters along the bottom">
+      <figcaption>Coming Soon to Theaters — the finished poster.</figcaption>
+    </figure>
+  </section>
+
+  <div class="process-head">
+    <h2>The Process</h2>
+    <p>Here's how it came together, from the first pen sketch to the poster above.</p>
+  </div>
+
+  <section class="step">
+    <span class="step-label">01 — Sketch</span>
+    <h2>The Hand-Drawn Sketch</h2>
+    <p>I started with a rough pen sketch: the title "ESSENCE" running vertically along the left edge, and a faceless woman with long dark hair holding a cat, cropped at the shoulders inside a simple bordered frame.</p>
+    <figure>
+      <img src="essence-assets/essence-sketch.jpg" alt="Hand-drawn pen sketch of the ESSENCE poster: vertical title text on the left, a faceless woman with long hair holding a cat on the right, inside a hand-drawn border">
+      <figcaption>Original pen-and-paper sketch — the starting layout for the poster.</figcaption>
+    </figure>
+    <div class="arrow">&darr;</div>
+  </section>
+
+  <section class="step">
+    <span class="step-label">02 — First AI Pass</span>
+    <h2>Into Gemini</h2>
+    <p>I fed the sketch into Gemini with a methodical breakdown of each element: the vertical bold "ESSENCE" title with a drop shadow, an aged cream paper texture, a halftone-shaded illustration of a woman with long black hair, her face left blank/featureless, cradling a small black cat, and placeholder credit text along the bottom in the style of a real movie poster.</p>
+    <figure>
+      <img src="essence-assets/essence-ai-draft.jpg" alt="First AI-generated draft of the ESSENCE poster, with faint facial features and placeholder credit text at the bottom">
+      <figcaption>First generation — close to the sketch, but the face had faint features I hadn't asked for, and the bottom credit line was still a generic placeholder.</figcaption>
+    </figure>
+    <div class="prompt-box">
+      "A vintage-style movie poster on aged cream paper. Vertical bold slab-serif text reading ESSENCE running down the left side with a soft drop shadow. On the right, a halftone-illustrated woman with long straight black hair, no facial features, shoulders bare, holding a small black cat against her chest. Thin hairline border around the whole poster. Credit text along the bottom in small caps."
+    </div>
+    <div class="arrow">&darr;</div>
+  </section>
+
+  <section class="step">
+    <span class="step-label">03 — Final Edit</span>
+    <h2>The Finished Poster</h2>
+    <p>The AI version was close, but not quite right — the face read as too "there" for what I wanted, and the bottom text was still just a placeholder. I brought it into an image editor and erased the leftover facial marks so the face is completely blank, then replaced the bottom credit line with the real tagline, "Coming Soon to Theaters." That gave me the final poster shown above.</p>
+  </section>
+
+  <footer>
+    <p>Faria Hossain · ART 3041 · Fall 2026</p>
+  </footer>
+</div>
+
+</body>
+</html>
