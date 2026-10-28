@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mission Patch Generator</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500&family=DM+Sans:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,500&display=swap">
+<style>
+:root{--bg:#f6f4ef;--side:#efebe3;--glow:#ffffff;--ink:#000;--line:#d8cfc0;--acc:#8b5e3c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-mode="dark"]{color-scheme:dark;--bg:#10131c;--side:#151a27;--glow:#1b2236;--ink:#fff;--line:#3a4157;--acc:#c9955f}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Cabin,"Gill Sans","Helvetica Neue",Arial,sans-serif;font-weight:400}
+header{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding:14px 28px;border-bottom:1px solid var(--line)}
+h1{font-family:"Gill Sans","Gill Sans MT",Cabin,Calibri,sans-serif;font-size:27px;font-weight:500;margin:0;white-space:nowrap}
+nav{display:flex;gap:6px;flex:1;flex-wrap:wrap}
+nav button,#theme{font:inherit;font-weight:400;font-size:13px;text-transform:lowercase;background:none;border:0;color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer;opacity:.65;transition:opacity .2s,background .2s}
+nav button:hover,#theme:hover{opacity:1;background:var(--side)}
+#theme{border:1px solid var(--line)}
+#ver{margin-left:auto;font-size:13px;font-weight:400;text-transform:lowercase}
+header .act{margin:0;padding:6px 18px}
+.app{display:flex}
+aside{width:310px;flex:none;box-sizing:border-box;background:var(--side);padding:20px 26px 48px;height:calc(100vh - 64px);position:sticky;top:0;overflow-y:auto;box-shadow:16px 0 44px -26px rgba(0,0,0,.28)}
+h3{font-weight:400;font-size:13px;text-transform:lowercase;margin:26px 0 10px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+main{flex:1;min-width:0;padding:34px 16px 70px;text-align:center;background:radial-gradient(ellipse at 50% 28%,var(--glow),transparent 68%)}
+#stage{transition:opacity .18s ease,transform .18s ease}#stage.swap{opacity:0;transform:scale(.97)}
+#stage svg{width:min(92vw,460px);height:auto;filter:drop-shadow(0 22px 24px rgba(0,0,0,.2))}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.row{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:13px}
+.row label{width:92px;flex:none;font-weight:400;text-transform:lowercase}
+.row select,.row input[type=text]{flex:1;min-width:0;font:inherit;font-weight:400;font-size:13px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-transform:lowercase}
+.row select option{background:var(--bg);color:var(--ink)}
+.row select{appearance:none;-webkit-appearance:none;padding-right:30px;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 17px) 52%,calc(100% - 12px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.row input[type=range],.row input[type=checkbox]{accent-color:var(--ink)}
+.row input[type=range]{flex:1;min-width:0}
+.row input[type=file]{flex:1;min-width:0;font-size:12px;color:var(--ink)}
+.act{font:inherit;font-weight:400;font-size:13px;text-transform:lowercase;padding:9px 22px;border-radius:999px;border:1px solid var(--ink);background:none;color:var(--ink);cursor:pointer;margin:5px;transition:transform .15s}
+.act:hover{transform:translateY(-1px)}
+.pri{background:var(--acc);color:#fff;border-color:var(--acc)}
+.hint{font-size:12px;margin:10px 0;line-height:1.6;font-weight:400;text-transform:lowercase}
+#small{width:96px;height:96px;margin:6px auto}#small svg{width:96px;height:96px}
+#saved{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}#saved div{width:84px;cursor:pointer;transition:transform .15s}#saved div:hover{transform:scale(1.06)}#saved svg{width:84px;height:84px}
+@media (max-width:760px){.app{flex-direction:column}aside{width:auto;height:auto;position:static}}
+</style>
+</head>
+<body>
+<header>
+<h1>Mission Patch Generator</h1>
+<span id="ver">version 0</span>
+<button class="act" onclick="save()">save</button>
+<button id="theme" onclick="theme()">light / dark</button>
+</header>
+<div class="app">
+<aside id="controls"></aside>
+<main>
+<div id="stage"></div>
+<button class="act pri" onclick="gen()">generate</button>
+<button class="act" onclick="reset()">reset</button>
+<p class="hint">seed <span id="seed">·</span> · 1-inch size check</p>
+<div id="small"></div>
+<h3>saved versions</h3>
+<div id="saved"></div>
+</main>
+</div>
+<script>
+var PAL=[
+{n:"Baruch blue + gold",bg:"#0b2a6f",ring:"#f2c14e",p1:"#f2c14e",p2:"#ffffff",c:"#e4572e"},
+{n:"Midnight + coral",bg:"#14213d",ring:"#ff8fa3",p1:"#ff8fa3",p2:"#ffd6e0",c:"#ffe66d"},
+{n:"Ocean blue",bg:"#0a1f44",ring:"#8ec5ff",p1:"#8ec5ff",p2:"#e8f3ff",c:"#ffffff"},
+{n:"Black + red",bg:"#0d0d0d",ring:"#e63946",p1:"#e63946",p2:"#ffd9dc",c:"#ffffff"},
+{n:"Teal + cream",bg:"#0f4c4a",ring:"#f4ead5",p1:"#f4ead5",p2:"#f2a65a",c:"#f2a65a"}];
+var FONTS={"DM Sans":"'DM Sans',Arial,sans-serif","Gill Sans":"'Gill Sans','Gill Sans MT',Cabin,Calibri,sans-serif","Cormorant Garamond":"'Cormorant Garamond',Georgia,serif","Georgia":"Georgia,serif"};
+var TCOL={"Match ring":0,"White":"#ffffff","Cream":"#f4ead5"};
+var GT={patch:"patch",flower:"flower",logo:"baruch logo",text:"type"};
+var C=[
+{g:"patch",k:"shape",l:"Shape",t:"s",o:["Circle","Rounded square"],d:"Rounded square"},
+{g:"patch",k:"pal",l:"Colors",t:"s",o:PAL.map(function(p){return p.n}),d:PAL[1].n},
+{g:"patch",k:"fill",l:"Finish",t:"s",o:["Soft fill","Flat lines"],d:"Soft fill"},
+{g:"patch",k:"border",l:"Border",t:"s",o:["Single","Double"],d:"Single"},
+{g:"patch",k:"bw",l:"Border width",t:"r",min:3,max:12,d:6},
+{g:"patch",k:"bg",l:"Background",t:"s",o:["Solid","Glow"],d:"Solid"},
+{g:"flower",k:"n",l:"Petals",t:"r",min:4,max:14,d:8},
+{g:"flower",k:"rx",l:"Petal width",t:"r",min:20,max:56,d:56},
+{g:"flower",k:"ry",l:"Petal length",t:"r",min:50,max:80,d:80},
+{g:"flower",k:"w",l:"Line weight",t:"r",min:1,max:6,d:1},
+{g:"flower",k:"rot",l:"Rotation",t:"r",min:0,max:45,d:0},
+{g:"flower",k:"inner",l:"Inner orbit",t:"s",o:["On","Off"],d:"On"},
+{g:"flower",k:"ring",l:"Orbit ring",t:"s",o:["Off","On"],d:"Off"},
+{g:"flower",k:"planet",l:"Planets",t:"s",o:["At tips","Large","Off"],d:"At tips"},
+{g:"flower",k:"core",l:"Center",t:"s",o:["Sun","Ring","Dot"],d:"Sun"},
+{g:"logo",k:"logo",l:"Position",t:"s",o:["Center","Bottom","Off"],d:"Off"},
+{g:"logo",k:"lsz",l:"Size",t:"r",min:24,max:44,d:34},
+{g:"logo",k:"back",l:"Backing",t:"s",o:["White disc","None"],d:"White disc"},
+{g:"text",k:"top",l:"Top text",t:"x",d:"BARUCH COLLEGE"},
+{g:"text",k:"bot",l:"Bottom text",t:"x",d:"SSEP MISSION 2026"},
+{g:"text",k:"font",l:"Font",t:"s",o:Object.keys(FONTS),d:"Cormorant Garamond"},
+{g:"text",k:"tsize",l:"Text size",t:"r",min:13,max:22,d:18},
+{g:"text",k:"tsp",l:"Spacing",t:"r",min:1,max:8,d:5},
+{g:"text",k:"tcol",l:"Text color",t:"s",o:Object.keys(TCOL),d:"Match ring"}];
+var TABS=["patch","flower","logo","text"],S={},L={},seed=0,logoURL="",saved=[];
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function reset(){C.forEach(function(c){S[c.k]=c.d;L[c.k]=false});build();draw()}
+function row(c){
+ var h='<div class="row"><label>'+c.l+'</label>';
+ if(c.t=="s")h+='<select data-k="'+c.k+'">'+c.o.map(function(o){return '<option'+(o==S[c.k]?' selected':'')+'>'+o+'</option>'}).join("")+'</select>';
+ else if(c.t=="r")h+='<input type="range" data-k="'+c.k+'" min="'+c.min+'" max="'+c.max+'" value="'+S[c.k]+'">';
+ else h+='<input type="text" data-k="'+c.k+'" value="'+S[c.k]+'" maxlength="28">';
+ if(c.t!="x")h+='<input type="checkbox" title="Lock" data-lk="'+c.k+'"'+(L[c.k]?' checked':'')+'>';
+ return h+'</div>'}
+function build(){
+ var h="";
+ TABS.forEach(function(g){
+  h+=(g=="patch"?'':'<hr>')+C.filter(function(c){return c.g==g}).map(row).join("");
+  if(g=="logo")h+='<div class="row"><label>Logo file</label><input type="file" id="logo" accept="image/*"></div><p class="hint">upload your baruch logo file. until then a placeholder “B” sits in its spot.</p>'});
+ h+='<p class="hint">tick a box to lock a setting. it stays put when you generate.</p>';
+ var el=document.getElementById("controls");el.innerHTML=h;
+ el.querySelectorAll("[data-k]").forEach(function(i){i.oninput=function(){var c=C.filter(function(x){return x.k==i.dataset.k})[0];S[c.k]=c.t=="r"?+i.value:i.value;draw()}});
+ el.querySelectorAll("[data-lk]").forEach(function(i){i.onchange=function(){L[i.dataset.lk]=i.checked}});
+ document.getElementById("logo").onchange=function(e){
+  var f=e.target.files[0];if(!f)return;var r=new FileReader();
+  r.onload=function(){logoURL=r.result;draw()};r.readAsDataURL(f)};
+}
+function jump(t){document.getElementById("sec-"+t).scrollIntoView({behavior:"smooth",block:"start"})}
+function theme(){var r=document.documentElement;r.dataset.mode=r.dataset.mode=="dark"?"light":"dark"}
+function gen(){
+ seed=Math.floor(Math.random()*99999);var R=rng(seed);
+ C.forEach(function(c){if(L[c.k]||c.t=="x")return;
+  if(c.t=="s")S[c.k]=c.o[Math.floor(R()*c.o.length)];
+  else S[c.k]=c.min+Math.floor(R()*(c.max-c.min+1))});
+ var st=document.getElementById("stage");st.classList.add("swap");
+ setTimeout(function(){build();draw();setTimeout(function(){st.classList.remove("swap")},40)},180)}
+function shape(inset,a){
+ return S.shape=="Circle"?'<circle cx="200" cy="200" r="'+(195-inset)+'" '+a+'/>':'<rect x="'+(5+inset)+'" y="'+(5+inset)+'" width="'+(390-2*inset)+'" height="'+(390-2*inset)+'" rx="'+(80-inset)+'" '+a+'/>'}
+function mark(cx,cy,r,p){
+ var w=S.back=="White disc",s=w?'<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#fff"/>':'';
+ if(logoURL)s+='<image href="'+logoURL+'" x="'+(cx-r*.78)+'" y="'+(cy-r*.78)+'" width="'+(r*1.56)+'" height="'+(r*1.56)+'" preserveAspectRatio="xMidYMid meet"/>';
+ else s+='<text x="'+cx+'" y="'+(cy+r*.36)+'" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="'+(r*1.1)+'" fill="'+(w?"#0b2a6f":p.ring)+'">B</text>';
+ return s}
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function svg(uid){
+ var p=PAL.filter(function(x){return x.n==S.pal})[0],n=S.n,ry=S.ry,bottom=S.logo=="Bottom",fs=bottom?.78:.92,cy=bottom?188:200,f=FONTS[S.font],tc=TCOL[S.tcol]||p.ring;
+ var s='<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbit Bloom mission patch">';
+ s+='<defs><path id="a'+uid+'" d="M42,200 A158,158 0 0 1 358,200"/><path id="b'+uid+'" d="M24,200 A176,176 0 0 0 376,200"/><radialGradient id="gl'+uid+'"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>';
+ s+=shape(0,'fill="'+p.ring+'"')+shape(S.bw,'fill="'+p.bg+'"');
+ if(S.bg=="Glow")s+=shape(S.bw,'fill="url(#gl'+uid+')"');
+ if(S.border=="Double")s+=shape(S.bw+4,'fill="none" stroke="'+p.ring+'" stroke-width="1.5"');
+ s+='<g transform="translate(200 '+cy+') scale('+fs+') rotate('+S.rot+') translate(-200 -200)">';
+ if(S.ring=="On")s+='<circle cx="200" cy="200" r="'+(2*ry)+'" fill="none" stroke="'+p.p2+'" stroke-width="1" opacity=".5"/>';
+ for(var i=0;i<n;i++){var g=' transform="rotate('+(i*360/n)+' 200 200)"';
+  s+='<ellipse cx="200" cy="'+(200-ry)+'" rx="'+S.rx+'" ry="'+ry+'" fill="'+p.p1+'" fill-opacity="'+(S.fill=="Soft fill"?.15:0)+'" stroke="'+p.p1+'" stroke-width="'+S.w+'"'+g+'/>';
+  if(S.inner=="On")s+='<ellipse cx="200" cy="'+(200-ry*.55)+'" rx="'+(S.rx*.55)+'" ry="'+(ry*.55)+'" fill="none" stroke="'+p.p2+'" stroke-width="'+S.w+'"'+g+'/>';
+  if(S.planet!="Off")s+='<circle cx="200" cy="'+(200-2*ry)+'" r="'+(S.planet=="Large"?11:7)+'" fill="'+p.p2+'"'+g+'/>'}
+ if(S.logo!="Center"){
+  if(S.core=="Sun")s+='<circle cx="200" cy="200" r="22" fill="'+p.c+'"/>';
+  else if(S.core=="Ring")s+='<circle cx="200" cy="200" r="22" fill="none" stroke="'+p.c+'" stroke-width="'+S.w+'"/>';
+  else s+='<circle cx="200" cy="200" r="10" fill="'+p.c+'"/>'}
+ s+='</g>';
+ if(S.logo=="Center")s+=mark(200,200,S.lsz,p);
+ if(bottom)s+=mark(200,340,S.lsz*.78,p);
+ var tf='font-family="'+f+'" font-size="'+S.tsize+'" font-weight="400" letter-spacing="'+S.tsp+'" fill="'+tc+'" text-anchor="middle"';
+ if(S.top)s+='<text '+tf+'><textPath href="#a'+uid+'" startOffset="50%">'+esc(S.top)+'</textPath></text>';
+ if(S.bot&&!bottom)s+='<text '+tf+'><textPath href="#b'+uid+'" startOffset="50%">'+esc(S.bot)+'</textPath></text>';
+ return s+'</svg>'}
+var pend=0;
+function draw(){if(pend)return;pend=1;requestAnimationFrame(function(){pend=0;
+ document.getElementById("stage").innerHTML=svg("m");
+ document.getElementById("small").innerHTML=svg("s");
+ document.getElementById("seed").textContent=seed||"·"})}
+function save(){
+ var snap=JSON.parse(JSON.stringify(S));saved.push(snap);
+ var d=document.createElement("div");d.innerHTML=svg("v"+saved.length);
+ d.onclick=function(){S=JSON.parse(JSON.stringify(snap));build();draw()};
+ document.getElementById("saved").appendChild(d);document.getElementById("ver").textContent="version "+saved.length}
+reset();
+</script>
+</body>
+</html>
