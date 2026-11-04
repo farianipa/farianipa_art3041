@@ -6,224 +6,218 @@
     <title>Creative Director Pt. 1: Style Guide</title>
     <style>
         :root {
-            --primary-black: #0B0B0B;
-            --tom-ford-gold: #D4AF37;
-            --muted-gold: #AA8C3F;
-            --deep-burgundy: #3A0007;
-            --rich-chocolate: #1F1612;
-            --off-white: #F4F4F4;
-            --text-gray: #A0A0A0;
+            --bg-color: #F9F9F7; /* Elegant Tom Ford luxury off-white packaging tone */
+            --tf-gold: #B59A57;  /* High-end muted campaign gold */
+            --accent-crimson: #63000E;
+            --text-color: #000000;
+            --muted-text: #555555;
+            --border-color: #E5E5E2;
         }
 
         body {
-            background-color: var(--primary-black);
-            color: var(--off-white);
-            font-family: "Times New Roman", Times, serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em; /* Noticeably pulled together and tighter tracking */
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
         }
 
         header {
+            padding: 40px 15px 20px 15px;
             text-align: center;
-            padding: 60px 20px;
-            border-bottom: 1px solid #222;
         }
 
         .brand-subtitle {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 14px;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.4em;
-            color: var(--text-gray);
-            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            color: var(--text-color);
+            margin-bottom: 6px;
         }
 
         h1 {
-            font-size: 42px;
-            font-weight: 300;
+            font-size: 36px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin: 0 0 10px 0;
-            color: #fff;
+            letter-spacing: 0.05em;
+            margin: 0;
+            color: var(--tf-gold); /* Gold header */
+            line-height: 1;
         }
 
         .doc-title {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
-            color: var(--tom-ford-gold);
+            letter-spacing: 0.05em;
+            color: var(--muted-text);
+            margin-top: 8px;
         }
 
         main {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 10px 15px;
         }
 
         section {
-            margin-bottom: 80px;
+            border-top: 1px solid var(--border-color);
+            padding: 25px 0;
+            margin: 0;
         }
 
         h2 {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 18px;
+            font-size: 14px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.25em;
-            border-bottom: 1px solid var(--rich-chocolate);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            color: var(--tom-ford-gold);
+            letter-spacing: 0.08em;
+            margin: 0 0 15px 0;
+            color: var(--tf-gold); /* Gold header */
         }
 
         .brief-text {
-            font-size: 18px;
-            color: #DCDCDC;
-            text-align: justify;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-color);
             max-width: 800px;
-            margin: 0 auto;
-            font-style: italic;
+            line-height: 1.5;
+            border-left: 3px solid var(--tf-gold);
+            padding-left: 15px;
         }
 
         .moodboard-container {
-            text-align: center;
-            background: #111;
-            padding: 20px;
-            border: 1px solid #222;
+            background: #FFFFFF;
+            padding: 8px;
+            border: 1px solid var(--border-color);
         }
 
         .moodboard-placeholder {
             width: 100%;
             height: auto;
-            max-height: 600px;
+            max-height: 520px;
             object-fit: contain;
-            border: 1px solid #333;
-        }
-
-        .moodboard-caption {
-            margin-top: 15px;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 12px;
-            color: var(--text-gray);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            display: block;
         }
 
         .palette-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
         }
 
         .color-card {
-            background: #161616;
-            border: 1px solid #222;
-            padding: 10px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            padding: 8px;
             text-align: center;
         }
 
         .color-swatch {
-            height: 120px;
+            height: 60px;
             width: 100%;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 8px;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .color-name {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 12px;
+            font-size: 9px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 5px;
+            letter-spacing: 0.02em;
+            margin-bottom: 2px;
+            color: var(--text-color);
         }
 
         .color-hex {
-            font-size: 13px;
-            color: var(--text-gray);
+            font-size: 10px;
+            color: var(--muted-text);
         }
 
         .font-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 20px;
         }
 
         .font-specimen {
-            background: #161616;
-            padding: 30px;
-            border: 1px solid #222;
+            background: #FFFFFF;
+            padding: 20px;
+            border: 1px solid var(--border-color);
         }
 
         .font-role {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 12px;
+            font-size: 10px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--tom-ford-gold);
-            margin-bottom: 20px;
-        }
-
-        .font-display-serif {
-            font-family: "Times New Roman", Times, serif;
-            font-size: 36px;
-            line-height: 1.2;
-            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+            color: var(--muted-text);
+            margin-bottom: 8px;
         }
 
         .font-display-sans {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-weight: 300;
-            font-size: 28px;
-            letter-spacing: 0.15em;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
             text-transform: uppercase;
-            line-height: 1.2;
-            margin-bottom: 15px;
+            line-height: 1.1;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+
+        .font-display-sans-light {
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 4px;
+            color: var(--text-color);
         }
 
         .font-meta {
-            font-size: 12px;
-            color: var(--text-gray);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 10px;
+            color: var(--tf-gold);
+            text-transform: uppercase;
         }
 
         .logomark-container {
             text-align: center;
-            padding: 60px 20px;
-            background: #050505;
-            border: 1px solid #1a1a1a;
+            padding: 40px 15px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
         }
 
         .logomark-title {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 32px;
-            font-weight: 200;
-            letter-spacing: 0.5em;
+            font-weight: 700;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             margin: 0;
-            color: #fff;
+            color: var(--text-color);
+            line-height: 1;
         }
 
         .logomark-sub {
-            font-family: "Times New Roman", Times, serif;
-            font-size: 18px;
-            font-style: italic;
-            letter-spacing: 0.3em;
-            margin-top: 15px;
-            color: var(--tom-ford-gold);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            margin-top: 8px;
+            color: var(--tf-gold);
             text-transform: uppercase;
         }
 
         footer {
             text-align: center;
-            padding: 40px 20px;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 11px;
-            color: #444;
-            letter-spacing: 0.2em;
+            padding: 30px 15px;
+            font-size: 9px;
+            font-weight: 700;
+            color: #A1A19E;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            border-top: 1px solid #222;
         }
     </style>
 </head>
@@ -232,70 +226,83 @@
     <header>
         <div class="brand-subtitle">Tom Ford Beauty</div>
         <h1>INDISCREET</h1>
-        <div class="doc-title">Creative Director Pt. 1: Style Guide</div>
+        <div class="doc-title">Style Guide &bull; Creative Director Pt. 1</div>
     </header>
 
     <main>
-        <!-- Campaign Brief Section -->
-        <section id="campaign-brief">
+        <section id="campaign-brief" style="border: none;">
             <h2>Campaign Brief</h2>
             <div class="brief-text">
-                "INDISCREET encapsulates the raw, unyielding pull of late-night luxury. Rooted in the rich heritage of Tom Ford Beauty, this campaign targets the boundary-pushing individual who commands attention without saying a word. Through heavy textures of treated black leather, high-gloss cherry lip lacquer, and golden ambient glows, INDISCREET balances absolute sophistication with unapologetic desire. It explores the intoxicating contrast between high-fashion restraint and midnight indulgence."
+                INDISCREET is a beauty campaign centered on sensuality, confidence, and individuality. Inspired by the provocative glamour of early-2000s fashion editorials, the campaign brings together the warm, smoky character of Tom Ford Tobacco Vanille and the deep brick-red shade of Runway Lip Color in Invite Only.
             </div>
         </section>
 
-        <!-- Moodboard Section -->
         <section id="moodboard">
             <h2>Campaign Moodboard</h2>
             <div class="moodboard-container">
-                <!-- Replace 'image_8kxO8k.png' with your actual image path if localized -->
-                <img src="image_8kxO8k.png" alt="Tom Ford INDISCREET Moodboard" class="moodboard-placeholder">
-                <div class="moodboard-caption">Curated Compilation: Textures, Tones, and Cinematic Architecture</div>
+                <img src="moodboard.png" alt="Tom Ford INDISCREET Moodboard" class="moodboard-placeholder">
             </div>
         </section>
 
-        <!-- Color Palette Section -->
         <section id="color-palette">
             <h2>Campaign Color Palette</h2>
             <div class="palette-grid">
                 <div class="color-card">
-                    <div class="color-swatch" style="background-color: #0B0B0B;"></div>
-                    <div class="color-name">Obsidian Black</div>
-                    <div class="color-hex">#0B0B0B</div>
+                    <div class="color-swatch" style="background-color: #000000;"></div>
+                    <div class="color-name">Obsidian</div>
+                    <div class="color-hex">#000000</div>
                 </div>
                 <div class="color-card">
-                    <div class="color-swatch" style="background-color: #D4AF37;"></div>
-                    <div class="color-name">Tom Ford Gold</div>
-                    <div class="color-hex">#D4AF37</div>
+                    <div class="color-swatch" style="background-color: #B59A57;"></div>
+                    <div class="color-name">Campaign Gold</div>
+                    <div class="color-hex">#B59A57</div>
                 </div>
                 <div class="color-card">
-                    <div class="color-swatch" style="background-color: #3A0007;"></div>
-                    <div class="color-name">Indiscreet Berry</div>
-                    <div class="color-hex">#3A0007</div>
+                    <div class="color-swatch" style="background-color: #63000E;"></div>
+                    <div class="color-name">Crimson Pop</div>
+                    <div class="color-hex">#63000E</div>
                 </div>
                 <div class="color-card">
-                    <div class="color-swatch" style="background-color: #1F1612;"></div>
-                    <div class="color-name">Treated Leather</div>
-                    <div class="color-hex">#1F1612</div>
+                    <div class="color-swatch" style="background-color: #F9F9F7;"></div>
+                    <div class="color-name">Off-White</div>
+                    <div class="color-hex">#F9F9F7</div>
                 </div>
                 <div class="color-card">
-                    <div class="color-swatch" style="background-color: #F4F4F4;"></div>
-                    <div class="color-name">Stark White</div>
-                    <div class="color-hex">#F4F4F4</div>
+                    <div class="color-swatch" style="background-color: #FFFFFF;"></div>
+                    <div class="color-name">Pure White</div>
+                    <div class="color-hex">#FFFFFF</div>
                 </div>
             </div>
         </section>
 
-        <!-- Typography Section -->
         <section id="typography">
             <h2>Campaign Fonts</h2>
             <div class="font-container">
                 <div class="font-specimen">
-                    <div class="font-role">Primary Header Title</div>
-                    <div class="font-display-sans">Helvetica Neue Light</div>
-                    <div class="font-meta">Sans-Serif / Clean / All Caps / Tracking: 0.4em</div>
+                    <div class="font-role">Brand Identity & Headers</div>
+                    <div class="font-display-sans">Arial Bold</div>
+                    <div class="font-meta">Sans-Serif / Standard Tracking</div>
                 </div>
                 <div class="font-specimen">
-                    <div class="font-role">Editorial Body & Accents</div>
-                    <div class="font-display-serif">Times New Roman</div>
-                    <div class="font-meta">Serif / Classic Luxury / Regular & Italic / Tracking: 0.05em</div>
+                    <div class="font-role">Digital Copy & Layout</div>
+                    <div class="font-display-sans-light">Arial Regular</div>
+                    <div class="font-meta">Sans-Serif / Minimalist Clean</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="logomark">
+            <h2>Logomark</h2>
+            <div class="logomark-container">
+                <div class="logomark-title">TOM FORD</div>
+                <div class="logomark-sub">INDISCREET</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        TOM FORD BEAUTY &copy; 2026
+    </footer>
+
+</body>
+</html>
