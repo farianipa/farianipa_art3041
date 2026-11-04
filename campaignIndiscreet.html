@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Director Pt. 1: Style Guide</title>
+    <style>
+        :root {
+            --primary-black: #0B0B0B;
+            --tom-ford-gold: #D4AF37;
+            --muted-gold: #AA8C3F;
+            --deep-burgundy: #3A0007;
+            --rich-chocolate: #1F1612;
+            --off-white: #F4F4F4;
+            --text-gray: #A0A0A0;
+        }
+
+        body {
+            background-color: var(--primary-black);
+            color: var(--off-white);
+            font-family: "Times New Roman", Times, serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            border-bottom: 1px solid #222;
+        }
+
+        .brand-subtitle {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin: 0 0 10px 0;
+            color: #fff;
+        }
+
+        .doc-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--tom-ford-gold);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 80px;
+        }
+
+        h2 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            border-bottom: 1px solid var(--rich-chocolate);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            color: var(--tom-ford-gold);
+        }
+
+        .brief-text {
+            font-size: 18px;
+            color: #DCDCDC;
+            text-align: justify;
+            max-width: 800px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        .moodboard-container {
+            text-align: center;
+            background: #111;
+            padding: 20px;
+            border: 1px solid #222;
+        }
+
+        .moodboard-placeholder {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            object-fit: contain;
+            border: 1px solid #333;
+        }
+
+        .moodboard-caption {
+            margin-top: 15px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .color-card {
+            background: #161616;
+            border: 1px solid #222;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .color-swatch {
+            height: 120px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .color-name {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 5px;
+        }
+
+        .color-hex {
+            font-size: 13px;
+            color: var(--text-gray);
+        }
+
+        .font-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .font-specimen {
+            background: #161616;
+            padding: 30px;
+            border: 1px solid #222;
+        }
+
+        .font-role {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--tom-ford-gold);
+            margin-bottom: 20px;
+        }
+
+        .font-display-serif {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 36px;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .font-display-sans {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            font-size: 28px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .font-meta {
+            font-size: 12px;
+            color: var(--text-gray);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .logomark-container {
+            text-align: center;
+            padding: 60px 20px;
+            background: #050505;
+            border: 1px solid #1a1a1a;
+        }
+
+        .logomark-title {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 200;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            margin: 0;
+            color: #fff;
+        }
+
+        .logomark-sub {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 18px;
+            font-style: italic;
+            letter-spacing: 0.3em;
+            margin-top: 15px;
+            color: var(--tom-ford-gold);
+            text-transform: uppercase;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            color: #444;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-subtitle">Tom Ford Beauty</div>
+        <h1>INDISCREET</h1>
+        <div class="doc-title">Creative Director Pt. 1: Style Guide</div>
+    </header>
+
+    <main>
+        <!-- Campaign Brief Section -->
+        <section id="campaign-brief">
+            <h2>Campaign Brief</h2>
+            <div class="brief-text">
+                "INDISCREET encapsulates the raw, unyielding pull of late-night luxury. Rooted in the rich heritage of Tom Ford Beauty, this campaign targets the boundary-pushing individual who commands attention without saying a word. Through heavy textures of treated black leather, high-gloss cherry lip lacquer, and golden ambient glows, INDISCREET balances absolute sophistication with unapologetic desire. It explores the intoxicating contrast between high-fashion restraint and midnight indulgence."
+            </div>
+        </section>
+
+        <!-- Moodboard Section -->
+        <section id="moodboard">
+            <h2>Campaign Moodboard</h2>
+            <div class="moodboard-container">
+                <!-- Replace 'image_8kxO8k.png' with your actual image path if localized -->
+                <img src="image_8kxO8k.png" alt="Tom Ford INDISCREET Moodboard" class="moodboard-placeholder">
+                <div class="moodboard-caption">Curated Compilation: Textures, Tones, and Cinematic Architecture</div>
+            </div>
+        </section>
+
+        <!-- Color Palette Section -->
+        <section id="color-palette">
+            <h2>Campaign Color Palette</h2>
+            <div class="palette-grid">
+                <div class="color-card">
+                    <div class="color-swatch" style="background-color: #0B0B0B;"></div>
+                    <div class="color-name">Obsidian Black</div>
+                    <div class="color-hex">#0B0B0B</div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background-color: #D4AF37;"></div>
+                    <div class="color-name">Tom Ford Gold</div>
+                    <div class="color-hex">#D4AF37</div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background-color: #3A0007;"></div>
+                    <div class="color-name">Indiscreet Berry</div>
+                    <div class="color-hex">#3A0007</div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background-color: #1F1612;"></div>
+                    <div class="color-name">Treated Leather</div>
+                    <div class="color-hex">#1F1612</div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background-color: #F4F4F4;"></div>
+                    <div class="color-name">Stark White</div>
+                    <div class="color-hex">#F4F4F4</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Section -->
+        <section id="typography">
+            <h2>Campaign Fonts</h2>
+            <div class="font-container">
+                <div class="font-specimen">
+                    <div class="font-role">Primary Header Title</div>
+                    <div class="font-display-sans">Helvetica Neue Light</div>
+                    <div class="font-meta">Sans-Serif / Clean / All Caps / Tracking: 0.4em</div>
+                </div>
+                <div class="font-specimen">
+                    <div class="font-role">Editorial Body & Accents</div>
+                    <div class="font-display-serif">Times New Roman</div>
+                    <div class="font-meta">Serif / Classic Luxury / Regular & Italic / Tracking: 0.05em</div>
