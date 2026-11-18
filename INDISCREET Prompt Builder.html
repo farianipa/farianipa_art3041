@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>INDISCREET Prompt Builder</title>
+<style>
+:root{--black:#000;--gold:#B59A57;--crimson:#63000E;--off:#F9F9F7;--white:#fff;--gray:#6f6b64;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:var(--off);scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--off);color:var(--black);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+.pad{padding-left:clamp(22px,6vw,96px);padding-right:clamp(22px,6vw,96px)}
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding-top:34px;padding-bottom:34px}
+.meta{display:flex;justify-content:space-between;gap:16px;font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:700}
+.meta span:last-child{color:var(--gray);font-weight:400;text-align:right}
+.title{font-weight:700;font-size:clamp(46px,15.2vw,260px);letter-spacing:-.055em;line-height:.82;margin:0;margin-left:-.04em;overflow-wrap:normal}
+.title i{font-style:normal;color:var(--crimson)}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;border-top:1px solid var(--black);padding-top:18px}
+.foot p{margin:0;max-width:30ch;font-size:15px;color:var(--gray)}
+.foot a{color:var(--black);font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;text-decoration:none;border-bottom:1px solid var(--crimson);padding-bottom:4px;white-space:nowrap}
+.builder{padding-top:clamp(90px,16vw,200px);padding-bottom:clamp(90px,14vw,180px)}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:0 0 28px}
+h2{font-weight:700;font-size:clamp(30px,5.4vw,64px);letter-spacing:-.035em;line-height:1.02;margin:0 0 clamp(50px,9vw,110px);max-width:14ch}
+.row{display:grid;gap:8px;padding:22px 0;border-top:1px solid #d9d6cf}
+@media(min-width:760px){.row{grid-template-columns:90px 1fr 1.6fr;align-items:center;gap:24px;padding:28px 0}}
+.row .n{font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:700}
+label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:700}
+select,textarea{width:100%;background:transparent;color:var(--black);border:0;border-bottom:1px solid var(--black);border-radius:0;padding:10px 2px;font:inherit;font-size:17px}
+select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--crimson);outline-offset:3px}
+textarea{resize:vertical;min-height:70px}
+.row:last-of-type{border-bottom:1px solid #d9d6cf}
+.actions{margin-top:clamp(44px,7vw,80px)}
+button{font:inherit;font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;cursor:pointer;border-radius:0;padding:17px 34px}
+#gen{background:var(--crimson);color:var(--white);border:1px solid var(--crimson)}
+#gen:hover{background:#000;border-color:#000}
+.out{background:#000;color:var(--off);padding-top:clamp(70px,11vw,140px);padding-bottom:clamp(70px,11vw,140px)}
+.out h3{font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--gold);margin:0 0 20px}
+.prompt{font-size:clamp(19px,2.6vw,30px);line-height:1.45;letter-spacing:-.01em;max-width:34em;margin:0;white-space:pre-wrap}
+.neg{font-size:14px;color:#b9b4aa;max-width:60ch;margin:0;white-space:pre-wrap}
+.gap{height:clamp(46px,7vw,90px)}
+.copy{background:transparent;color:var(--off);border:1px solid var(--gold);margin-top:26px}
+.copy:hover{background:var(--gold);color:#000}
+.note{margin-top:60px;font-size:13px;color:#b9b4aa;max-width:50ch}
+.bar{display:flex;height:8px}.bar span{flex:1}
+footer{padding-top:28px;padding-bottom:40px;display:flex;justify-content:space-between;gap:16px;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gray)}
+</style>
+</head>
+<body>
+<section class="hero pad">
+  <div class="meta"><span>Tom Ford Beauty</span><span>Prompt builder<br>Campaign vol. 01</span></div>
+  <h1 class="title">INDIS<br>CREET<i>.</i></h1>
+  <div class="foot"><p>Confidence, individuality, and early-2000s glamour. Build every image prompt on brand.</p><a href="#builder">Begin</a></div>
+</section>
+
+<section class="builder pad" id="builder">
+  <p class="eyebrow">The brief</p>
+  <h2>Choose the shot.</h2>
+  <div>
+    <div class="row"><span class="n">01</span><label for="type">Image type</label>
+      <select id="type"><option value="product">Product shot</option><option value="lifestyle">Lifestyle</option><option value="detail">Detail</option><option value="setting">Setting</option></select></div>
+    <div class="row"><span class="n">02</span><label for="subject">Subject</label><select id="subject"></select></div>
+    <div class="row"><span class="n">03</span><label for="angle">Angle</label>
+      <select id="angle">
+        <option value="eye-level close-up with a bold, tight crop">Eye-level close-up</option>
+        <option value="low angle looking up, making the subject feel powerful">Low angle</option>
+        <option value="three-quarter overhead angle">Three-quarter overhead</option>
+        <option value="top-down flat lay, carefully arranged">Top-down flat lay</option>
+        <option value="extreme close-up, macro framing">Extreme close-up</option>
+      </select></div>
+    <div class="row"><span class="n">04</span><label for="setting">Setting</label>
+      <select id="setting">
+        <option value="a seamless pure black backdrop">Pure black backdrop</option>
+        <option value="a clean off-white studio backdrop">Clean off-white studio</option>
+        <option value="black leather with fine grain">Black leather</option>
+        <option value="draped burgundy velvet with deep folds">Burgundy velvet</option>
+        <option value="a backstage dressing room with warm bulbs around a mirror">Backstage dressing room</option>
+        <option value="the black leather interior of a car at night">Car interior at night</option>
+        <option value="a luxury hotel hallway with dark wood and gold fixtures">Hotel hallway</option>
+      </select></div>
+    <div class="row"><span class="n">05</span><label for="light">Lighting</label>
+      <select id="light">
+        <option value="direct on-camera flash with crisp glossy highlights and deep black shadows">Direct flash</option>
+        <option value="warm amber tungsten glow with smoky shadows, tobacco tones">Warm amber glow</option>
+        <option value="a single gold rim light on black with soft falloff">Gold rim light on black</option>
+        <option value="bright, clean high-key white studio light with sharp detail">Clean white studio</option>
+      </select></div>
+    <div class="row"><span class="n">06</span><label for="size">Where it runs</label><select id="size"></select></div>
+    <div class="row"><span class="n">07</span><label for="extra">Extra details</label>
+      <textarea id="extra" placeholder="Optional. A fur collar, oversized black sunglasses, a whispered secret"></textarea></div>
+  </div>
+  <div class="actions"><button id="gen" type="button">Build prompt</button></div>
+</section>
+
+<section class="out pad" aria-live="polite">
+  <h3>Prompt</h3>
+  <p class="prompt" id="prompt">Choose your options and press Build prompt.</p>
+  <button class="copy" id="copy" type="button">Copy prompt</button>
+  <div class="gap"></div>
+  <h3>Negative prompt</h3>
+  <p class="neg" id="neg"></p>
+  <button class="copy" id="copyneg" type="button">Copy negative prompt</button>
+  <p class="note">The generator is told not to render text or logos. Add the TOM FORD / INDISCREET logomark and type afterward.</p>
+</section>
+
+<div class="bar" aria-hidden="true"><span style="background:#000"></span><span style="background:#B59A57"></span><span style="background:#63000E"></span><span style="background:#F9F9F7"></span></div>
+<footer class="pad"><span>Indiscreet</span><span>Tom Ford Beauty</span></footer>
+
+<script>
+const SUBJECTS={
+  product:[["a dark glass perfume bottle with a blank gold label plate, inspired by a smoky tobacco and vanilla fragrance","Tobacco Vanille-style bottle"],["a lipstick in a black and gold case with the bullet extended in deep brick red","Brick-red lipstick"],["a perfume bottle and a brick-red lipstick standing together, bottle behind, lipstick in front","Bottle and lipstick together"]],
+  lifestyle:[["an adult model with voluminous glossy blonde hair, oversized black sunglasses, and glossy brick-red lips, smoldering expression","Sunglasses and red lips"],["two adult models in black sunglasses and a fur collar, one whispering a secret to the other, both laughing","Whispering a secret"],["an adult model with smoky bronze eyes and luminous skin holding a dark perfume bottle against the cheek, face close to camera","Bottle held to cheek"],["an adult model laughing with an open mouth, glossy brick-red lips and big confident energy","Laughing, bold lips"]],
+  detail:[["a macro of glossy brick-red lips with a high-shine finish","Glossy lips"],["a macro of a lipstick bullet in deep brick red","Lipstick bullet"],["a macro of a brushed gold label plate on dark glass","Gold label"],["a macro of black leather grain catching a sharp highlight","Leather grain"]],
+  setting:[["a backstage dressing room table with an open brick-red lipstick, a dark perfume bottle, and a glass of champagne","Dressing room table"],["a powder room mirror with a lipstick-kissed reflection and a dark bottle on the counter","Powder room mirror"],["a quiet black car interior at night with a lipstick and a bottle on the seat","Car at night"]]
+};
+const SIZES=[
+ ["Instagram feed (4:5, 1080 x 1350)","4:5 vertical, 1080 x 1350 px","subject centered with clean margins"],
+ ["Instagram reel or story (9:16, 1080 x 1920)","9:16 vertical, 1080 x 1920 px","keep the top and bottom 15% clear for app interface, subject in the middle"],
+ ["Square post (1:1)","1:1 square, 1080 x 1080 px","subject centered"],
+ ["Billboard (ultra-wide, about 17:5)","ultra-wide horizontal banner, about 17:5 ratio","subject on the right third, large empty space on the left for a headline, bold and readable from far away"],
+ ["NYC subway platform poster (2:3)","2:3 vertical poster","one bold focal point, simple composition readable from a distance, empty space at the top for a headline"],
+ ["NYC subway car card (about 2:1)","wide horizontal card, about 2:1 ratio","subject on one side, space on the other for a short line of copy"],
+ ["Magazine ad, full page (3:4)","3:4 vertical full-page print ad, high resolution","space at the top or bottom for a headline and logo"],
+ ["Website hero (16:9)","16:9 horizontal, 1920 x 1080 px","subject on one side, empty space on the other for site text"]
+];
+const NEG="pastel colors, soft dreamy filter, cartoon, 3D render, illustration, cluttered background, text, letters, logos, watermark, neon, glitter, shy or timid expression, flat muddy lighting, plastic airbrushed skin, more than one bold color accent, distorted hands, extra fingers, a real or famous person";
+const LEAD={product:"Early-2000s luxury beauty campaign product photograph of",lifestyle:"Early-2000s glamour fashion editorial photograph of",detail:"Luxury beauty campaign macro photograph of",setting:"Glamorous luxury beauty campaign photograph of"};
+const $=id=>document.getElementById(id);
+function fillSubjects(){ $("subject").innerHTML=SUBJECTS[$("type").value].map((s,i)=>`<option value="${i}">${s[1]}</option>`).join(""); }
+$("size").innerHTML=SIZES.map((s,i)=>`<option value="${i}">${s[0]}</option>`).join("");
+$("type").addEventListener("change",fillSubjects); fillSubjects();
+function build(){
+  const t=$("type").value, subj=SUBJECTS[t][+$("subject").value][0], sz=SIZES[+$("size").value], extra=$("extra").value.trim();
+  const p=[
+    `${LEAD[t]} ${subj}.`,
+    `Set against ${$("setting").value}.`,
+    `Camera: ${$("angle").value}, sharp focus on the hero detail.`,
+    `Lighting: ${$("light").value}.`,
+    `Color palette: obsidian black, campaign gold, deep crimson brick red as the single bold pop of color, with off-white and pure white highlights.`,
+    `Mood: confident, glamorous, playful, daring, unapologetic. Glossy high-end fashion and beauty editorial in the style of early-2000s magazine campaigns, realistic skin with a sheen, fine film grain, rich contrast.`,
+    `Composition: one clear focal point, bold crop, clean negative space.`,
+    `Format: ${sz[1]}, ${sz[2]}.`,
+    extra?`Extra details: ${extra}.`:"",
+    `No text, no logos, no labels.`
+  ].filter(Boolean).join(" ");
+  $("prompt").textContent=p; $("neg").textContent=NEG;
+}
+async function copy(id,btn){
+  const text=$(id).textContent, old=btn.textContent;
+  try{ await navigator.clipboard.writeText(text); btn.textContent="Copied"; }
+  catch(e){ const r=document.createRange(); r.selectNodeContents($(id)); const s=getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent="Selected, press copy"; }
+  setTimeout(()=>btn.textContent=old,1600);
+}
+$("gen").addEventListener("click",()=>{build();$("prompt").scrollIntoView({behavior:"smooth",block:"center"});});
+$("copy").addEventListener("click",e=>copy("prompt",e.currentTarget));
+$("copyneg").addEventListener("click",e=>copy("neg",e.currentTarget));
+build();
+</script>
+</body>
+</html>
