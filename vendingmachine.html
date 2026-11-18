@@ -3,26 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fleur Automatique — Flower Vending Machine</title>
+<title>Cat Automatique</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --wood-dark:   #1f130b;
-    --wood:        #3a2314;
-    --wood-mid:    #4e2f1a;
-    --wood-light:  #6b4126;
-    --brass:       #b8862f;
-    --brass-light: #e8c976;
-    --brass-dark:  #7d5a1c;
-    --amber:       #ffb35c;
-    --amber-hot:   #ffd8a0;
-    --kraft:       #c9a876;
-    --kraft-dark:  #a3825a;
-    --kraft-shadow:#7a5d3d;
-    --cream:       #f6ecd9;
-    --glass-tint:  rgba(255,238,205,0.05);
+    --obsidian:     #050505;
+    --noir:         #0e0e0f;
+    --charcoal:     #18181a;
+    --slate:        #252528;
+    --gold:         #c5a467;
+    --gold-light:   #e6cfa3;
+    --gold-dark:    #7d6334;
+    --ivory:        #f8f6f0;
+    --pure-white:   #ffffff;
+    --muted:        #9a968e;
   }
 
   *{ box-sizing: border-box; }
@@ -30,9 +26,9 @@
   html,body{
     margin:0; padding:0; height:100%;
     background:
-      radial-gradient(ellipse at 50% 20%, #2a1f14 0%, #120c08 65%, #0a0705 100%);
+      radial-gradient(circle at 50% 15%, #1c1b18 0%, #09090a 55%, #030303 100%);
     font-family: 'Cormorant Garamond', serif;
-    color: var(--cream);
+    color: var(--ivory);
     overflow-x: hidden;
     min-height: 100vh;
   }
@@ -48,37 +44,38 @@
 
   .signage{
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
   .signage h1{
     font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    letter-spacing: 0.03em;
-    margin: 0 0 6px;
-    color: var(--amber-hot);
-    text-shadow: 0 0 18px rgba(255,179,92,0.35);
+    font-weight: 500;
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+    color: var(--pure-white);
   }
   .signage p{
     margin: 0;
     font-style: italic;
     font-size: 1.05rem;
-    opacity: 0.7;
-    letter-spacing: 0.02em;
+    color: var(--gold-light);
+    opacity: 0.85;
+    letter-spacing: 0.04em;
   }
 
   /* ================= MACHINE CABINET ================= */
   .machine{
     position: relative;
-    width: min(420px, 92vw);
+    width: min(400px, 92vw);
     background:
-      linear-gradient(180deg, var(--wood-mid) 0%, var(--wood) 55%, var(--wood-dark) 100%);
-    border-radius: 14px 14px 8px 8px;
+      linear-gradient(180deg, var(--charcoal) 0%, var(--noir) 45%, var(--obsidian) 100%);
+    border-radius: 16px 16px 6px 6px;
+    border: 1px solid rgba(197, 164, 103, 0.35);
     box-shadow:
-      0 30px 60px rgba(0,0,0,0.6),
-      inset 0 0 0 2px rgba(0,0,0,0.4),
-      inset 0 2px 0 rgba(255,255,255,0.04);
-    padding: 22px 22px 26px;
+      0 35px 70px rgba(0,0,0,0.85),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    padding: 24px 24px 28px;
     transition: transform 0.08s ease;
   }
   .machine.shake{ animation: machineShake 0.5s ease-in-out 3; }
@@ -86,16 +83,16 @@
 
   @keyframes machineShake{
     0%,100%{ transform: translateX(0) rotate(0); }
-    20%{ transform: translateX(-6px) rotate(-0.6deg); }
+    20%{ transform: translateX(-5px) rotate(-0.5deg); }
     40%{ transform: translateX(5px) rotate(0.5deg); }
-    60%{ transform: translateX(-4px) rotate(-0.4deg); }
+    60%{ transform: translateX(-3px) rotate(-0.3deg); }
     80%{ transform: translateX(3px) rotate(0.3deg); }
   }
 
   .cabinet-flash{
     position: absolute; inset: 0;
-    border-radius: 14px 14px 8px 8px;
-    background: radial-gradient(ellipse at center, rgba(255,215,140,0.55), transparent 70%);
+    border-radius: 16px 16px 6px 6px;
+    background: radial-gradient(ellipse at center, rgba(230,207,163,0.28), transparent 70%);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.12s ease;
@@ -107,92 +104,86 @@
     50%{ opacity: 1; }
   }
 
-  /* crown molding */
+  /* Art-deco fluted crown molding */
   .crown{
-    height: 26px;
-    margin: -22px -22px 14px;
+    height: 22px;
+    margin: -24px -24px 18px;
     background:
       repeating-linear-gradient(90deg,
-        var(--wood-light) 0px, var(--wood-light) 3px,
-        var(--wood-mid) 3px, var(--wood-mid) 6px);
-    border-bottom: 3px solid var(--brass-dark);
-    border-radius: 14px 14px 0 0;
-    box-shadow: inset 0 -4px 8px rgba(0,0,0,0.4), inset 0 3px 4px rgba(255,255,255,0.08);
+        #222225 0px, #222225 2px,
+        #111113 2px, #111113 6px);
+    border-bottom: 1px solid var(--gold-dark);
+    border-radius: 16px 16px 0 0;
+    box-shadow: inset 0 -4px 10px rgba(0,0,0,0.6);
   }
 
+  /* Engraved plaque */
   .plate{
     text-align: center;
     font-family: 'Playfair Display', serif;
     font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: 0.18em;
-    color: var(--wood-dark);
-    background: linear-gradient(180deg, var(--brass-light), var(--brass) 60%, var(--brass-dark));
-    border-radius: 4px;
-    padding: 7px 10px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 0 rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.5);
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    color: var(--gold-light);
+    background: var(--obsidian);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    padding: 8px 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 0 0 2px var(--obsidian), inset 0 0 0 3px rgba(197,164,103,0.25);
   }
 
-  /* ================= WINDOW ================= */
+  /* ================= VITRINE WINDOW ================= */
   .window-frame{
     position: relative;
     height: 220px;
-    border-radius: 100px 100px 10px 10px;
-    padding: 10px;
-    background: linear-gradient(160deg, var(--brass-light), var(--brass) 45%, var(--brass-dark) 100%);
+    border-radius: 140px 140px 4px 4px;
+    padding: 6px;
+    background: linear-gradient(145deg, var(--gold-light), var(--gold) 45%, var(--gold-dark) 100%);
     box-shadow:
-      0 4px 10px rgba(0,0,0,0.5),
-      inset 0 0 0 2px rgba(0,0,0,0.25);
-    margin-bottom: 18px;
+      0 8px 20px rgba(0,0,0,0.7),
+      inset 0 0 0 1px rgba(0,0,0,0.5);
+    margin-bottom: 22px;
   }
   .window-glass{
     position: relative;
     height: 100%;
-    border-radius: 92px 92px 4px 4px;
+    border-radius: 134px 134px 2px 2px;
     overflow: hidden;
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(255,200,130,0.18), transparent 60%),
-      linear-gradient(180deg, #1a1008 0%, #0d0805 100%);
-    box-shadow: inset 0 0 30px rgba(0,0,0,0.85), inset 0 0 0 3px rgba(0,0,0,0.5);
+      radial-gradient(ellipse at 50% 18%, rgba(255,252,245,0.16), transparent 62%),
+      linear-gradient(180deg, #161618 0%, #070708 100%);
+    box-shadow: inset 0 0 35px rgba(0,0,0,0.95);
   }
-  /* beveled glass sheen */
+  /* crisp gallery glass reflection */
   .window-glass::before{
     content:"";
     position:absolute; inset:0;
-    background: linear-gradient(115deg, rgba(255,255,255,0.14) 0%, transparent 18%, transparent 82%, rgba(255,255,255,0.06) 100%);
-    pointer-events:none;
-    z-index: 5;
-  }
-  .window-glass::after{
-    content:"";
-    position:absolute; inset:0;
-    background: repeating-linear-gradient(100deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 26px);
+    background: linear-gradient(120deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.03) 22%, transparent 23%, transparent 85%, rgba(255,255,255,0.05) 100%);
     pointer-events:none;
     z-index: 5;
   }
 
+  /* Warm gallery spotlight */
   .bulb{
     position: absolute;
     top: 14px; left: 50%;
     transform: translateX(-50%);
-    width: 16px; height: 16px;
+    width: 10px; height: 10px;
     border-radius: 50%;
-    background: radial-gradient(circle, var(--amber-hot), var(--amber) 60%, #a35c12 100%);
-    box-shadow: 0 0 18px 8px rgba(255,179,92,0.55), 0 0 40px 20px rgba(255,179,92,0.2);
-    animation: bulbFlicker 3.2s ease-in-out infinite;
+    background: var(--pure-white);
+    box-shadow: 0 0 14px 4px rgba(255,248,230,0.7), 0 0 45px 18px rgba(230,207,163,0.18);
+    animation: bulbFlicker 4s ease-in-out infinite;
     z-index: 4;
   }
   @keyframes bulbFlicker{
     0%,100%{ opacity: 1; }
-    48%{ opacity: 0.92; }
-    50%{ opacity: 0.75; }
-    52%{ opacity: 0.95; }
+    50%{ opacity: 0.85; }
   }
 
   .tiers{
     position: absolute;
-    inset: 42px 14px 10px;
+    inset: 48px 16px 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -200,35 +191,37 @@
   }
   .tier{
     position: relative;
-    height: 34px;
-    background: linear-gradient(180deg, var(--brass-light), var(--brass-dark));
-    border-radius: 3px;
-    box-shadow: 0 3px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.4);
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    box-shadow: 0 4px 8px rgba(0,0,0,0.8);
   }
-  .tier-bouquets{
+  .tier-cats{
     position: absolute;
     bottom: 100%;
     left: 0; right: 0;
     display: flex;
     justify-content: space-around;
-    animation: tierDrift 9s ease-in-out infinite;
+    align-items: flex-end;
+    animation: tierDrift 10s ease-in-out infinite;
   }
-  .tier:nth-child(2) .tier-bouquets{ animation-duration: 11s; animation-direction: reverse; }
+  .tier:nth-child(2) .tier-cats{ animation-duration: 12s; animation-direction: reverse; }
   @keyframes tierDrift{
     0%,100%{ transform: translateX(0); }
-    50%{ transform: translateX(6px); }
+    50%{ transform: translateX(5px); }
   }
-  .mini-bouquet{
-    width: 26px; height: 34px;
+  .mini-cat{
+    width: 30px; height: 38px;
     display: block;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.8));
   }
 
   /* ================= CONTROL PANEL ================= */
   .panel{
-    background: linear-gradient(180deg, var(--wood-light), var(--wood) 70%);
-    border-radius: 8px;
+    background: var(--noir);
+    border: 1px solid rgba(197, 164, 103, 0.25);
+    border-radius: 4px;
     padding: 16px;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), inset 0 -2px 4px rgba(255,255,255,0.03);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
@@ -238,134 +231,139 @@
   .coin-col{ text-align: center; }
   .coin-slot-wrap{
     position: relative;
-    width: 54px; height: 54px;
-    margin: 0 auto 6px;
+    width: 50px; height: 50px;
+    margin: 0 auto 8px;
   }
   .coin-slot{
     width: 100%; height: 100%;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, var(--brass-light), var(--brass) 55%, var(--brass-dark) 100%);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(0,0,0,0.3);
+    background: radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold) 55%, var(--gold-dark) 100%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 0 0 2px var(--obsidian);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     border: none;
     padding: 0;
+    transition: transform 0.15s ease, filter 0.2s ease;
   }
-  .coin-slot:active{ transform: scale(0.96); }
+  .coin-slot:hover:not(:disabled){ transform: scale(1.04); }
+  .coin-slot:active:not(:disabled){ transform: scale(0.95); }
   .coin-slot .slit{
-    width: 20px; height: 5px;
-    background: #1a1008;
-    border-radius: 2px;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
+    width: 3px; height: 22px;
+    background: var(--obsidian);
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
   }
-  .coin-slot:disabled{ filter: grayscale(0.6) brightness(0.6); cursor: default; }
+  .coin-slot:disabled{ filter: grayscale(0.85) brightness(0.45); cursor: default; }
+
   .label-sm{
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    opacity: 0.65;
+    color: var(--muted);
   }
 
   .coin-fly{
     position: fixed;
-    width: 22px; height: 22px;
+    width: 20px; height: 20px;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #f0d488, var(--brass) 60%, var(--brass-dark));
-    box-shadow: 0 0 6px rgba(0,0,0,0.6);
+    background: radial-gradient(circle at 35% 30%, var(--pure-white), var(--gold-light) 45%, var(--gold-dark));
+    box-shadow: 0 0 10px rgba(230,207,163,0.6);
     z-index: 200;
     pointer-events: none;
   }
 
   .counter-col{ text-align: center; }
   .counter-display{
-    background: #0d0704;
-    border-radius: 6px;
-    padding: 8px 6px;
-    box-shadow: inset 0 0 8px rgba(0,0,0,0.9), 0 0 0 2px var(--brass-dark);
+    background: var(--obsidian);
+    border-radius: 2px;
+    padding: 8px 10px;
+    border: 1px solid var(--gold-dark);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.95);
+    margin-bottom: 6px;
   }
   .counter-num{
     font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--amber-hot);
-    text-shadow: 0 0 10px rgba(255,179,92,0.6);
+    font-weight: 500;
+    font-size: 1.45rem;
+    color: var(--pure-white);
+    letter-spacing: 0.05em;
     line-height: 1;
     display:block;
   }
   .counter-caption{
     font-size: 0.62rem;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    opacity: 0.6;
-    margin-top: 3px;
+    color: var(--muted);
   }
 
   .crank-col{ text-align: center; }
   .crank-shaft{
-    width: 14px; height: 30px;
+    width: 10px; height: 22px;
     margin: 0 auto;
-    background: linear-gradient(90deg, var(--brass-dark), var(--brass-light), var(--brass-dark));
-    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    border-radius: 2px;
   }
   .crank-handle{
-    width: 58px; height: 58px;
-    margin: -6px auto 0;
+    width: 52px; height: 52px;
+    margin: -4px auto 8px;
     border-radius: 50%;
     position: relative;
-    background: radial-gradient(circle at 35% 30%, var(--brass-light), var(--brass) 55%, var(--brass-dark) 100%);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.55), inset 0 0 0 2px rgba(0,0,0,0.3);
+    background: radial-gradient(circle at 30% 30%, var(--gold-light), var(--gold) 55%, var(--gold-dark) 100%);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7), inset 0 0 0 2px var(--obsidian);
     cursor: pointer;
     border: none;
     padding: 0;
+    transition: filter 0.2s ease;
   }
   .crank-handle::before{
     content:"";
     position: absolute;
     top: -4px; left: 50%;
-    width: 8px; height: 22px;
-    background: linear-gradient(180deg, var(--brass-light), var(--brass-dark));
-    border-radius: 4px;
+    width: 6px; height: 20px;
+    background: linear-gradient(180deg, var(--pure-white), var(--gold-dark));
+    border-radius: 3px;
     transform: translateX(-50%);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
   .crank-handle::after{
     content:"";
     position: absolute;
-    inset: 18px;
+    inset: 17px;
     border-radius: 50%;
-    background: var(--wood-dark);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+    background: var(--obsidian);
+    border: 1px solid var(--gold-dark);
   }
   .crank-handle.turning{ animation: crankTurn 1.1s cubic-bezier(.45,.05,.55,.95); }
   @keyframes crankTurn{ to{ transform: rotate(360deg); } }
-  .crank-handle:disabled{ filter: grayscale(0.6) brightness(0.55); cursor: default; }
+  .crank-handle:disabled{ filter: grayscale(0.85) brightness(0.4); cursor: default; }
 
-  /* ================= DISPENSE DOOR ================= */
+  /* ================= DISPENSE SLOT ================= */
   .dispense-door{
-    margin-top: 16px;
-    height: 46px;
-    background: linear-gradient(180deg, #140c07, #050302);
-    border-radius: 6px;
-    box-shadow: inset 0 0 12px rgba(0,0,0,0.9), 0 0 0 2px var(--brass-dark);
+    margin-top: 18px;
+    height: 36px;
+    background: var(--obsidian);
+    border-radius: 3px;
+    border: 1px solid rgba(197, 164, 103, 0.3);
+    box-shadow: inset 0 4px 12px rgba(0,0,0,0.95);
     display: flex; align-items: center; justify-content: center;
     position: relative;
-    overflow: hidden;
   }
   .dispense-door .flap{
-    width: 70%; height: 4px;
-    background: var(--brass);
-    border-radius: 2px;
-    opacity: 0.5;
+    width: 65%; height: 2px;
+    background: var(--gold);
+    opacity: 0.6;
   }
 
-  /* ================= BOUQUET DROP / REVEAL ================= */
+  /* ================= CAT DROP / REVEAL ================= */
   .output-tray{
     position: relative;
     margin-top: 16px;
-    height: 210px;
-    border-radius: 6px;
-    background: linear-gradient(180deg, #0d0704, #050302);
-    box-shadow: inset 0 8px 16px rgba(0,0,0,0.75), inset 0 0 0 2px rgba(0,0,0,0.4);
+    height: 215px;
+    border-radius: 4px;
+    background:
+      radial-gradient(circle at 50% 45%, #19191c 0%, #070708 85%);
+    border: 1px solid rgba(197, 164, 103, 0.2);
+    box-shadow: inset 0 10px 24px rgba(0,0,0,0.9);
     overflow: visible;
     z-index: 20;
   }
@@ -374,97 +372,102 @@
     inset: 0;
     pointer-events: none;
   }
-  .bouquet-package{
+  .cat-package{
     position: absolute;
     left: 50%;
-    top: -70px;
-    width: 100px;
+    top: -65px;
+    width: 104px;
     transform: translate(-50%, 0);
     opacity: 0;
   }
-  .bouquet-package.dropping{
+  .cat-package.dropping{
     animation: dropFall 0.7s cubic-bezier(.4,0,.2,1) forwards;
   }
   @keyframes dropFall{
-    0%{ opacity: 1; top: -70px; transform: translate(-50%,0) rotate(-4deg); }
-    75%{ top: 56px; transform: translate(-50%,0) rotate(3deg); }
-    88%{ top: 38px; transform: translate(-50%,0) rotate(-1deg); }
-    100%{ opacity: 1; top: 42px; transform: translate(-50%,0) rotate(0deg); }
+    0%{ opacity: 1; top: -65px; transform: translate(-50%,0) rotate(-3deg); }
+    75%{ top: 48px; transform: translate(-50%,0) rotate(2deg); }
+    88%{ top: 34px; transform: translate(-50%,0) rotate(-1deg); }
+    100%{ opacity: 1; top: 38px; transform: translate(-50%,0) rotate(0deg); }
   }
 
-  .paper-flap{
+  /* Matte black luxury box doors */
+  .box-flap{
     position: absolute;
     top: 0; width: 50%; height: 100%;
-    background: linear-gradient(135deg, var(--kraft) 0%, var(--kraft-dark) 100%);
-    box-shadow: inset 0 0 12px rgba(0,0,0,0.25);
+    background: linear-gradient(135deg, #18181a 0%, #09090a 100%);
+    border: 1px solid var(--gold);
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
   }
-  .paper-flap.left{ left: 0; border-radius: 40% 4px 4px 40% / 60% 4px 4px 60%; transform-origin: left center; }
-  .paper-flap.right{ right: 0; border-radius: 4px 40% 40% 4px / 4px 60% 60% 4px; transform-origin: right center; }
-  .paper-flap.peel-left{ animation: peelLeft 0.7s ease forwards; }
-  .paper-flap.peel-right{ animation: peelRight 0.7s ease forwards; }
-  @keyframes peelLeft{ to{ transform: rotateY(90deg) translateX(-6px); opacity: 0; } }
-  @keyframes peelRight{ to{ transform: rotateY(-90deg) translateX(6px); opacity: 0; } }
+  .box-flap.left{ left: 0; border-right: 1px solid var(--gold-light); border-radius: 4px 0 0 4px; transform-origin: left center; }
+  .box-flap.right{ right: 0; border-left: 1px solid var(--gold-light); border-radius: 0 4px 4px 0; transform-origin: right center; }
+  .box-flap.peel-left{ animation: peelLeft 0.7s ease forwards; }
+  .box-flap.peel-right{ animation: peelRight 0.7s ease forwards; }
+  @keyframes peelLeft{ to{ transform: rotateY(95deg) translateX(-8px); opacity: 0; } }
+  @keyframes peelRight{ to{ transform: rotateY(-95deg) translateX(8px); opacity: 0; } }
 
-  .bouquet-art{
+  .cat-art{
     position: relative;
     width: 100%;
     display: block;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.75));
   }
 
   .reveal-caption{
     position: absolute;
-    bottom: 8px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
     font-style: italic;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
     opacity: 0;
     transition: opacity 0.6s ease 0.5s;
-    color: var(--amber-hot);
+    color: var(--ivory);
     text-align: center;
-    max-width: 90%;
+    max-width: 92%;
     text-overflow: ellipsis;
     overflow: hidden;
   }
-  .reveal-caption.show{ opacity: 0.85; }
+  .reveal-caption.show{ opacity: 0.9; }
 
   /* ================= SOLD OUT BANNER ================= */
   .sold-out-banner{
     position: absolute;
     top: 44%; left: 50%;
-    transform: translate(-50%,-50%) scale(0.8);
+    transform: translate(-50%,-50%) scale(0.85);
     font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 1.6rem;
-    letter-spacing: 0.08em;
-    color: #fff3e0;
-    background: rgba(20,10,5,0.85);
-    border: 2px solid var(--brass-light);
-    padding: 14px 28px;
-    border-radius: 6px;
+    font-weight: 500;
+    font-size: 1.35rem;
+    letter-spacing: 0.18em;
+    color: var(--pure-white);
+    background: rgba(5,5,5,0.92);
+    border: 1px solid var(--gold);
+    padding: 16px 30px;
+    border-radius: 2px;
     opacity: 0;
     pointer-events: none;
     z-index: 60;
     transition: opacity 0.3s ease, transform 0.3s ease;
     text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
   }
   .sold-out-banner.show{ opacity: 1; transform: translate(-50%,-50%) scale(1); }
 
   .footnote{
-    max-width: 420px;
+    max-width: 390px;
     text-align: center;
     margin-top: 34px;
     font-style: italic;
     font-size: 0.95rem;
-    opacity: 0.55;
-    line-height: 1.5;
+    color: var(--muted);
+    line-height: 1.6;
   }
 
   @media (max-width: 480px){
     .panel{ gap: 6px; padding: 12px; }
-    .crank-handle{ width: 50px; height: 50px; }
-    .coin-slot-wrap{ width: 46px; height: 46px; }
+    .crank-handle{ width: 46px; height: 46px; }
+    .coin-slot-wrap{ width: 44px; height: 44px; }
   }
 </style>
 </head>
@@ -472,21 +475,21 @@
 <div class="stage">
 
   <div class="signage">
-    <h1>Fleur Automatique</h1>
-    <p>A bouquet for every coin, never the same one twice</p>
+    <h1>Cat Automatique</h1>
+    <p>A companion for every coin, never the same one twice</p>
   </div>
 
   <div class="machine" id="machine">
     <div class="cabinet-flash"></div>
     <div class="crown"></div>
-    <div class="plate">BLOOM CO.</div>
+    <div class="plate">FÉLINE HOUSE</div>
 
     <div class="window-frame">
       <div class="window-glass">
         <div class="bulb"></div>
         <div class="tiers" id="tiers">
-          <div class="tier"><div class="tier-bouquets" id="tierTop"></div></div>
-          <div class="tier"><div class="tier-bouquets" id="tierBottom"></div></div>
+          <div class="tier"><div class="tier-cats" id="tierTop"></div></div>
+          <div class="tier"><div class="tier-cats" id="tierBottom"></div></div>
         </div>
       </div>
     </div>
@@ -515,21 +518,21 @@
 
     <div class="dispense-door"><div class="flap"></div></div>
 
-    <div class="sold-out-banner" id="soldOutBanner">SOLD OUT<br><span style="font-size:0.85rem; font-weight:400; font-style:italic; letter-spacing:0.02em;">restocking the tiers…</span></div>
+    <div class="sold-out-banner" id="soldOutBanner">ÉDITION ÉPUISÉE<br><span style="font-size:0.82rem; font-weight:400; font-style:italic; letter-spacing:0.04em; color: var(--gold-light);">restocking the gallery…</span></div>
 
     <div class="output-tray">
       <div class="drop-zone" id="dropZone">
-        <div class="bouquet-package" id="bouquetPackage">
-          <svg class="bouquet-art" id="bouquetArt" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg"></svg>
-          <div class="paper-flap left" id="flapLeft"></div>
-          <div class="paper-flap right" id="flapRight"></div>
+        <div class="cat-package" id="catPackage">
+          <svg class="cat-art" id="catArt" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg"></svg>
+          <div class="box-flap left" id="flapLeft"></div>
+          <div class="box-flap right" id="flapRight"></div>
         </div>
         <div class="reveal-caption" id="revealCaption"></div>
       </div>
     </div>
   </div>
 
-  <p class="footnote">Drop a coin, turn the crank, and the machine composes a bouquet it has never arranged before — a fresh combination of flowers every single time. Twelve turns and it runs dry, shakes off the dust, and starts again.</p>
+  <p class="footnote">Drop a coin, turn the crank, and the vitrine releases a feline companion never sculpted the same way twice. Twelve turns and the edition closes before resetting anew.</p>
 
 </div>
 
@@ -548,9 +551,8 @@
   const counterNum = document.getElementById('counterNum');
   const machine = document.getElementById('machine');
   const soldOutBanner = document.getElementById('soldOutBanner');
-  const dropZone = document.getElementById('dropZone');
-  const bouquetPackage = document.getElementById('bouquetPackage');
-  const bouquetArt = document.getElementById('bouquetArt');
+  const catPackage = document.getElementById('catPackage');
+  const catArt = document.getElementById('catArt');
   const flapLeft = document.getElementById('flapLeft');
   const flapRight = document.getElementById('flapRight');
   const revealCaption = document.getElementById('revealCaption');
@@ -567,18 +569,18 @@
   function playCoinClink(){
     const c = ctx();
     const now = c.currentTime;
-    [1600, 2400].forEach((freq, i) => {
+    [1850, 2780].forEach((freq, i) => {
       const osc = c.createOscillator();
       const gain = c.createGain();
-      osc.type = 'triangle';
+      osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, now + i*0.03);
-      osc.frequency.exponentialRampToValueAtTime(freq*0.6, now + i*0.03 + 0.18);
+      osc.frequency.exponentialRampToValueAtTime(freq*0.75, now + i*0.03 + 0.22);
       gain.gain.setValueAtTime(0.0001, now + i*0.03);
-      gain.gain.linearRampToValueAtTime(0.16, now + i*0.03 + 0.005);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + i*0.03 + 0.25);
+      gain.gain.linearRampToValueAtTime(0.14, now + i*0.03 + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + i*0.03 + 0.28);
       osc.connect(gain).connect(c.destination);
       osc.start(now + i*0.03);
-      osc.stop(now + i*0.03 + 0.3);
+      osc.stop(now + i*0.03 + 0.32);
     });
   }
 
@@ -591,23 +593,23 @@
     const gain = c.createGain();
     const filter = c.createBiquadFilter();
 
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(70, now);
-    osc.frequency.linearRampToValueAtTime(120, now + duration*0.5);
-    osc.frequency.linearRampToValueAtTime(60, now + duration);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(85, now);
+    osc.frequency.linearRampToValueAtTime(135, now + duration*0.5);
+    osc.frequency.linearRampToValueAtTime(75, now + duration);
 
-    lfo.type = 'square';
-    lfo.frequency.setValueAtTime(14, now);
-    lfoGain.gain.setValueAtTime(18, now);
+    lfo.type = 'sine';
+    lfo.frequency.setValueAtTime(16, now);
+    lfoGain.gain.setValueAtTime(14, now);
     lfo.connect(lfoGain).connect(osc.frequency);
 
     filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(400, now);
-    filter.Q.setValueAtTime(1.2, now);
+    filter.frequency.setValueAtTime(450, now);
+    filter.Q.setValueAtTime(1.5, now);
 
     gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(0.11, now + 0.08);
-    gain.gain.setValueAtTime(0.11, now + duration - 0.15);
+    gain.gain.linearRampToValueAtTime(0.1, now + 0.08);
+    gain.gain.setValueAtTime(0.1, now + duration - 0.15);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
     osc.connect(filter).connect(gain).connect(c.destination);
@@ -621,157 +623,156 @@
     const osc = c.createOscillator();
     const gain = c.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(160, now);
-    osc.frequency.exponentialRampToValueAtTime(45, now + 0.22);
-    gain.gain.setValueAtTime(0.28, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+    osc.frequency.setValueAtTime(150, now);
+    osc.frequency.exponentialRampToValueAtTime(42, now + 0.22);
+    gain.gain.setValueAtTime(0.25, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.26);
     osc.connect(gain).connect(c.destination);
-    osc.start(now); osc.stop(now + 0.3);
-
-    // soft noise thump
-    const bufferSize = c.sampleRate * 0.15;
-    const buffer = c.createBuffer(1, bufferSize, c.sampleRate);
-    const data = buffer.getChannelData(0);
-    for(let i=0;i<bufferSize;i++){ data[i] = (Math.random()*2-1) * (1 - i/bufferSize); }
-    const noise = c.createBufferSource();
-    noise.buffer = buffer;
-    const noiseFilter = c.createBiquadFilter();
-    noiseFilter.type = 'lowpass';
-    noiseFilter.frequency.setValueAtTime(300, now);
-    const noiseGain = c.createGain();
-    noiseGain.gain.setValueAtTime(0.2, now);
-    noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
-    noise.connect(noiseFilter).connect(noiseGain).connect(c.destination);
-    noise.start(now);
+    osc.start(now); osc.stop(now + 0.28);
   }
 
-  function playFanfareTing(){
+  function playPurrChime(){
     const c = ctx();
     const now = c.currentTime;
-    [880, 1108, 1318].forEach((freq, i) => {
+    [1046.5, 1318.5, 1567.98].forEach((freq, i) => {
       const osc = c.createOscillator();
       const gain = c.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + i*0.09);
-      gain.gain.setValueAtTime(0.0001, now + i*0.09);
-      gain.gain.linearRampToValueAtTime(0.09, now + i*0.09 + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + i*0.09 + 0.4);
+      osc.frequency.setValueAtTime(freq, now + i*0.08);
+      gain.gain.setValueAtTime(0.0001, now + i*0.08);
+      gain.gain.linearRampToValueAtTime(0.08, now + i*0.08 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + i*0.08 + 0.45);
       osc.connect(gain).connect(c.destination);
-      osc.start(now + i*0.09); osc.stop(now + i*0.09 + 0.45);
+      osc.start(now + i*0.08); osc.stop(now + i*0.08 + 0.5);
     });
   }
 
-  // ---------------- BOUQUET GENERATION ----------------
-  const PALETTES = [
-    ['#e8a0b0','#f4c9d3','#f9e0c8','#8f9a5e'],
-    ['#c98fb0','#e6b8d4','#f6e6b4','#7a8f6b'],
-    ['#e0785a','#f2a679','#f7d488','#6f8f5a'],
-    ['#b98fd4','#d9b8ec','#f4ecd9','#7f9a6f'],
-    ['#d64550','#f0a1a8','#f8dfa1','#5f8a5a'],
-    ['#e7b45a','#f3d38a','#f9ead0','#6a8a6d'],
-    ['#8f6fae','#c6a8e0','#f0e2c9','#749a71']
+  // ---------------- PROCEDURAL CAT GENERATION ----------------
+  const COATS = [
+    { name: 'Obsidian', body: '#121214', stroke: '#c5a467', accent: '#1e1e22', innerEar: '#2c2825' },
+    { name: 'Porcelain', body: '#f8f6f0', stroke: '#121214', accent: '#e6e1d6', innerEar: '#e6cfa3' },
+    { name: 'Tuxedo', body: '#121214', stroke: '#c5a467', accent: '#f8f6f0', innerEar: '#2c2825', bib: true },
+    { name: 'Ivory Point', body: '#efeae0', stroke: '#1c1b18', accent: '#262421', innerEar: '#38342f', points: true },
+    { name: 'Champagne', body: '#d8c298', stroke: '#121214', accent: '#f8f6f0', innerEar: '#b59862' },
+    { name: 'Charcoal', body: '#2b2b2e', stroke: '#e6cfa3', accent: '#141416', innerEar: '#423d38' }
   ];
-  const RIBBONS = ['#a3312b','#7d5a1c','#3e5c3a','#5a3b6b','#8a2f4a','#3a3a6b'];
+
+  const EYE_COLORS = ['#e6cfa3', '#ffffff', '#c5a467', '#9ad1c4'];
 
   function rand(min,max){ return Math.random()*(max-min)+min; }
   function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 
-  function petalDaisy(cx, cy, r, color){
-    let g = '<g>';
-    const n = 8;
-    for(let i=0;i<n;i++){
-      const a = (i/n) * Math.PI * 2;
-      const px = cx + Math.cos(a)*r;
-      const py = cy + Math.sin(a)*r*0.7;
-      g += `<ellipse cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" rx="${(r*0.45).toFixed(1)}" ry="${(r*0.2).toFixed(1)}" fill="${color}" transform="rotate(${(a*180/Math.PI).toFixed(1)} ${px.toFixed(1)} ${py.toFixed(1)})" opacity="0.92"/>`;
-    }
-    g += `<circle cx="${cx}" cy="${cy}" r="${(r*0.32).toFixed(1)}" fill="#e8b23a"/>`;
-    g += '</g>';
-    return g;
-  }
+  function generateCat(){
+    const coat = pick(COATS);
+    const eyeColor = pick(EYE_COLORS);
+    const tailDir = Math.random() > 0.5 ? 1 : -1;
+    const tailCurve = rand(18, 32) * tailDir;
+    const earTall = rand(18, 25);
+    const hasCollar = Math.random() > 0.25;
+    const hasBell = hasCollar && Math.random() > 0.35;
+    const hasBow = hasCollar && !hasBell;
+    const hasWhiskers = Math.random() > 0.2;
+    const headTilt = rand(-4, 4);
 
-  function petalRose(cx, cy, r, color, dark){
-    let g = '<g>';
-    for(let i=3;i>=0;i--){
-      const rr = r * (0.45 + i*0.2);
-      g += `<circle cx="${cx}" cy="${cy}" r="${rr.toFixed(1)}" fill="${i%2===0?color:dark}" opacity="0.9"/>`;
-    }
-    g += `<circle cx="${cx}" cy="${cy}" r="${(r*0.22).toFixed(1)}" fill="${dark}"/>`;
-    g += '</g>';
-    return g;
-  }
+    let svg = '';
 
-  function petalTulip(cx, cy, r, color){
-    return `<path d="M ${cx-r*0.5} ${cy+r*0.3} Q ${cx-r*0.6} ${cy-r*0.9} ${cx} ${cy-r*1.1} Q ${cx+r*0.6} ${cy-r*0.9} ${cx+r*0.5} ${cy+r*0.3} Q ${cx} ${cy+r*0.05} ${cx-r*0.5} ${cy+r*0.3} Z" fill="${color}" opacity="0.92"/>`;
-  }
-
-  function petalSprig(cx, cy, r, color){
-    let g = '<g>';
-    for(let i=0;i<5;i++){
-      const a = rand(0, Math.PI*2);
-      const px = cx + Math.cos(a)*r*0.8;
-      const py = cy + Math.sin(a)*r*0.8;
-      g += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${(r*0.22).toFixed(1)}" fill="${color}" opacity="0.85"/>`;
-    }
-    g += '</g>';
-    return g;
-  }
-
-  function stemPath(x1,y1,x2,y2,color){
-    const midx = (x1+x2)/2 + rand(-4,4);
-    return `<path d="M ${x1} ${y1} Q ${midx} ${(y1+y2)/2} ${x2} ${y2}" stroke="${color}" stroke-width="2" fill="none" opacity="0.85"/>`;
-  }
-
-  function generateBouquet(){
-    const palette = pick(PALETTES);
-    const ribbon = pick(RIBBONS);
-    const stemColor = '#4a6b3f';
-    const baseX = 50, baseY = 118;
-    const count = Math.floor(rand(4,7));
-    let stems = '', blooms = '';
-
-    for(let i=0;i<count;i++){
-      const spread = (i - (count-1)/2) * 11;
-      const topX = 50 + spread + rand(-4,4);
-      const topY = rand(28,46);
-      stems += stemPath(baseX, baseY, topX, topY, stemColor);
-
-      const type = pick(['daisy','rose','tulip','sprig']);
-      const color = pick(palette);
-      const r = rand(7,11);
-      if(type==='daisy') blooms += petalDaisy(topX, topY, r, color);
-      else if(type==='rose') blooms += petalRose(topX, topY, r, color, pick(palette));
-      else if(type==='tulip') blooms += petalTulip(topX, topY, r, color);
-      else blooms += petalSprig(topX, topY, r, color);
-    }
-
-    // a couple of loose leaves
-    let leaves = '';
-    for(let i=0;i<3;i++){
-      const lx = 50 + rand(-16,16);
-      const ly = rand(70,95);
-      leaves += `<ellipse cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" rx="3" ry="9" fill="#587a4a" opacity="0.8" transform="rotate(${rand(-40,40).toFixed(0)} ${lx.toFixed(1)} ${ly.toFixed(1)})"/>`;
-    }
-
-    // ribbon bow
-    const bow = `
-      <g transform="translate(50,110)">
-        <path d="M -14 0 Q -20 -8 -10 -10 Q 0 -10 0 0 Q 0 -10 10 -10 Q 20 -8 14 0 Q 6 4 0 2 Q -6 4 -14 0 Z" fill="${ribbon}"/>
-        <circle cx="0" cy="0" r="3" fill="${ribbon}"/>
-      </g>
-      <rect x="46" y="100" width="8" height="20" fill="${ribbon}" opacity="0.9"/>
+    // 1. Tail (sweeping S-curve behind body)
+    svg += `
+      <path d="M 52 108 C ${52 + tailCurve} 106, ${54 + tailCurve*1.2} 76, ${48 + tailCurve*0.7} 66"
+            fill="none" stroke="${coat.points ? coat.accent : coat.body}" stroke-width="6.5" stroke-linecap="round"/>
+      <path d="M 52 108 C ${52 + tailCurve} 106, ${54 + tailCurve*1.2} 76, ${48 + tailCurve*0.7} 66"
+            fill="none" stroke="${coat.stroke}" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
     `;
 
-    return `${stems}${leaves}${blooms}${bow}`;
+    // 2. Seated Elegant Body
+    svg += `
+      <path d="M 32 114 C 30 92, 37 68, 50 68 C 63 68, 70 92, 68 114 Z"
+            fill="${coat.body}" stroke="${coat.stroke}" stroke-width="1.2"/>
+    `;
+
+    // Tuxedo white chest bib
+    if(coat.bib){
+      svg += `
+        <path d="M 43 70 Q 50 96 57 70 Q 50 74 43 70 Z" fill="${coat.accent}"/>
+      `;
+    }
+
+    // Front paws
+    const pawFill = (coat.bib || coat.points) ? coat.accent : coat.body;
+    svg += `
+      <ellipse cx="43" cy="113" rx="5.5" ry="3.2" fill="${pawFill}" stroke="${coat.stroke}" stroke-width="1"/>
+      <ellipse cx="57" cy="113" rx="5.5" ry="3.2" fill="${pawFill}" stroke="${coat.stroke}" stroke-width="1"/>
+    `;
+
+    // 3. Collar / Gold Charm / Bow
+    if(hasCollar){
+      svg += `<path d="M 40 68 Q 50 73 60 68" fill="none" stroke="#c5a467" stroke-width="2.6" stroke-linecap="round"/>`;
+      if(hasBell){
+        svg += `<circle cx="50" cy="72.5" r="2.6" fill="#e6cfa3" stroke="#121214" stroke-width="0.6"/>`;
+      } else if(hasBow){
+        svg += `
+          <g transform="translate(50,71.5)">
+            <polygon points="0,0 -6,-3 -6,3" fill="#c5a467"/>
+            <polygon points="0,0 6,-3 6,3" fill="#c5a467"/>
+            <circle cx="0" cy="0" r="1.5" fill="#f8f6f0"/>
+          </g>
+        `;
+      }
+    }
+
+    // 4. Head Group (with subtle tilt)
+    const earFill = coat.points ? coat.accent : coat.body;
+    svg += `<g transform="rotate(${headTilt.toFixed(1)} 50 52)">`;
+
+    // Left & Right Ears
+    svg += `
+      <polygon points="33,46 31,${46-earTall} 45,38" fill="${earFill}" stroke="${coat.stroke}" stroke-width="1.2" stroke-linejoin="round"/>
+      <polygon points="67,46 69,${46-earTall} 55,38" fill="${earFill}" stroke="${coat.stroke}" stroke-width="1.2" stroke-linejoin="round"/>
+      <polygon points="35,44 33.5,${48-earTall*0.75} 42,40" fill="${coat.innerEar}" opacity="0.75"/>
+      <polygon points="65,44 66.5,${48-earTall*0.75} 58,40" fill="${coat.innerEar}" opacity="0.75"/>
+    `;
+
+    // Head Silhouette
+    svg += `
+      <ellipse cx="50" cy="51" rx="18" ry="15.5" fill="${coat.body}" stroke="${coat.stroke}" stroke-width="1.2"/>
+    `;
+
+    // Siamese / Ivory Point Mask
+    if(coat.points){
+      svg += `<ellipse cx="50" cy="53" rx="10" ry="7.5" fill="${coat.accent}" opacity="0.88"/>`;
+    }
+
+    // Eyes (Almond luxury gaze)
+    svg += `
+      <ellipse cx="43" cy="50" rx="2.8" ry="2.2" fill="${eyeColor}"/>
+      <ellipse cx="57" cy="50" rx="2.8" ry="2.2" fill="${eyeColor}"/>
+      <ellipse cx="43" cy="50" rx="0.9" ry="1.9" fill="#050505"/>
+      <ellipse cx="57" cy="50" rx="0.9" ry="1.9" fill="#050505"/>
+    `;
+
+    // Minimalist Gold Nose
+    svg += `<polygon points="48.5,54.5 51.5,54.5 50,56.5" fill="#c5a467"/>`;
+
+    // Delicate Whiskers
+    if(hasWhiskers){
+      svg += `
+        <line x1="36" y1="54" x2="23" y2="52" stroke="${coat.stroke}" stroke-width="0.7" opacity="0.65"/>
+        <line x1="36" y1="56.5" x2="24" y2="57.5" stroke="${coat.stroke}" stroke-width="0.7" opacity="0.65"/>
+        <line x1="64" y1="54" x2="77" y2="52" stroke="${coat.stroke}" stroke-width="0.7" opacity="0.65"/>
+        <line x1="64" y1="56.5" x2="76" y2="57.5" stroke="${coat.stroke}" stroke-width="0.7" opacity="0.65"/>
+      `;
+    }
+
+    svg += `</g>`;
+    return { svg, coatName: coat.name };
   }
 
-  function renderMiniBouquet(){
-    // small svg for the display tiers
+  function renderMiniCat(){
     const svgNS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('viewBox','0 0 100 130');
-    svg.setAttribute('class','mini-bouquet');
-    svg.innerHTML = generateBouquet();
+    svg.setAttribute('class','mini-cat');
+    svg.innerHTML = generateCat().svg;
     return svg;
   }
 
@@ -779,33 +780,32 @@
     const tierTop = document.getElementById('tierTop');
     const tierBottom = document.getElementById('tierBottom');
     tierTop.innerHTML = ''; tierBottom.innerHTML = '';
-    for(let i=0;i<4;i++) tierTop.appendChild(renderMiniBouquet());
-    for(let i=0;i<4;i++) tierBottom.appendChild(renderMiniBouquet());
+    for(let i=0;i<4;i++) tierTop.appendChild(renderMiniCat());
+    for(let i=0;i<4;i++) tierBottom.appendChild(renderMiniCat());
   }
 
-  const ADJECTIVES = ['Velvet','Amber','Hushed','Gilded','Wandering','Quiet','Copper','Dusk','Morning','Faded','Secret','Tender'];
-  const NOUNS = ['Bloom','Bouquet','Posy','Arrangement','Sprig','Nosegay'];
+  const TITLES = ['Le Petit', 'La Nuit', 'Minuit', 'Velours', 'Bijou', 'Étoile', 'Nocturne', 'Satin', 'Chéri', 'Soleil', 'Onyx', 'Perle'];
 
-  function generateCaption(){
+  function generateCaption(coatName){
     const num = Math.floor(rand(1,999)).toString().padStart(3,'0');
-    return `${pick(ADJECTIVES)} ${pick(NOUNS)} No. ${num} — one of one, never arranged the same way twice`;
+    return `${pick(TITLES)} (${coatName}) — Édition No. ${num}`;
   }
 
   // ---------------- INTERACTION ----------------
   function updateCounter(){
-    counterNum.textContent = remaining;
+    counterNum.textContent = remaining.toString().padStart(2, '0');
   }
 
   function flyCoin(){
     const rect = coinBtn.getBoundingClientRect();
     const coin = document.createElement('div');
     coin.className = 'coin-fly';
-    coin.style.left = (rect.left + rect.width/2 - 11) + 'px';
-    coin.style.top = (rect.top + rect.height/2 - 11) + 'px';
+    coin.style.left = (rect.left + rect.width/2 - 10) + 'px';
+    coin.style.top = (rect.top + rect.height/2 - 10) + 'px';
     document.body.appendChild(coin);
     coin.animate([
       { transform: 'translateY(0) scale(1)', opacity: 1 },
-      { transform: 'translateY(30px) scale(0.4)', opacity: 0 }
+      { transform: 'translateY(28px) scale(0.35)', opacity: 0 }
     ], { duration: 380, easing: 'ease-in' });
     setTimeout(()=> coin.remove(), 400);
   }
@@ -827,28 +827,29 @@
 
     setTimeout(() => {
       crankBtn.classList.remove('turning');
-      dispenseBouquet();
+      dispenseCat();
     }, 1100);
   });
 
-  function dispenseBouquet(){
-    bouquetArt.innerHTML = generateBouquet();
+  function dispenseCat(){
+    const catData = generateCat();
+    catArt.innerHTML = catData.svg;
     flapLeft.classList.remove('peel-left');
     flapRight.classList.remove('peel-right');
     revealCaption.classList.remove('show');
     revealCaption.textContent = '';
-    bouquetPackage.classList.remove('dropping');
-    void bouquetPackage.offsetWidth; // reflow to restart animation
-    bouquetPackage.style.opacity = '1';
-    bouquetPackage.classList.add('dropping');
+    catPackage.classList.remove('dropping');
+    void catPackage.offsetWidth;
+    catPackage.style.opacity = '1';
+    catPackage.classList.add('dropping');
 
     setTimeout(() => { playThud(); }, 520);
 
     setTimeout(() => {
       flapLeft.classList.add('peel-left');
       flapRight.classList.add('peel-right');
-      playFanfareTing();
-      revealCaption.textContent = generateCaption();
+      playPurrChime();
+      revealCaption.textContent = generateCaption(catData.coatName);
       setTimeout(()=> revealCaption.classList.add('show'), 250);
     }, 900);
 
@@ -879,8 +880,8 @@
       remaining = 12;
       updateCounter();
       fillTiers();
-      bouquetPackage.style.opacity = '0';
-      bouquetPackage.classList.remove('dropping');
+      catPackage.style.opacity = '0';
+      catPackage.classList.remove('dropping');
       revealCaption.classList.remove('show');
       revealCaption.textContent = '';
       coinBtn.disabled = false;
