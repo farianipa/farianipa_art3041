@@ -228,4 +228,360 @@
             align-items: flex-end;
             border: 1px solid #1a1a1a;
             position: relative;
-            overflow: hidden
+            overflow: hidden;
+        }
+
+        .insitu-scene.active {
+            display: flex;
+        }
+
+        .building-facade {
+            background: #141414;
+            border-top: 2px solid #262626;
+            border-left: 1px solid #1f1f1f;
+            border-right: 1px solid #1f1f1f;
+            padding: 36px 36px 56px 36px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.9);
+        }
+
+        .billboard-rig {
+            border: 4px solid #000000;
+            box-shadow: 0 0 40px rgba(181, 154, 87, 0.14);
+            background: #000000;
+        }
+
+        .billboard-rig img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .spotlights {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 12px;
+        }
+
+        .spotlights span {
+            width: 24px;
+            height: 3px;
+            background: var(--tf-gold);
+            opacity: 0.65;
+            box-shadow: 0 -8px 18px rgba(181, 154, 87, 0.5);
+        }
+
+        /* Social Story UI Overlay */
+        .story-chrome {
+            display: none;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.5) 100%);
+        }
+
+        .show-ui .story-chrome {
+            display: flex;
+        }
+
+        .story-bars {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .story-bars span {
+            height: 2px;
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .story-bars span:first-child {
+            background: #FFFFFF;
+        }
+
+        .story-handle {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #FFFFFF;
+            text-transform: uppercase;
+        }
+
+        .story-cta {
+            align-self: center;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #FFFFFF;
+            border-bottom: 1px solid var(--tf-gold);
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.96);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 32px;
+            z-index: 1000;
+            cursor: zoom-out;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: fixed;
+            top: 28px;
+            right: 32px;
+            color: var(--tf-gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .palette-bar {
+            display: flex;
+            height: 4px;
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        .palette-bar span {
+            flex: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 48px 20px 64px 20px;
+            font-size: 9px;
+            font-weight: 700;
+            color: #A1A19E;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-subtitle">Tom Ford Beauty</div>
+        <h1>INDISCREET</h1>
+        <div class="doc-title">Campaign Rollout</div>
+        <nav class="hero-nav" aria-label="Campaign Sections">
+            <a href="#billboards">Out-of-Home</a>
+            <a href="#digital">Digital</a>
+            <a href="#objects">Objects</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SECTION I: OUT-OF-HOME BILLBOARDS -->
+        <section id="billboards">
+            <div class="section-head">
+                <h2>I &mdash; Out-of-Home</h2>
+                <div class="view-toggle" role="group" aria-label="Billboard View">
+                    <button type="button" class="toggle-btn active" data-bb-view="creative">Creative</button>
+                    <button type="button" class="toggle-btn" data-bb-view="insitu">In Situ</button>
+                </div>
+            </div>
+
+            <div class="two-up" id="bb-creative-grid">
+                <article class="plate" data-lightbox="image_500b07.jpeg">
+                    <div class="media-frame">
+                        <img src="image_500b07.jpeg" alt="INDISCREET Billboard I — The Trace">
+                    </div>
+                    <div class="plate-meta">
+                        <span class="plate-title">I. The Trace</span>
+                        <span class="plate-format">14'4" &times; 26'8"</span>
+                    </div>
+                </article>
+
+                <article class="plate" data-lightbox="image_500b23.jpeg">
+                    <div class="media-frame">
+                        <img src="image_500b23.jpeg" alt="INDISCREET Billboard II — The Veil">
+                    </div>
+                    <div class="plate-meta">
+                        <span class="plate-title">II. The Veil</span>
+                        <span class="plate-format">14'4" &times; 26'8"</span>
+                    </div>
+                </article>
+            </div>
+
+            <div class="two-up" id="bb-insitu-grid" style="display: none;">
+                <div class="insitu-scene active">
+                    <div class="building-facade">
+                        <div class="billboard-rig">
+                            <img src="image_500b07.jpeg" alt="Billboard I Installed">
+                        </div>
+                        <div class="spotlights"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+
+                <div class="insitu-scene active">
+                    <div class="building-facade">
+                        <div class="billboard-rig">
+                            <img src="image_500b23.jpeg" alt="Billboard II Installed">
+                        </div>
+                        <div class="spotlights"><span></span><span></span><span></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION II: DIGITAL & SOCIAL -->
+        <section id="digital">
+            <div class="section-head">
+                <h2>II &mdash; Digital</h2>
+                <div class="view-toggle" role="group" aria-label="Digital View">
+                    <button type="button" class="toggle-btn active" data-social-view="clean">Clean</button>
+                    <button type="button" class="toggle-btn" data-social-view="ui">Story UI</button>
+                </div>
+            </div>
+
+            <div class="two-up" id="social-grid">
+                <article class="plate" data-lightbox="image_500aac.jpeg">
+                    <div class="media-frame">
+                        <img src="image_500aac.jpeg" alt="INDISCREET Digital — The Elevator">
+                        <div class="story-chrome">
+                            <div>
+                                <div class="story-bars"><span></span><span></span></div>
+                                <div class="story-handle">Tom Ford Beauty &bull; Sponsored</div>
+                            </div>
+                            <div class="story-cta">Discover Indiscreet</div>
+                        </div>
+                    </div>
+                    <div class="plate-meta">
+                        <span class="plate-title">III. The Elevator</span>
+                        <span class="plate-format">9:16 Social</span>
+                    </div>
+                </article>
+
+                <article class="plate" data-lightbox="image_500a8f.jpeg">
+                    <div class="media-frame">
+                        <img src="image_500a8f.jpeg" alt="INDISCREET Digital — The Exit">
+                        <div class="story-chrome">
+                            <div>
+                                <div class="story-bars"><span></span><span></span></div>
+                                <div class="story-handle">Tom Ford Beauty &bull; Sponsored</div>
+                            </div>
+                            <div class="story-cta">Discover Indiscreet</div>
+                        </div>
+                    </div>
+                    <div class="plate-meta">
+                        <span class="plate-title">IV. The Exit</span>
+                        <span class="plate-format">9:16 Social</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SECTION III: PRODUCT STILL LIFE -->
+        <section id="objects">
+            <div class="section-head">
+                <h2>III &mdash; Objects</h2>
+            </div>
+
+            <div class="single-feature">
+                <article class="plate" data-lightbox="image_5007c6.jpeg">
+                    <div class="media-frame">
+                        <img src="image_5007c6.jpeg" alt="INDISCREET — The Collection">
+                    </div>
+                    <div class="plate-meta">
+                        <span class="plate-title">V. The Collection</span>
+                        <span class="plate-format">Eau de Parfum &amp; Lip</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <div class="palette-bar" aria-hidden="true">
+        <span style="background:#000000"></span>
+        <span style="background:#B59A57"></span>
+        <span style="background:#63000E"></span>
+        <span style="background:#FFFFFF"></span>
+    </div>
+
+    <footer>
+        TOM FORD BEAUTY &bull; INDISCREET &copy; 2026
+    </footer>
+
+    <!-- Full-Screen Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+        <button type="button" class="lightbox-close" id="lightbox-close">Close</button>
+        <img src="" alt="" id="lightbox-img">
+    </div>
+
+    <script>
+        // Billboard Creative vs. In-Situ Toggle
+        const bbBtns = document.querySelectorAll('[data-bb-view]');
+        const bbCreative = document.getElementById('bb-creative-grid');
+        const bbInsitu = document.getElementById('bb-insitu-grid');
+
+        bbBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                bbBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const isInsitu = btn.dataset.bbView === 'insitu';
+                bbCreative.style.display = isInsitu ? 'none' : 'grid';
+                bbInsitu.style.display = isInsitu ? 'grid' : 'none';
+            });
+        });
+
+        // Social Clean vs. Story UI Toggle
+        const socialBtns = document.querySelectorAll('[data-social-view]');
+        const socialGrid = document.getElementById('social-grid');
+
+        socialBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                socialBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                socialGrid.classList.toggle('show-ui', btn.dataset.socialView === 'ui');
+            });
+        });
+
+        // Lightbox Inspection
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        document.querySelectorAll('.plate[data-lightbox]').forEach(plate => {
+            plate.addEventListener('click', () => {
+                lightboxImg.src = plate.dataset.lightbox;
+                lightboxImg.alt = plate.querySelector('img').alt;
+                lightbox.classList.add('open');
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('open');
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') lightbox.classList.remove('open');
+        });
+    </script>
+</body>
+</html>
