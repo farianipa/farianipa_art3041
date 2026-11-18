@@ -1289,9 +1289,11 @@
             const glassPane = new THREE.Mesh(
                 new THREE.PlaneGeometry(8.6, 6.8),
                 new THREE.MeshPhysicalMaterial({
-                    color: 0xfff5e4,
+                    color: 0xffebb8,
+                    emissive: 0x8f6626,
+                    emissiveIntensity: 0.9,
                     transparent: true,
-                    opacity: 0.14,
+                    opacity: 0.28,
                     roughness: 0.05,
                     metalness: 0.1
                 })
@@ -1305,7 +1307,7 @@
             plinth.position.set(0.6, 0.325, 0);
             building.add(plinth);
 
-            const plinthRing = new THREE.Mesh(new THREE.TorusGeometry(2.22, 0.05, 8, 32), goldTrimMat);
+            const plinthRing = new THREE.Mesh(new THREE.TorusGeometry(2.22, 0.09, 8, 32), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
             plinthRing.rotation.x = Math.PI / 2;
             plinthRing.position.set(0.6, 0.66, 0);
             building.add(plinthRing);
@@ -1344,10 +1346,18 @@
             sign.position.set(5.32, 12.5, 0);
             building.add(sign);
 
-            // Dedicated Vitrine Spotlight
-            const spot = new THREE.PointLight(0xffcf87, 2.6, 18);
-            spot.position.set(3.2, 6.2, 0);
+            // Dedicated Bright Vitrine Spotlights (Tightly Contained Inside Glass Box)
+            const spot = new THREE.PointLight(0xffeaab, 14.0, 9.2, 2.0);
+            spot.position.set(2.2, 5.8, 0);
             building.add(spot);
+
+            const innerGlow = new THREE.PointLight(0xffda85, 11.5, 8.2, 2.0);
+            innerGlow.position.set(-1.2, 3.0, 0);
+            building.add(innerGlow);
+
+            const floorBounce = new THREE.PointLight(0xffebb3, 7.5, 6.5, 2.0);
+            floorBounce.position.set(1.6, 1.3, 0);
+            building.add(floorBounce);
 
             // Hitbox for clicking building
             const hitbox = new THREE.Mesh(
@@ -1403,9 +1413,11 @@
             const glassPane = new THREE.Mesh(
                 new THREE.PlaneGeometry(8.6, 6.8),
                 new THREE.MeshPhysicalMaterial({
-                    color: 0xffeef0,
+                    color: 0xffe4e8,
+                    emissive: 0x8a162d,
+                    emissiveIntensity: 0.9,
                     transparent: true,
-                    opacity: 0.14,
+                    opacity: 0.28,
                     roughness: 0.05
                 })
             );
@@ -1421,6 +1433,10 @@
             }));
             plinth.position.set(-0.6, 0.325, 0);
             building.add(plinth);
+
+            const plinthGlowEdge = new THREE.Mesh(new THREE.BoxGeometry(3.52, 0.11, 3.52), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
+            plinthGlowEdge.position.set(-0.6, 0.65, 0);
+            building.add(plinthGlowEdge);
 
             const lipstick = createLipstickSculpture(1.65);
             lipstick.position.set(-0.6, 0.7, 0);
@@ -1445,14 +1461,18 @@
             crown.position.set(0, 36.7, 0);
             building.add(crown);
 
-            // Vitrine Crimson-Warm Spotlight
-            const spot = new THREE.PointLight(0xff4d67, 2.4, 18);
-            spot.position.set(-3.0, 6.2, 0);
+            // Bright Vitrine Crimson & Warm Gold Spotlights (Tightly Contained Inside Glass Box)
+            const spot = new THREE.PointLight(0xff788e, 12.5, 9.0, 2.0);
+            spot.position.set(-2.0, 5.8, 0);
             building.add(spot);
 
-            const warmFill = new THREE.PointLight(0xffe0b2, 1.4, 14);
-            warmFill.position.set(-2.2, 4.0, 2.0);
+            const warmFill = new THREE.PointLight(0xffedb3, 12.5, 8.5, 2.0);
+            warmFill.position.set(-1.6, 3.8, 1.4);
             building.add(warmFill);
+
+            const backKey = new THREE.PointLight(0xffdc8f, 8.5, 7.5, 2.0);
+            backKey.position.set(1.4, 3.2, -1.0);
+            building.add(backKey);
 
             const hitbox = new THREE.Mesh(
                 new THREE.BoxGeometry(11, 14, 12),
@@ -1512,9 +1532,11 @@
             const glassPane = new THREE.Mesh(
                 new THREE.PlaneGeometry(8.0, 7.2),
                 new THREE.MeshPhysicalMaterial({
-                    color: 0xffffff,
+                    color: 0xfff5e0,
+                    emissive: 0x85612c,
+                    emissiveIntensity: 0.9,
                     transparent: true,
-                    opacity: 0.13,
+                    opacity: 0.28,
                     roughness: 0.05
                 })
             );
@@ -1526,6 +1548,11 @@
             const plinth = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 2.1, 0.5, 32), obsidianMat);
             plinth.position.set(0.5, 0.25, 0);
             building.add(plinth);
+
+            const plinthHalo = new THREE.Mesh(new THREE.TorusGeometry(1.84, 0.08, 8, 32), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
+            plinthHalo.rotation.x = Math.PI / 2;
+            plinthHalo.position.set(0.5, 0.51, 0);
+            building.add(plinthHalo);
 
             const pencil = createLipPencilSculpture(1.65);
             pencil.position.set(0.5, 0.9, 0);
@@ -1549,12 +1576,20 @@
 
             const beaconTip = new THREE.Mesh(new THREE.ConeGeometry(1.4, 3.2, 4), crimsonGlowMat);
             beaconTip.rotation.y = Math.PI / 4;
-            beaconTip.position.set(0, 58.6, 0);
+            beaconTip.position.set(0, 58.2, 0);
             building.add(beaconTip);
 
-            const spot = new THREE.PointLight(0xffe6bd, 2.4, 18);
-            spot.position.set(2.8, 6.5, 0);
+            const spot = new THREE.PointLight(0xffecab, 13.5, 8.8, 2.0);
+            spot.position.set(2.0, 6.0, 0);
             building.add(spot);
+
+            const backGlow = new THREE.PointLight(0xffdc88, 10.5, 7.8, 2.0);
+            backGlow.position.set(-1.4, 3.2, 0);
+            building.add(backGlow);
+
+            const lowGlow = new THREE.PointLight(0xffedb3, 7.0, 6.5, 2.0);
+            lowGlow.position.set(1.6, 1.4, 0);
+            building.add(lowGlow);
 
             const hitbox = new THREE.Mesh(
                 new THREE.BoxGeometry(10, 14, 10),
@@ -1650,10 +1685,14 @@
             const rightSideMat = new THREE.MeshBasicMaterial({ map: trilogyPosterTex });
             billboardSideMaterials = [leftSideMat, rightSideMat];
 
-            loader.load('image_500b07.jpeg', tex => {
+            loader.load('Gemini_Generated_Image.jpeg', tex => {
                 tex.anisotropy = 4;
                 leftSideMat.map = tex;
                 leftSideMat.needsUpdate = true;
+            });
+
+            loader.load('image_5007c6.jpeg', tex => {
+                tex.anisotropy = 4;
                 rightSideMat.map = tex;
                 rightSideMat.needsUpdate = true;
             });
@@ -1673,11 +1712,11 @@
             interactiveMeshes.push(rightBillboard);
 
             // 3. Central Glass Pavilion Exhibiting ALL THREE Products Together
-            const pavilionDais = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 6.2, 0.6, 48), obsidianMat);
-            pavilionDais.position.set(0, 0.3, 2);
-            plaza.add(pavilionDais);
+            const dais = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 6.0, 0.6, 48), obsidianMat);
+            dais.position.set(0, 0.3, 2);
+            plaza.add(dais);
 
-            const daisGoldTrim = new THREE.Mesh(new THREE.TorusGeometry(5.62, 0.06, 8, 48), goldMat);
+            const daisGoldTrim = new THREE.Mesh(new THREE.TorusGeometry(5.62, 0.11, 8, 48), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
             daisGoldTrim.rotation.x = Math.PI / 2;
             daisGoldTrim.position.set(0, 0.61, 2);
             plaza.add(daisGoldTrim);
@@ -1715,13 +1754,17 @@
             plaza.add(collectionGroup);
             animatedObjects.push({ mesh: collectionGroup, rotSpeed: 0.25, bobAmp: 0, baseY: 0.65 });
 
-            // Dramatic Plaza Spotlights
-            const plazaSpot = new THREE.PointLight(0xffe2b0, 3.2, 28);
-            plazaSpot.position.set(0, 6.5, 2);
+            // Dramatic Bright Plaza Spotlights (Contained Within Pavilion)
+            const plazaSpot = new THREE.PointLight(0xffeeab, 14.5, 11.5, 2.0);
+            plazaSpot.position.set(0, 6.2, 2);
             plaza.add(plazaSpot);
 
-            const crimsonAccent = new THREE.PointLight(0x9e0018, 2.2, 24);
-            crimsonAccent.position.set(0, 12, -4);
+            const frontKeyLight = new THREE.PointLight(0xffe8a3, 10.5, 9.5, 2.0);
+            frontKeyLight.position.set(0, 3.8, 5.2);
+            plaza.add(frontKeyLight);
+
+            const crimsonAccent = new THREE.PointLight(0xe00024, 8.0, 14.0, 2.0);
+            crimsonAccent.position.set(0, 12, -5.5);
             plaza.add(crimsonAccent);
 
             // Clickable Hitbox for Plaza Pavilion
@@ -1738,13 +1781,13 @@
         }
 
         function buildCityContext() {
-            // Wet Reflective Asphalt Street & Sidewalks
+            // Matte-Finish Nocturnal Asphalt Street & Sidewalks (No Mirror Glare)
             const asphaltTex = createWetAsphaltTexture();
             const streetMat = new THREE.MeshStandardMaterial({
                 map: asphaltTex,
-                color: 0x121215,
-                roughness: 0.16,
-                metalness: 0.72
+                color: 0x0b0b0d,
+                roughness: 0.78,
+                metalness: 0.15
             });
 
             const street = new THREE.Mesh(new THREE.PlaneGeometry(90, 260), streetMat);
@@ -1754,9 +1797,9 @@
 
             // Raised Obsidian Sidewalk Curbs
             const sidewalkMat = new THREE.MeshStandardMaterial({
-                color: 0x0b0b0d,
-                roughness: 0.35,
-                metalness: 0.4
+                color: 0x09090b,
+                roughness: 0.82,
+                metalness: 0.12
             });
 
             const leftSidewalk = new THREE.Mesh(new THREE.BoxGeometry(24, 0.22, 220), sidewalkMat);
@@ -1768,52 +1811,124 @@
             scene.add(rightSidewalk);
 
             // Surrounding Manhattan Skyscraper Canyons (Non-hero architectural fillers)
-            const fillerTex1 = createBuildingWindowTexture('#B59A57', 0.16);
-            const fillerTex2 = createBuildingWindowTexture('#F9F9F7', 0.12);
+            const fillerTex1 = createBuildingWindowTexture('#B59A57', 0.24);
+            const fillerTex2 = createBuildingWindowTexture('#F9F9F7', 0.18);
+            const fillerTex3 = createBuildingWindowTexture('#63000E', 0.16);
+            const goldAccentMat = new THREE.MeshStandardMaterial({
+                color: 0xB59A57,
+                emissive: 0x3d3115,
+                metalness: 0.9,
+                roughness: 0.2
+            });
+            const crimsonBeaconMat = new THREE.MeshBasicMaterial({ color: 0x9e0018 });
+            const goldBeaconMat = new THREE.MeshBasicMaterial({ color: 0xffe09e });
 
             const fillerCoords = [
-                { x: -15, z: -4, w: 11, h: 36, d: 14, tex: fillerTex1 },
-                { x: 15, z: -12, w: 11, h: 42, d: 15, tex: fillerTex2 },
-                { x: 15, z: -40, w: 11, h: 32, d: 14, tex: fillerTex1 },
-                { x: -15, z: -50, w: 11, h: 44, d: 14, tex: fillerTex2 },
-                { x: -15, z: -84, w: 11, h: 38, d: 14, tex: fillerTex1 },
-                { x: 15, z: -96, w: 11, h: 46, d: 15, tex: fillerTex2 },
-                { x: 15, z: -124, w: 11, h: 35, d: 14, tex: fillerTex1 },
-                { x: -24, z: -145, w: 14, h: 48, d: 16, tex: fillerTex2 },
-                { x: 24, z: -145, w: 14, h: 48, d: 16, tex: fillerTex1 }
+                // Near Avenue Canyon
+                { x: -15, z: 4, w: 12, h: 44, d: 14, tex: fillerTex2, spire: true },
+                { x: 15, z: 6, w: 12, h: 38, d: 14, tex: fillerTex1 },
+                { x: -15, z: -12, w: 11, h: 48, d: 13, tex: fillerTex1, crown: true },
+                { x: 15, z: -12, w: 11, h: 52, d: 15, tex: fillerTex2, spire: true },
+                { x: 15, z: -40, w: 11, h: 42, d: 14, tex: fillerTex1, crown: true },
+                { x: -15, z: -50, w: 11, h: 56, d: 14, tex: fillerTex2, spire: true },
+                { x: 15, z: -52, w: 11, h: 36, d: 12, tex: fillerTex3 },
+                { x: -15, z: -84, w: 11, h: 48, d: 14, tex: fillerTex1, crown: true },
+                { x: 15, z: -90, w: 11, h: 54, d: 15, tex: fillerTex2, spire: true },
+                { x: 15, z: -124, w: 11, h: 45, d: 14, tex: fillerTex1, crown: true },
+                { x: -15, z: -128, w: 11, h: 40, d: 13, tex: fillerTex3 },
+                // Times Square Perimeter Towers
+                { x: -24, z: -145, w: 14, h: 64, d: 16, tex: fillerTex2, spire: true },
+                { x: 24, z: -145, w: 14, h: 68, d: 16, tex: fillerTex1, crown: true },
+                { x: -26, z: -168, w: 16, h: 74, d: 18, tex: fillerTex1, spire: true },
+                { x: 26, z: -168, w: 16, h: 72, d: 18, tex: fillerTex2, crown: true },
+                { x: -16, z: -192, w: 18, h: 82, d: 18, tex: fillerTex2, spire: true },
+                { x: 16, z: -192, w: 18, h: 86, d: 18, tex: fillerTex1, spire: true },
+                // Second-Row Deep Skyline High-Rises
+                { x: -32, z: -18, w: 16, h: 66, d: 18, tex: fillerTex1, crown: true },
+                { x: 32, z: -24, w: 16, h: 70, d: 18, tex: fillerTex2, spire: true },
+                { x: -34, z: -64, w: 18, h: 78, d: 20, tex: fillerTex2, spire: true },
+                { x: 34, z: -74, w: 18, h: 74, d: 20, tex: fillerTex1, crown: true },
+                { x: -34, z: -112, w: 18, h: 84, d: 20, tex: fillerTex1, spire: true },
+                { x: 34, z: -116, w: 18, h: 80, d: 20, tex: fillerTex2, crown: true }
             ];
 
-            fillerCoords.forEach(b => {
+            fillerCoords.forEach((b, idx) => {
                 const mat = new THREE.MeshStandardMaterial({
                     color: 0x09090b,
                     map: b.tex,
-                    roughness: 0.3,
-                    metalness: 0.5
+                    roughness: 0.25,
+                    metalness: 0.55
                 });
                 const mesh = new THREE.Mesh(new THREE.BoxGeometry(b.w, b.h, b.d), mat);
                 mesh.position.set(b.x, b.h / 2, b.z);
                 scene.add(mesh);
+
+                // Illuminated Gold Architectural Crown Band
+                if (b.crown || b.spire) {
+                    const collar = new THREE.Mesh(
+                        new THREE.BoxGeometry(b.w + 0.4, 0.55, b.d + 0.4),
+                        goldAccentMat
+                    );
+                    collar.position.set(b.x, b.h - 1.2, b.z);
+                    scene.add(collar);
+                }
+
+                // Skyscraper Spire & Aviation Beacon Light
+                if (b.spire) {
+                    const spire = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.08, 0.45, 9, 8),
+                        goldAccentMat
+                    );
+                    spire.position.set(b.x, b.h + 4.5, b.z);
+                    scene.add(spire);
+
+                    const beacon = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.24, 8, 8),
+                        idx % 2 === 0 ? crimsonBeaconMat : goldBeaconMat
+                    );
+                    beacon.position.set(b.x, b.h + 9.2, b.z);
+                    scene.add(beacon);
+                }
             });
 
-            // Classic NYC Streetlamps with Warm Amber Pools
-            const lampMat = new THREE.MeshStandardMaterial({ color: 0x151517, metalness: 0.8, roughness: 0.3 });
-            const bulbMat = new THREE.MeshBasicMaterial({ color: 0xffe4b5 });
+            // Classic NYC Streetlamps (Subtle Nocturnal Fixtures Only — No Bright Street Pools)
+            const lampMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1d, metalness: 0.8, roughness: 0.25 });
+            const bulbMat = new THREE.MeshBasicMaterial({ color: 0xd8c28a });
 
-            for (let z = 6; z >= -135; z -= 22) {
+            for (let z = 10; z >= -140; z -= 22) {
                 [-7.5, 7.5].forEach(x => {
-                    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, 5.2, 10), lampMat);
-                    pole.position.set(x, 2.6, z);
+                    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, 5.6, 10), lampMat);
+                    pole.position.set(x, 2.8, z);
                     scene.add(pole);
 
-                    const arm = new THREE.Mesh(new THREE.BoxGeometry(x < 0 ? 1.2 : -1.2, 0.07, 0.07), lampMat);
-                    arm.position.set(x + (x < 0 ? 0.5 : -0.5), 5.1, z);
+                    const arm = new THREE.Mesh(new THREE.BoxGeometry(x < 0 ? 1.45 : -1.45, 0.08, 0.08), lampMat);
+                    arm.position.set(x + (x < 0 ? 0.62 : -0.62), 5.5, z);
                     scene.add(arm);
 
-                    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 10), bulbMat);
-                    bulb.position.set(x + (x < 0 ? 1.0 : -1.0), 5.02, z);
+                    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 10), bulbMat);
+                    bulb.position.set(x + (x < 0 ? 1.25 : -1.25), 5.38, z);
                     scene.add(bulb);
                 });
             }
+
+            // Atmospheric Nocturnal City Dust / Light Motes
+            const moteCount = 320;
+            const moteGeo = new THREE.BufferGeometry();
+            const motePositions = new Float32Array(moteCount * 3);
+            for (let i = 0; i < moteCount; i++) {
+                motePositions[i * 3] = (Math.random() - 0.5) * 44;
+                motePositions[i * 3 + 1] = 0.6 + Math.random() * 24;
+                motePositions[i * 3 + 2] = 15 - Math.random() * 195;
+            }
+            moteGeo.setAttribute('position', new THREE.BufferAttribute(motePositions, 3));
+            const moteMat = new THREE.PointsMaterial({
+                color: 0xffe4b5,
+                size: 0.11,
+                transparent: true,
+                opacity: 0.45
+            });
+            const cityMotes = new THREE.Points(moteGeo, moteMat);
+            scene.add(cityMotes);
         }
 
         /* ==========================================================================
@@ -1823,8 +1938,8 @@
             const container = document.getElementById('canvas-container');
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x040406);
-            scene.fog = new THREE.FogExp2(0x040406, 0.0115);
+            scene.background = new THREE.Color(0x060609);
+            scene.fog = new THREE.FogExp2(0x060609, 0.0085);
 
             camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 320);
             camera.position.copy(player.pos);
@@ -1834,14 +1949,14 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.15;
+            renderer.toneMappingExposure = 1.32;
             container.appendChild(renderer.domElement);
 
-            // Base Nocturnal City Lighting
-            const hemiLight = new THREE.HemisphereLight(0x282838, 0x0a0806, 0.95);
+            // Base Nocturnal City Lighting (Dark Street Corridor so Product Vitrines Pop)
+            const hemiLight = new THREE.HemisphereLight(0x2a2833, 0x120e09, 0.85);
             scene.add(hemiLight);
 
-            const moonDirLight = new THREE.DirectionalLight(0xd6c7b2, 0.85);
+            const moonDirLight = new THREE.DirectionalLight(0xd9c8a9, 0.65);
             moonDirLight.position.set(25, 65, 30);
             scene.add(moonDirLight);
 
