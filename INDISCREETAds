@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>TOM FORD BEAUTY — INDISCREET</title>
+    <style>
+        /* ==========================================================================
+           BRAND SYSTEM TOKENS
+           ========================================================================== */
+        :root {
+            --bg-color: #F9F9F7;
+            --tf-gold: #B59A57;
+            --accent-crimson: #63000E;
+            --obsidian: #000000;
+            --pure-white: #FFFFFF;
+            --muted-text: #7A7873;
+            --border-color: #E5E5E2;
+            color-scheme: light;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            background-color: var(--bg-color);
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--obsidian);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            letter-spacing: 0.14em;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================================================
+           MINIMAL STICKY HEADER
+           ========================================================================== */
+        nav.top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 90;
+            background: rgba(249, 249, 247, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 18px clamp(24px, 5vw, 72px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-6px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+
+        nav.top-nav.visible {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .nav-brand {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--obsidian);
+            text-decoration: none;
+        }
+
+        .nav-brand span {
+            color: var(--tf-gold);
+            margin-left: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: clamp(18px, 3.5vw, 40px);
+        }
+
+        .nav-links a {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--muted-text);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--obsidian);
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ==========================================================================
+           100VH FULL-VIEWPORT HERO
+           ========================================================================== */
+        header.hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 48px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .brand-subtitle {
+            font-size: clamp(11px, 1.2vw, 15px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.34em;
+            color: var(--obsidian);
+            margin-bottom: 18px;
+        }
+
+        h1.hero-title {
+            font-size: clamp(46px, 9vw, 128px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0;
+            color: var(--tf-gold);
+            line-height: 1;
+        }
+
+        .doc-title {
+            font-size: 10px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.26em;
+            color: var(--muted-text);
+            margin-top: 28px;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 44px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.28em;
+            color: var(--obsidian);
+            text-decoration: none;
+            border-bottom: 1px solid var(--tf-gold);
+            padding-bottom: 6px;
+            transition: color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .hero-scroll:hover {
+            color: var(--tf-gold);
+            border-color: var(--obsidian);
+        }
+
+        /* ==========================================================================
+           GALLERY CONTAINER & ULTRA-CHIC SECTION HEADERS
+           ========================================================================== */
+        main {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 clamp(24px, 6vw, 72px) 180px clamp(24px, 6vw, 72px);
+        }
+
+        section.campaign-section {
+            border-top: 1px solid var(--border-color);
+            padding: clamp(110px, 14vw, 180px) 0;
+        }
+
+        .section-top {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            margin-bottom: clamp(64px, 9vw, 110px);
+        }
+
+        @media (min-width: 760px) {
+            .section-top {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+        }
+
+        .section-num {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.26em;
+            color: var(--tf-gold);
+            margin-bottom: 12px;
+        }
+
+        h2.section-title {
+            font-size: clamp(24px, 3.6vw, 38px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin: 0;
+            line-height: 1.05;
+            color: var(--obsidian);
+        }
+
+        .section-sub {
+            font-size: 10px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: var(--muted-text);
+            margin-top: 10px;
+        }
+
+        /* Minimalist Toggle Controls */
+        .toggle-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            background: var(--pure-white);
+            color: var(--obsidian);
+            border: 1px solid var(--border-color);
+            padding: 11px 22px;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn:hover {
+            border-color: var(--tf-gold);
+        }
+
+        .toggle-btn.active {
+            background: var(--obsidian);
+            color: var(--pure-white);
+            border-color: var(--obsidian);
+        }
+
+        /* ==========================================================================
+           EDITORIAL ARTWORK GRIDS & PLATES
+           ========================================================================== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: clamp(64px, 9vw, 96px);
+        }
+
+        @media (min-width: 820px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: clamp(48px, 6vw, 84px);
+            }
+        }
+
+        .single-plate-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        .single-plate-wrap .plate-card {
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .plate-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plate-mat {
+            background: var(--pure-white);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            cursor: zoom-in;
+            transition: border-color 0.25s ease;
+        }
+
+        .plate-mat:hover {
+            border-color: var(--tf-gold);
+        }
+
+        .plate-mat img {
+            width: 100%;
+            display: block;
+            background: var(--obsidian);
+        }
+
+        .ratio-billboard img {
+            aspect-ratio: 43 / 80;
+            object-fit: cover;
+        }
+
+        .ratio-vertical img {
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+        }
+
+        .plate-caption {
+            margin-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .plate-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin: 0;
+            color: var(--obsidian);
+        }
+
+        .plate-format {
+            font-size: 9px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: var(--tf-gold);
+        }
+
+        /* ==========================================================================
+           ARCHITECTURAL NIGHT FACADE MOCKUP (IN SITU VIEW)
+           ========================================================================== */
+        .insitu-stage {
+            display: none;
+            background: #060607;
+            border: 1px solid #1C1C1E;
+            padding: clamp(36px, 7vw, 88px) clamp(20px, 5vw, 64px);
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .insitu-stage.active {
+            display: flex;
+        }
+
+        .facade-wall {
+            width: 100%;
+            max-width: 680px;
+            background: linear-gradient(180deg, #030304 0%, #0E0E11 70%, #141312 100%);
+            border: 1px solid #222225;
+            padding: 48px 24px 0 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .facade-wall::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 44px 44px;
+            pointer-events: none;
+        }
+
+        .facade-billboard {
+            width: min(270px, 68%);
+            border: 3px solid #1E1E20;
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.95), 0 0 40px rgba(181, 154, 87, 0.08);
+            position: relative;
+            z-index: 2;
+            cursor: zoom-in;
+        }
+
+        .facade-billboard img {
+            width: 100%;
+            aspect-ratio: 43 / 80;
+            object-fit: cover;
+            display: block;
+        }
+
+        .facade-base {
+            width: 100%;
+            height: 48px;
+            margin-top: 36px;
+            border-top: 1px solid #262629;
+            background: #09090B;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            font-size: 9px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: #6E6D6A;
+            z-index: 2;
+        }
+
+        .facade-controls {
+            margin-top: 32px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .facade-switch {
+            background: transparent;
+            color: #7A7873;
+            border: 1px solid #2A2A2D;
+            padding: 10px 20px;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .facade-switch.active, .facade-switch:hover {
+            border-color: var(--tf-gold);
+            color: var(--pure-white);
+        }
+
+        /* ==========================================================================
+           SOCIAL DEVICE FRAME & MINIMAL STORY UI OVERLAY
+           ========================================================================== */
+        .social-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .device-shell {
+            width: 100%;
+            max-width: 340px;
+            background: var(--pure-white);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            cursor: zoom-in;
+            transition: border-color 0.25s ease;
+        }
+
+        .device-shell:hover {
+            border-color: var(--tf-gold);
+        }
+
+        .device-viewport {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            background: var(--obsidian);
+            overflow: hidden;
+        }
+
+        .device-viewport img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .story-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 14px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.6) 100%);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+        }
+
+        .story-overlay.active {
+            opacity: 1;
+        }
+
+        .story-bars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .story-bars span {
+            flex: 1;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .story-bars span.on {
+            background: var(--pure-white);
+        }
+
+        .story-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            color: var(--pure-white);
+        }
+
+        .story-badge {
+            width: 22px;
+            height: 22px;
+            background: var(--obsidian);
+            border: 1px solid var(--tf-gold);
+            color: var(--tf-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        .story-cta {
+            text-align: center;
+        }
+
+        .story-cta span {
+            display: inline-block;
+            border: 1px solid var(--tf-gold);
+            background: rgba(0, 0, 0, 0.72);
+            color: var(--pure-white);
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            padding: 8px 18px;
+            text-transform: uppercase;
+        }
+
+        .social-caption {
+            width: 100%;
+            max-width: 340px;
+            margin-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ==========================================================================
+           FULL-SCREEN OBSIDIAN GALLERY LIGHTBOX
+           ========================================================================== */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: var(--obsidian);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 32px 24px;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 28px;
+            right: 32px;
+            background: transparent;
+            border: 1px solid var(--tf-gold);
+            color: var(--pure-white);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+            padding: 10px 18px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--tf-gold);
+            color: var(--obsidian);
+        }
+
+        .lightbox img {
+            max-width: 88vw;
+            max-height: 78vh;
+            object-fit: contain;
+        }
+
+        .lightbox-label {
+            margin-top: 24px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+            color: var(--tf-gold);
+        }
+
+        /* ==========================================================================
+           PALETTE STRIP & MINIMAL FOOTER
+           ========================================================================== */
+        .palette-bar {
+            display: flex;
+            height: 4px;
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        .palette-bar span {
+            flex: 1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 56px 20px 80px 20px;
+            font-size: 9px;
+            font-weight: 700;
+            color: #A1A19E;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Minimal Sticky Nav -->
+    <nav class="top-nav" id="topNav">
+        <a href="#top" class="nav-brand">TOM FORD BEAUTY <span>INDISCREET</span></a>
+        <div class="nav-links">
+            <a href="#billboards">01 The Billboards</a>
+            <a href="#digital">02 Digital &amp; Social</a>
+            <a href="#still-life">03 Still Life</a>
+        </div>
+    </nav>
+
+    <!-- 100vh Minimalist Hero -->
+    <header class="hero" id="top">
+        <div class="brand-subtitle">Tom Ford Beauty</div>
+        <h1 class="hero-title">INDISCREET</h1>
+        <div class="doc-title">Campaign Vol. 01</div>
+        <a href="#billboards" class="hero-scroll">Enter</a>
+    </header>
+
+    <main>
+        <!-- ======================================================================
+             01 — THE BILLBOARDS (14'4" x 26'8")
+             ====================================================================== -->
+        <section class="campaign-section" id="billboards">
+            <div class="section-top">
+                <div>
+                    <div class="section-num">01 &mdash; The Billboards</div>
+                    <h2 class="section-title">14&prime;4&Prime; &times; 26&prime;8&Prime;</h2>
+                    <div class="section-sub">Out of Home</div>
+                </div>
+
+                <div class="toggle-group" role="group">
+                    <button type="button" class="toggle-btn active" id="btnCreative">Creative</button>
+                    <button type="button" class="toggle-btn" id="btnInSitu">In Situ</button>
+                </div>
+            </div>
+
+            <!-- Two Flagship Vertical Billboards -->
+            <div class="gallery-grid" id="oohCreativeGrid">
+                <article class="plate-card">
+                    <div class="plate-mat ratio-billboard" data-lightbox="I. THE TRACE">
+                        <img id="imgTrace" src="image_500b07.jpg" alt="I. The Trace">
+                    </div>
+                    <div class="plate-caption">
+                        <h3 class="plate-title">I. The Trace</h3>
+                        <span class="plate-format">Billboard</span>
+                    </div>
+                </article>
+
+                <article class="plate-card">
+                    <div class="plate-mat ratio-billboard" data-lightbox="II. THE VEIL">
+                        <img id="imgVeil" src="image_500b23.jpg" alt="II. The Veil">
+                    </div>
+                    <div class="plate-caption">
+                        <h3 class="plate-title">II. The Veil</h3>
+                        <span class="plate-format">Billboard</span>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Architectural Night Facade Mockup -->
+            <div class="insitu-stage" id="oohInSituStage">
+                <div class="facade-wall">
+                    <div class="facade-billboard" id="facadeRig">
+                        <img id="facadeImg" src="image_500b07.jpg" alt="Billboard In Situ">
+                    </div>
+                    <div class="facade-base">
+                        <span>SoHo Facade</span>
+                        <span>14&prime;4&Prime; &times; 26&prime;8&Prime;</span>
+                    </div>
+                </div>
+                <div class="facade-controls">
+                    <button type="button" class="facade-switch active" data-src="image_500b07.jpg" data-label="I. THE TRACE">I. The Trace</button>
+                    <button type="button" class="facade-switch" data-src="image_500b23.jpg" data-label="II. THE VEIL">II. The Veil</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             02 — DIGITAL & SOCIAL 
+             ====================================================================== -->
+        <section class="campaign-section" id="digital">
+            <div class="section-top">
+                <div>
+                    <div class="section-num">02 &mdash; Digital &amp; Social</div>
+                    <h2 class="section-title">9:16</h2>
+                    <div class="section-sub">Stories &amp; Reels</div>
+                </div>
+
+                <div class="toggle-group" role="group">
+                    <button type="button" class="toggle-btn active" id="btnCleanSocial">Clean</button>
+                    <button type="button" class="toggle-btn" id="btnStoryUI">Story UI</button>
+                </div>
+            </div>
+
+            <div class="gallery-grid">
+                <article class="social-column">
+                    <div class="device-shell" data-lightbox="III. THE ELEVATOR">
+                        <div class="device-viewport">
+                            <img id="imgElevator" src="image_500aac.jpeg" alt="III. The Elevator">
+                            <div class="story-overlay" data-story-ui>
+                                <div>
+                                    <div class="story-bars"><span class="on"></span><span></span></div>
+                                    <div class="story-user"><span class="story-badge">TF</span>TOMFORDBEAUTY</div>
+                                </div>
+                                <div class="story-cta"><span>Indiscreet</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-caption">
+                        <h3 class="plate-title">III. The Elevator</h3>
+                        <span class="plate-format">9:16</span>
+                    </div>
+                </article>
+
+                <article class="social-column">
+                    <div class="device-shell" data-lightbox="IV. THE EXIT">
+                        <div class="device-viewport">
+                            <img id="imgExit" src="image_500a8f.jpeg" alt="IV. The Exit">
+                            <div class="story-overlay" data-story-ui>
+                                <div>
+                                    <div class="story-bars"><span></span><span class="on"></span></div>
+                                    <div class="story-user"><span class="story-badge">TF</span>TOMFORDBEAUTY</div>
+                                </div>
+                                <div class="story-cta"><span>Indiscreet</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-caption">
+                        <h3 class="plate-title">IV. The Exit</h3>
+                        <span class="plate-format">9:16</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ======================================================================
+             03 — STILL LIFE
+             ====================================================================== -->
+        <section class="campaign-section" id="still-life">
+            <div class="section-top">
+                <div>
+                    <div class="section-num">03 &mdash; Still Life</div>
+                    <h2 class="section-title">Objects</h2>
+                    <div class="section-sub">Tactile Archive</div>
+                </div>
+            </div>
+
+            <div class="single-plate-wrap">
+                <article class="plate-card">
+                    <div class="plate-mat ratio-vertical" data-lightbox="V. THE COLLECTION">
+                        <img id="imgCollection" src="image_5007c6.jpeg" alt="V. The Collection">
+                    </div>
+                    <div class="plate-caption">
+                        <h3 class="plate-title">V. The Collection</h3>
+                        <span class="plate-format">Still Life</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Full-Screen Gallery Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+        <button type="button" class="lightbox-close" id="lbClose">Close</button>
+        <img id="lbImg" src="" alt="">
+        <div class="lightbox-label" id="lbLabel"></div>
+    </div>
+
+    <!-- Brand Palette Strip & Footer -->
+    <div class="palette-bar" aria-hidden="true">
+        <span style="background:#000000"></span>
+        <span style="background:#B59A57"></span>
+        <span style="background:#63000E"></span>
+        <span style="background:#FFFFFF"></span>
+    </div>
+
+    <footer>
+        TOM FORD BEAUTY &bull; INDISCREET &copy; 2026
+    </footer>
+
+    <script>
+        /* ======================================================================
+           STICKY NAV REVEAL
+           ====================================================================== */
+        const topNav = document.getElementById('topNav');
+        window.addEventListener('scroll', () => {
+            topNav.classList.toggle('visible', window.scrollY > window.innerHeight * 0.65);
+        }, { passive: true });
+
+        /* ======================================================================
+           01 BILLBOARDS: CREATIVE vs IN SITU TOGGLE
+           ====================================================================== */
+        const btnCreative = document.getElementById('btnCreative');
+        const btnInSitu = document.getElementById('btnInSitu');
+        const oohCreativeGrid = document.getElementById('oohCreativeGrid');
+        const oohInSituStage = document.getElementById('oohInSituStage');
+        const facadeImg = document.getElementById('facadeImg');
+
+        btnCreative.addEventListener('click', () => {
+            btnCreative.classList.add('active');
+            btnInSitu.classList.remove('active');
+            oohCreativeGrid.style.display = 'grid';
+            oohInSituStage.classList.remove('active');
+        });
+
+        btnInSitu.addEventListener('click', () => {
+            btnInSitu.classList.add('active');
+            btnCreative.classList.remove('active');
+            oohCreativeGrid.style.display = 'none';
+            oohInSituStage.classList.add('active');
+            const activeSwitch = document.querySelector('.facade-switch.active');
+            facadeImg.src = activeSwitch.dataset.src;
+        });
+
+        let activeFacadeLabel = 'I. THE TRACE';
+        document.querySelectorAll('.facade-switch').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.facade-switch').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFacadeLabel = btn.dataset.label;
+                facadeImg.src = btn.dataset.src;
+            });
+        });
+
+        document.getElementById('facadeRig').addEventListener('click', () => {
+            openLightbox(facadeImg.src, activeFacadeLabel);
+        });
+
+        /* ======================================================================
+           02 DIGITAL: CLEAN vs STORY UI TOGGLE
+           ====================================================================== */
+        const btnCleanSocial = document.getElementById('btnCleanSocial');
+        const btnStoryUI = document.getElementById('btnStoryUI');
+        const storyOverlays = document.querySelectorAll('[data-story-ui]');
+
+        btnCleanSocial.addEventListener('click', () => {
+            btnCleanSocial.classList.add('active');
+            btnStoryUI.classList.remove('active');
+            storyOverlays.forEach(el => el.classList.remove('active'));
+        });
+
+        btnStoryUI.addEventListener('click', () => {
+            btnStoryUI.classList.add('active');
+            btnCleanSocial.classList.remove('active');
+            storyOverlays.forEach(el => el.classList.add('active'));
+        });
+
+        /* ======================================================================
+           FULL-SCREEN OBSIDIAN GALLERY LIGHTBOX
+           ====================================================================== */
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lbImg');
+        const lbLabel = document.getElementById('lbLabel');
+        const lbClose = document.getElementById('lbClose');
+
+        function openLightbox(src, label) {
+            lbImg.src = src;
+            lbLabel.textContent = label;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('[data-lightbox]').forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('img');
+                openLightbox(img.src, card.dataset.lightbox);
+            });
+        });
+
+        lbClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', e => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
