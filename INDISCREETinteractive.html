@@ -734,7 +734,7 @@
                 id: 'soho',
                 index: 'LANDMARK 02 / 04',
                 arch: 'SOHO CAST-IRON GALLERY',
-                title: 'RUNWAY LIP COLOR',
+                title: 'INDISCREET LIP COLOR',
                 shade: 'INVITE ONLY \u2022 #63000E',
                 swatchColor: '#63000E',
                 swatchText: 'PIGMENT: DEEP OXBLOOD CRIMSON (#63000E)\nARCHITECTURAL VITRINE 02',
@@ -752,11 +752,11 @@
                 id: 'madison',
                 index: 'LANDMARK 03 / 04',
                 arch: 'MADISON AVENUE SPIRE',
-                title: 'RUNWAY LIP PENCIL',
+                title: 'INDISCREET LIP PENCIL',
                 shade: 'OXBLOOD CONTOUR \u2022 #4A0404',
                 swatchColor: '#4A0404',
                 swatchText: 'PIGMENT: PRECISION OXBLOOD CONTOUR\nARCHITECTURAL VITRINE 03',
-                desc: 'A razor-sharp obsidian needle tower crowned in brushed campaign gold, mirroring the silhouette of the Runway Lip Pencil. Its street-level glass gallery suspends the precision contour pencil above a crimson-lit stone plinth.',
+                desc: 'A razor-sharp obsidian needle tower crowned in brushed campaign gold, mirroring the silhouette of the INDISCREET Lip Pencil. Its street-level glass gallery suspends the precision contour pencil above a crimson-lit stone plinth.',
                 specs: [
                     ['Structure', 'Obsidian & Gold Needle Spire'],
                     ['Precision', 'Sculpted Velvet Lip Contour'],
@@ -777,7 +777,7 @@
                 desc: 'Where the avenue opens into the nocturnal glow of Times Square. Towering digital billboards project the INDISCREET campaign above a central obsidian-and-glass pavilion exhibiting all three sculptural icons together on a triangular gold dais.',
                 specs: [
                     ['Installation', 'Triangular Pavilion & Corner Billboard'],
-                    ['Collection', 'Parfum, Runway Lip Color, Lip Pencil'],
+                    ['Collection', 'Parfum, INDISCREET Lip Color, Lip Pencil'],
                     ['Location', 'Broadway & 45th St Plaza']
                 ],
                 pos: new THREE.Vector3(0, 0, -162),
@@ -1046,7 +1046,7 @@
 
             ctx.fillStyle = 'rgba(249, 249, 247, 0.55)';
             ctx.font = '400 18px Arial, Helvetica, sans-serif';
-            ctx.fillText('NEW YORK  \u2022  EAU DE PARFUM & RUNWAY LIP', 450, 1295);
+            ctx.fillText('NEW YORK  \u2022  EAU DE PARFUM & INDISCREET LIP', 450, 1295);
 
             const tex = new THREE.CanvasTexture(canvas);
             tex.anisotropy = 4;
@@ -1425,7 +1425,7 @@
             glassPane.position.set(-4.75, 3.6, 0);
             building.add(glassPane);
 
-            // Glossy Crimson-Lit Plinth & Sculptural Runway Lip Color Inside
+            // Glossy Crimson-Lit Plinth & Sculptural INDISCREET Lip Color Inside
             const plinth = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.65, 3.4), new THREE.MeshStandardMaterial({
                 color: 0x050505,
                 roughness: 0.1,
@@ -1544,7 +1544,7 @@
             glassPane.position.set(4.45, 3.8, 0);
             building.add(glassPane);
 
-            // Sculptural Runway Lip Pencil Suspended in Gallery
+            // Sculptural INDISCREET Lip Pencil Suspended in Gallery
             const plinth = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 2.1, 0.5, 32), obsidianMat);
             plinth.position.set(0.5, 0.25, 0);
             building.add(plinth);
