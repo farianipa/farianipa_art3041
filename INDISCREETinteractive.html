@@ -46,11 +46,7 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            cursor: grab;
-        }
-
-        #canvas-container:active {
-            cursor: grabbing;
+            cursor: default;
         }
 
         /* Subtle 35mm Film Grain Overlay */
@@ -362,16 +358,59 @@
         /* Bottom Destination Fast-Walk Bar */
         .hud-nav {
             position: absolute;
-            bottom: 26px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
             width: max-content;
             max-width: 94vw;
             pointer-events: auto;
+        }
+
+        .hud-nav-kicker {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.32em;
+            color: var(--gold);
+            background: rgba(5, 5, 5, 0.88);
+            border: 1px solid var(--border-gold);
+            padding: 6px 18px;
+        }
+
+        .hud-nav-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(5, 5, 5, 0.92);
+            border: 1px solid var(--gold);
+            padding: 10px;
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.85), 0 0 28px rgba(181, 154, 87, 0.14);
+        }
+
+        .nav-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-gold);
+            color: var(--pure-white);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            padding: 14px 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .nav-pill:hover, .nav-pill.active {
+            background: var(--gold);
+            color: var(--obsidian);
+            border-color: var(--gold);
+            transform: translateY(-2px);
         }
 
         .nav-pill {
@@ -611,9 +650,9 @@
         <h1 class="title-main">INDISCREET</h1>
         <div class="title-sub">New York &mdash; Architectural Exhibition</div>
         <div class="title-rule"></div>
-        <button type="button" id="enter-btn">Enter The City</button>
+        <button type="button" id="enter-btn">Enter The Exhibition</button>
         <div class="controls-hint">
-            WASD / Arrows to Walk &bull; Drag Mouse to Look &bull; [E] or Click Building to Inspect
+            Select A Landmark Below To Explore &bull; Click Building To Inspect
         </div>
     </div>
 
@@ -622,7 +661,7 @@
         <div class="hud-brand">
             <div class="hud-brand-top">TOM FORD BEAUTY</div>
             <div class="hud-brand-sub">INDISCREET</div>
-            <div class="hud-location" id="hud-zone">FIFTH AVENUE &bull; SOUTHBOUND</div>
+            <div class="hud-location" id="hud-zone">FIFTH AVENUE &bull; MIDTOWN</div>
         </div>
 
         <div class="hud-top-right">
@@ -637,29 +676,21 @@
             </div>
         </div>
 
-        <div class="crosshair"></div>
-
         <div id="proximity-prompt">
             <div class="prompt-tag" id="prompt-building">FIFTH AVE MONOLITH</div>
-            <div class="prompt-action">[E] Or Click To Inspect</div>
+            <div class="prompt-action">Click To Inspect</div>
         </div>
 
-        <!-- Mobile Touch Controls -->
-        <div class="touch-pad" aria-label="Movement Controls">
-            <div></div>
-            <button type="button" class="pad-btn" data-move="forward">&uarr;</button>
-            <div></div>
-            <button type="button" class="pad-btn" data-move="left">&larr;</button>
-            <button type="button" class="pad-btn" data-move="backward">&darr;</button>
-            <button type="button" class="pad-btn" data-move="right">&rarr;</button>
-        </div>
-
-        <!-- Fast-Walk Destination Bar -->
+        <!-- Curated Landmark Navigation Bar -->
         <nav class="hud-nav" aria-label="Architectural Landmarks">
-            <button type="button" class="nav-pill" data-dest="0">01. Fifth Ave Monolith</button>
-            <button type="button" class="nav-pill" data-dest="1">02. SoHo Cast-Iron</button>
-            <button type="button" class="nav-pill" data-dest="2">03. Madison Tower</button>
-            <button type="button" class="nav-pill" data-dest="3">04. Times Square Plaza</button>
+            <div class="hud-nav-kicker">Select Exhibition Destination</div>
+            <div class="hud-nav-row">
+                <button type="button" class="nav-pill active" data-dest="street">00. Avenue View</button>
+                <button type="button" class="nav-pill" data-dest="0">01. Fifth Ave Monolith</button>
+                <button type="button" class="nav-pill" data-dest="1">02. SoHo Cast-Iron</button>
+                <button type="button" class="nav-pill" data-dest="2">03. Madison Tower</button>
+                <button type="button" class="nav-pill" data-dest="3">04. Times Square Plaza</button>
+            </div>
         </nav>
     </div>
 
@@ -756,7 +787,7 @@
                 shade: 'OXBLOOD CONTOUR \u2022 #4A0404',
                 swatchColor: '#4A0404',
                 swatchText: 'PIGMENT: PRECISION OXBLOOD CONTOUR\nARCHITECTURAL VITRINE 03',
-                desc: 'A razor-sharp obsidian needle tower crowned in brushed campaign gold, mirroring the silhouette of the INDISCREET Lip Pencil. Its street-level glass gallery suspends the precision contour pencil above a crimson-lit stone plinth.',
+                desc: 'A razor-sharp obsidian needle tower crowned in brushed campaign gold, mirroring the silhouette of the Indiscreet Lip Pencil. Its street-level glass gallery suspends the precision contour pencil above a crimson-lit stone plinth.',
                 specs: [
                     ['Structure', 'Obsidian & Gold Needle Spire'],
                     ['Precision', 'Sculpted Velvet Lip Contour'],
@@ -771,18 +802,18 @@
                 index: 'LANDMARK 04 / 04',
                 arch: 'TIMES SQUARE PLAZA',
                 title: 'THE COMPLETE COLLECTION',
-                shade: 'EAU DE PARFUM \u2022 LIP COLOR \u2022 LIP PENCIL',
+                shade: 'EAU DE PARFUM \u2022 INDISCREET LIP COLOR \u2022 INDISCREET LIP PENCIL',
                 swatchColor: '#B59A57',
                 swatchText: 'EDITION: COMPLETE INDISCREET TRILOGY\nCENTRAL PAVILION & BILLBOARD',
                 desc: 'Where the avenue opens into the nocturnal glow of Times Square. Towering digital billboards project the INDISCREET campaign above a central obsidian-and-glass pavilion exhibiting all three sculptural icons together on a triangular gold dais.',
                 specs: [
                     ['Installation', 'Triangular Pavilion & Corner Billboard'],
-                    ['Collection', 'Parfum, INDISCREET Lip Color, Lip Pencil'],
+                    ['Collection', 'Parfum, Indiscreet Lip Color, Lip Pencil'],
                     ['Location', 'Broadway & 45th St Plaza']
                 ],
-                pos: new THREE.Vector3(0, 0, -162),
-                standPos: new THREE.Vector3(0, 1.7, -148),
-                lookAt: new THREE.Vector3(0, 5.5, -168)
+                pos: { x: 0, y: 0, z: -162 },
+                standPos: { x: 0, y: 1.7, z: -148 },
+                lookAt: { x: 0, y: 5.5, z: -168 }
             }
         ];
 
@@ -796,15 +827,17 @@
         let billboardMaterial = null;
         let billboardSideMaterials = [];
 
-        // First-Person Player State
-        const player = {
+        // First-Person Curated Camera State (Starts in Street View Looking Down the Avenue)
+        const STREET_VIEW = {
             pos: new THREE.Vector3(0, 1.7, 14),
+            lookAt: new THREE.Vector3(0, 5.5, -60)
+        };
+
+        const player = {
+            pos: STREET_VIEW.pos.clone(),
             yaw: 0,
-            pitch: 0.03,
-            speed: 13.5,
-            keys: { forward: false, backward: false, left: false, right: false, turnLeft: false, turnRight: false },
-            isDragging: false,
-            prevMouse: { x: 0, y: 0 },
+            pitch: 0.05,
+            mouseParallax: { x: 0, y: 0 },
             autopilot: null,
             activeLandmark: null,
             started: false
@@ -1288,19 +1321,33 @@
             // Translucent Atrium Glass Pane
             const glassPane = new THREE.Mesh(
                 new THREE.PlaneGeometry(8.6, 6.8),
-                new THREE.MeshPhysicalMaterial({
-                    color: 0xffebb8,
-                    emissive: 0x8f6626,
-                    emissiveIntensity: 0.9,
+                new THREE.MeshBasicMaterial({
+                    color: 0xffd98e,
                     transparent: true,
-                    opacity: 0.28,
-                    roughness: 0.05,
-                    metalness: 0.1
+                    opacity: 0.24,
+                    side: THREE.DoubleSide
                 })
             );
             glassPane.rotation.y = Math.PI / 2;
             glassPane.position.set(4.75, 3.6, 0);
             building.add(glassPane);
+
+            // Luminous Back Wall & Floor Glow Panels Inside Vitrine (Pure Glow, Zero Street Reflection)
+            const backGlowPanel = new THREE.Mesh(
+                new THREE.PlaneGeometry(8.8, 6.6),
+                new THREE.MeshBasicMaterial({ color: 0x3b2610 })
+            );
+            backGlowPanel.rotation.y = Math.PI / 2;
+            backGlowPanel.position.set(-3.7, 3.6, 0);
+            building.add(backGlowPanel);
+
+            const floorGlowPad = new THREE.Mesh(
+                new THREE.PlaneGeometry(8.2, 8.8),
+                new THREE.MeshBasicMaterial({ color: 0x2b1b0a })
+            );
+            floorGlowPad.rotation.x = -Math.PI / 2;
+            floorGlowPad.position.set(0.4, 0.04, 0);
+            building.add(floorGlowPad);
 
             // Illuminated Plinth & Rotating Giant Eau de Parfum Inside Building
             const plinth = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.5, 0.65, 32), obsidianStoneMat);
@@ -1347,15 +1394,15 @@
             building.add(sign);
 
             // Dedicated Bright Vitrine Spotlights (Tightly Contained Inside Glass Box)
-            const spot = new THREE.PointLight(0xffeaab, 14.0, 9.2, 2.0);
+            const spot = new THREE.PointLight(0xffeaa8, 18.0, 9.5, 2.0);
             spot.position.set(2.2, 5.8, 0);
             building.add(spot);
 
-            const innerGlow = new THREE.PointLight(0xffda85, 11.5, 8.2, 2.0);
+            const innerGlow = new THREE.PointLight(0xffd97d, 15.0, 8.5, 2.0);
             innerGlow.position.set(-1.2, 3.0, 0);
             building.add(innerGlow);
 
-            const floorBounce = new THREE.PointLight(0xffebb3, 7.5, 6.5, 2.0);
+            const floorBounce = new THREE.PointLight(0xffebb3, 10.5, 6.8, 2.0);
             floorBounce.position.set(1.6, 1.3, 0);
             building.add(floorBounce);
 
@@ -1412,20 +1459,35 @@
             // Vitrine Glass
             const glassPane = new THREE.Mesh(
                 new THREE.PlaneGeometry(8.6, 6.8),
-                new THREE.MeshPhysicalMaterial({
-                    color: 0xffe4e8,
-                    emissive: 0x8a162d,
-                    emissiveIntensity: 0.9,
+                new THREE.MeshBasicMaterial({
+                    color: 0xffb8c6,
                     transparent: true,
-                    opacity: 0.28,
-                    roughness: 0.05
+                    opacity: 0.24,
+                    side: THREE.DoubleSide
                 })
             );
             glassPane.rotation.y = -Math.PI / 2;
             glassPane.position.set(-4.75, 3.6, 0);
             building.add(glassPane);
 
-            // Glossy Crimson-Lit Plinth & Sculptural INDISCREET Lip Color Inside
+            // Luminous Back Wall & Floor Glow Panels Inside Vitrine
+            const backGlowPanel = new THREE.Mesh(
+                new THREE.PlaneGeometry(8.8, 6.6),
+                new THREE.MeshBasicMaterial({ color: 0x380812 })
+            );
+            backGlowPanel.rotation.y = -Math.PI / 2;
+            backGlowPanel.position.set(3.7, 3.6, 0);
+            building.add(backGlowPanel);
+
+            const floorGlowPad = new THREE.Mesh(
+                new THREE.PlaneGeometry(8.2, 8.8),
+                new THREE.MeshBasicMaterial({ color: 0x26060d })
+            );
+            floorGlowPad.rotation.x = -Math.PI / 2;
+            floorGlowPad.position.set(-0.4, 0.04, 0);
+            building.add(floorGlowPad);
+
+            // Glossy Crimson-Lit Plinth & Sculptural Indiscreet Lip Color Inside
             const plinth = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.65, 3.4), new THREE.MeshStandardMaterial({
                 color: 0x050505,
                 roughness: 0.1,
@@ -1462,15 +1524,15 @@
             building.add(crown);
 
             // Bright Vitrine Crimson & Warm Gold Spotlights (Tightly Contained Inside Glass Box)
-            const spot = new THREE.PointLight(0xff788e, 12.5, 9.0, 2.0);
+            const spot = new THREE.PointLight(0xff788e, 16.5, 9.2, 2.0);
             spot.position.set(-2.0, 5.8, 0);
             building.add(spot);
 
-            const warmFill = new THREE.PointLight(0xffedb3, 12.5, 8.5, 2.0);
+            const warmFill = new THREE.PointLight(0xffedb3, 16.5, 8.8, 2.0);
             warmFill.position.set(-1.6, 3.8, 1.4);
             building.add(warmFill);
 
-            const backKey = new THREE.PointLight(0xffdc8f, 8.5, 7.5, 2.0);
+            const backKey = new THREE.PointLight(0xffdc8f, 11.5, 7.8, 2.0);
             backKey.position.set(1.4, 3.2, -1.0);
             building.add(backKey);
 
@@ -1531,20 +1593,35 @@
 
             const glassPane = new THREE.Mesh(
                 new THREE.PlaneGeometry(8.0, 7.2),
-                new THREE.MeshPhysicalMaterial({
-                    color: 0xfff5e0,
-                    emissive: 0x85612c,
-                    emissiveIntensity: 0.9,
+                new THREE.MeshBasicMaterial({
+                    color: 0xffe2a6,
                     transparent: true,
-                    opacity: 0.28,
-                    roughness: 0.05
+                    opacity: 0.24,
+                    side: THREE.DoubleSide
                 })
             );
             glassPane.rotation.y = Math.PI / 2;
             glassPane.position.set(4.45, 3.8, 0);
             building.add(glassPane);
 
-            // Sculptural INDISCREET Lip Pencil Suspended in Gallery
+            // Luminous Back Wall & Floor Glow Panels Inside Vitrine
+            const backGlowPanel = new THREE.Mesh(
+                new THREE.PlaneGeometry(8.2, 7.0),
+                new THREE.MeshBasicMaterial({ color: 0x362411 })
+            );
+            backGlowPanel.rotation.y = Math.PI / 2;
+            backGlowPanel.position.set(-3.4, 3.8, 0);
+            building.add(backGlowPanel);
+
+            const floorGlowPad = new THREE.Mesh(
+                new THREE.PlaneGeometry(7.6, 8.2),
+                new THREE.MeshBasicMaterial({ color: 0x26190b })
+            );
+            floorGlowPad.rotation.x = -Math.PI / 2;
+            floorGlowPad.position.set(0.4, 0.04, 0);
+            building.add(floorGlowPad);
+
+            // Sculptural Indiscreet Lip Pencil Suspended in Gallery
             const plinth = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 2.1, 0.5, 32), obsidianMat);
             plinth.position.set(0.5, 0.25, 0);
             building.add(plinth);
@@ -1579,15 +1656,15 @@
             beaconTip.position.set(0, 58.2, 0);
             building.add(beaconTip);
 
-            const spot = new THREE.PointLight(0xffecab, 13.5, 8.8, 2.0);
+            const spot = new THREE.PointLight(0xffecab, 17.5, 9.0, 2.0);
             spot.position.set(2.0, 6.0, 0);
             building.add(spot);
 
-            const backGlow = new THREE.PointLight(0xffdc88, 10.5, 7.8, 2.0);
+            const backGlow = new THREE.PointLight(0xffdc88, 14.5, 8.0, 2.0);
             backGlow.position.set(-1.4, 3.2, 0);
             building.add(backGlow);
 
-            const lowGlow = new THREE.PointLight(0xffedb3, 7.0, 6.5, 2.0);
+            const lowGlow = new THREE.PointLight(0xffedb3, 10.0, 6.8, 2.0);
             lowGlow.position.set(1.6, 1.4, 0);
             building.add(lowGlow);
 
@@ -1641,7 +1718,7 @@
 
             // 2. Massive Illuminated Corner Digital Campaign Billboard (Pre-loaded with image_500b07.jpeg + Fallback)
             const fallbackPosterTex = createTimesSquarePosterTexture('hero');
-            billboardMaterial = new THREE.MeshBasicMaterial({ map: fallbackPosterTex });
+            billboardMaterial = new THREE.MeshBasicMaterial({ map: fallbackPosterTex, color: 0xffffff, fog: false });
 
             const loader = new THREE.TextureLoader();
             loader.load(
@@ -1667,22 +1744,22 @@
             interactiveMeshes.push(mainBillboard);
 
             // Brushed Campaign Gold Billboard Bezel & Top Crown Marquee
-            const bbFrame = new THREE.Mesh(new THREE.BoxGeometry(16.0, 29.0, 0.35), goldMat);
+            const bbFrame = new THREE.Mesh(new THREE.BoxGeometry(16.0, 29.0, 0.35), new THREE.MeshBasicMaterial({ color: 0xDFC47B, fog: false }));
             bbFrame.position.set(0, 22.8, -8.05);
             plaza.add(bbFrame);
 
             const marqueeTex = createPlaqueTexture('TOM FORD BEAUTY', 'INDISCREET \u2022 NEW YORK', '#050505', '#B59A57');
             const topMarquee = new THREE.Mesh(
                 new THREE.PlaneGeometry(15.2, 3.2),
-                new THREE.MeshBasicMaterial({ map: marqueeTex })
+                new THREE.MeshBasicMaterial({ map: marqueeTex, fog: false })
             );
             topMarquee.position.set(0, 39.2, -7.85);
             plaza.add(topMarquee);
 
-            // Flanking Secondary Campaign Billboards Featuring image_500b07.jpeg
+            // Flanking Secondary Campaign Billboards Featuring Gemini_Generated_Image.jpeg & image_5007c6.jpeg
             const trilogyPosterTex = createTimesSquarePosterTexture('trilogy');
-            const leftSideMat = new THREE.MeshBasicMaterial({ map: trilogyPosterTex });
-            const rightSideMat = new THREE.MeshBasicMaterial({ map: trilogyPosterTex });
+            const leftSideMat = new THREE.MeshBasicMaterial({ map: trilogyPosterTex, color: 0xffffff, fog: false });
+            const rightSideMat = new THREE.MeshBasicMaterial({ map: trilogyPosterTex, color: 0xffffff, fog: false });
             billboardSideMaterials = [leftSideMat, rightSideMat];
 
             loader.load('Gemini_Generated_Image.jpeg', tex => {
@@ -1704,6 +1781,11 @@
             plaza.add(leftBillboard);
             interactiveMeshes.push(leftBillboard);
 
+            const leftFrame = new THREE.Mesh(new THREE.BoxGeometry(9.4, 16.2, 0.3), new THREE.MeshBasicMaterial({ color: 0xDFC47B, fog: false }));
+            leftFrame.position.set(-15.58, 16, -10.68);
+            leftFrame.rotation.y = 0.38;
+            plaza.add(leftFrame);
+
             const rightBillboard = new THREE.Mesh(new THREE.PlaneGeometry(8.8, 15.6), rightSideMat);
             rightBillboard.position.set(15.5, 16, -10.5);
             rightBillboard.rotation.y = -0.38;
@@ -1711,27 +1793,63 @@
             plaza.add(rightBillboard);
             interactiveMeshes.push(rightBillboard);
 
+            const rightFrame = new THREE.Mesh(new THREE.BoxGeometry(9.4, 16.2, 0.3), new THREE.MeshBasicMaterial({ color: 0xDFC47B, fog: false }));
+            rightFrame.position.set(15.58, 16, -10.68);
+            rightFrame.rotation.y = -0.38;
+            plaza.add(rightFrame);
+
             // 3. Central Glass Pavilion Exhibiting ALL THREE Products Together
             const dais = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 6.0, 0.6, 48), obsidianMat);
             dais.position.set(0, 0.3, 2);
             plaza.add(dais);
 
-            const daisGoldTrim = new THREE.Mesh(new THREE.TorusGeometry(5.62, 0.11, 8, 48), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
+            const daisGoldTrim = new THREE.Mesh(new THREE.TorusGeometry(5.62, 0.13, 8, 48), new THREE.MeshBasicMaterial({ color: 0xfff8d6, fog: false }));
             daisGoldTrim.rotation.x = Math.PI / 2;
             daisGoldTrim.position.set(0, 0.61, 2);
             plaza.add(daisGoldTrim);
 
+            // Luminous Gold Floor Pad Inside Pavilion
+            const pavilionFloorGlow = new THREE.Mesh(
+                new THREE.CircleGeometry(5.45, 48),
+                new THREE.MeshBasicMaterial({ color: 0x4f3818, fog: false })
+            );
+            pavilionFloorGlow.rotation.x = -Math.PI / 2;
+            pavilionFloorGlow.position.set(0, 0.62, 2);
+            plaza.add(pavilionFloorGlow);
+
             // Four Sleek Gold Pavilion Columns & Canopy Ring
             for (let i = 0; i < 4; i++) {
                 const angle = (i * Math.PI) / 2 + Math.PI / 4;
-                const col = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 6.8, 16), goldMat);
+                const col = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 6.8, 16), new THREE.MeshBasicMaterial({ color: 0xE5C97B, fog: false }));
                 col.position.set(Math.cos(angle) * 4.8, 3.7, 2 + Math.sin(angle) * 4.8);
                 plaza.add(col);
             }
 
-            const canopyRing = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 5.2, 0.35, 48, 1, true), goldMat);
+            const canopyRing = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 5.2, 0.35, 48, 1, true), new THREE.MeshBasicMaterial({ color: 0xE5C97B, fog: false }));
             canopyRing.position.set(0, 7.1, 2);
             plaza.add(canopyRing);
+
+            // Luminous Warm Halo Ceiling Disc & Translucent Pavilion Glow Veil
+            const canopyDisc = new THREE.Mesh(
+                new THREE.CircleGeometry(5.1, 48),
+                new THREE.MeshBasicMaterial({ color: 0xfff4cf, side: THREE.DoubleSide, fog: false })
+            );
+            canopyDisc.rotation.x = Math.PI / 2;
+            canopyDisc.position.set(0, 7.05, 2);
+            plaza.add(canopyDisc);
+
+            const pavilionGlassVeil = new THREE.Mesh(
+                new THREE.CylinderGeometry(4.85, 4.85, 6.4, 48, 1, true),
+                new THREE.MeshBasicMaterial({
+                    color: 0xffe6a6,
+                    transparent: true,
+                    opacity: 0.24,
+                    side: THREE.DoubleSide,
+                    fog: false
+                })
+            );
+            pavilionGlassVeil.position.set(0, 3.8, 2);
+            plaza.add(pavilionGlassVeil);
 
             // Triangular Collection Pedestal Inside Pavilion Holding All 3 Icons
             const collectionGroup = new THREE.Group();
@@ -1755,15 +1873,15 @@
             animatedObjects.push({ mesh: collectionGroup, rotSpeed: 0.25, bobAmp: 0, baseY: 0.65 });
 
             // Dramatic Bright Plaza Spotlights (Contained Within Pavilion)
-            const plazaSpot = new THREE.PointLight(0xffeeab, 14.5, 11.5, 2.0);
+            const plazaSpot = new THREE.PointLight(0xfff2bd, 26.0, 14.0, 2.0);
             plazaSpot.position.set(0, 6.2, 2);
             plaza.add(plazaSpot);
 
-            const frontKeyLight = new THREE.PointLight(0xffe8a3, 10.5, 9.5, 2.0);
+            const frontKeyLight = new THREE.PointLight(0xffebb0, 20.0, 12.0, 2.0);
             frontKeyLight.position.set(0, 3.8, 5.2);
             plaza.add(frontKeyLight);
 
-            const crimsonAccent = new THREE.PointLight(0xe00024, 8.0, 14.0, 2.0);
+            const crimsonAccent = new THREE.PointLight(0xe00024, 12.0, 15.0, 2.0);
             crimsonAccent.position.set(0, 12, -5.5);
             plaza.add(crimsonAccent);
 
@@ -1781,13 +1899,13 @@
         }
 
         function buildCityContext() {
-            // Matte-Finish Nocturnal Asphalt Street & Sidewalks (No Mirror Glare)
+            // Strictly Matte Nocturnal Asphalt Street & Sidewalks (Zero Specular Reflection)
             const asphaltTex = createWetAsphaltTexture();
             const streetMat = new THREE.MeshStandardMaterial({
                 map: asphaltTex,
                 color: 0x0b0b0d,
-                roughness: 0.78,
-                metalness: 0.15
+                roughness: 1.0,
+                metalness: 0.0
             });
 
             const street = new THREE.Mesh(new THREE.PlaneGeometry(90, 260), streetMat);
@@ -1798,8 +1916,8 @@
             // Raised Obsidian Sidewalk Curbs
             const sidewalkMat = new THREE.MeshStandardMaterial({
                 color: 0x09090b,
-                roughness: 0.82,
-                metalness: 0.12
+                roughness: 1.0,
+                metalness: 0.0
             });
 
             const leftSidewalk = new THREE.Mesh(new THREE.BoxGeometry(24, 0.22, 220), sidewalkMat);
@@ -1988,126 +2106,78 @@
         }
 
         /* ==========================================================================
-           CONTROLS, AUTOPILOT GLIDE & INSPECTION DRAWER
+           CURATED LANDMARK NAVIGATION & INSPECTION DRAWER
            ========================================================================== */
+        function goToStreetView() {
+            closeDrawer();
+            player.activeLandmark = null;
+            player.autopilot = {
+                targetPos: STREET_VIEW.pos.clone(),
+                lookAt: STREET_VIEW.lookAt.clone()
+            };
+        }
+
+        function goToLandmark(idx) {
+            const target = LANDMARKS[idx];
+            if (!target) return;
+            closeDrawer();
+            player.activeLandmark = idx;
+            player.autopilot = {
+                targetPos: new THREE.Vector3(target.standPos.x, target.standPos.y, target.standPos.z),
+                lookAt: new THREE.Vector3(target.lookAt.x, target.lookAt.y, target.lookAt.z)
+            };
+        }
+
         function setupControls() {
             const container = document.getElementById('canvas-container');
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
-            let downPos = { x: 0, y: 0 };
 
-            // Keyboard Movement
             window.addEventListener('keydown', e => {
                 if (!player.started) return;
-                const code = e.code;
-                if (code === 'KeyW' || code === 'ArrowUp') { player.keys.forward = true; player.autopilot = null; }
-                if (code === 'KeyS' || code === 'ArrowDown') { player.keys.backward = true; player.autopilot = null; }
-                if (code === 'KeyA') { player.keys.left = true; player.autopilot = null; }
-                if (code === 'KeyD') { player.keys.right = true; player.autopilot = null; }
-                if (code === 'ArrowLeft' || code === 'KeyQ') { player.keys.turnLeft = true; player.autopilot = null; }
-                if (code === 'ArrowRight') { player.keys.turnRight = true; player.autopilot = null; }
-                if (code === 'KeyE' && player.activeLandmark !== null) {
-                    openDrawer(player.activeLandmark);
-                }
-                if (code === 'Escape') {
+                if (e.code === 'Escape') {
                     closeDrawer();
+                } else if (e.code === 'ArrowRight' || e.code === 'ArrowDown') {
+                    const nextIdx = player.activeLandmark === null ? 0 : (player.activeLandmark + 1) % LANDMARKS.length;
+                    goToLandmark(nextIdx);
+                } else if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') {
+                    const prevIdx = player.activeLandmark === null ? LANDMARKS.length - 1 : (player.activeLandmark - 1 + LANDMARKS.length) % LANDMARKS.length;
+                    goToLandmark(prevIdx);
                 }
             });
 
-            window.addEventListener('keyup', e => {
-                const code = e.code;
-                if (code === 'KeyW' || code === 'ArrowUp') player.keys.forward = false;
-                if (code === 'KeyS' || code === 'ArrowDown') player.keys.backward = false;
-                if (code === 'KeyA') player.keys.left = false;
-                if (code === 'KeyD') player.keys.right = false;
-                if (code === 'ArrowLeft' || code === 'KeyQ') player.keys.turnLeft = false;
-                if (code === 'ArrowRight') player.keys.turnRight = false;
-            });
+            // Subtle Editorial Pointer Parallax
+            window.addEventListener('pointermove', e => {
+                if (!player.started) return;
+                player.mouseParallax.x = ((e.clientX / window.innerWidth) - 0.5) * -0.14;
+                player.mouseParallax.y = ((e.clientY / window.innerHeight) - 0.5) * -0.08;
+            }, { passive: true });
 
-            // Mouse Drag Look & Click-to-Inspect
-            container.addEventListener('mousedown', e => {
-                player.isDragging = true;
-                player.autopilot = null;
-                player.prevMouse = { x: e.clientX, y: e.clientY };
-                downPos = { x: e.clientX, y: e.clientY };
-            });
-
-            window.addEventListener('mousemove', e => {
-                if (!player.isDragging || !player.started) return;
-                const dx = e.clientX - player.prevMouse.x;
-                const dy = e.clientY - player.prevMouse.y;
-                player.yaw -= dx * 0.0032;
-                player.pitch = Math.max(-0.45, Math.min(0.65, player.pitch - dy * 0.0025));
-                player.prevMouse = { x: e.clientX, y: e.clientY };
-            });
-
-            window.addEventListener('mouseup', e => {
-                if (player.isDragging) {
-                    const dist = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
-                    if (dist < 6 && player.started) {
-                        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-                        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-                        raycaster.setFromCamera(mouse, camera);
-                        const hits = raycaster.intersectObjects(interactiveMeshes);
-                        if (hits.length > 0) {
-                            const hitObj = hits[0].object;
-                            if (hitObj.userData.isBillboardScreen) {
-                                document.getElementById('poster-upload').click();
-                            } else if (hitObj.userData.landmarkIndex !== undefined) {
-                                openDrawer(hitObj.userData.landmarkIndex);
-                            }
-                        }
+            // Click-to-Inspect Vitrine or Billboard Screen
+            container.addEventListener('click', e => {
+                if (!player.started) return;
+                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                const hits = raycaster.intersectObjects(interactiveMeshes);
+                if (hits.length > 0) {
+                    const hitObj = hits[0].object;
+                    if (hitObj.userData.isBillboardScreen) {
+                        document.getElementById('poster-upload').click();
+                    } else if (hitObj.userData.landmarkIndex !== undefined) {
+                        openDrawer(hitObj.userData.landmarkIndex);
                     }
                 }
-                player.isDragging = false;
             });
 
-            // Touch Look Support
-            container.addEventListener('touchstart', e => {
-                if (e.touches.length === 1) {
-                    player.isDragging = true;
-                    player.autopilot = null;
-                    player.prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                }
-            }, { passive: true });
-
-            container.addEventListener('touchmove', e => {
-                if (!player.isDragging || e.touches.length !== 1) return;
-                const dx = e.touches[0].clientX - player.prevMouse.x;
-                const dy = e.touches[0].clientY - player.prevMouse.y;
-                player.yaw -= dx * 0.004;
-                player.pitch = Math.max(-0.45, Math.min(0.65, player.pitch - dy * 0.003));
-                player.prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            }, { passive: true });
-
-            container.addEventListener('touchend', () => {
-                player.isDragging = false;
-            });
-
-            // Mobile On-Screen D-Pad
-            document.querySelectorAll('.pad-btn').forEach(btn => {
-                const dir = btn.dataset.move;
-                btn.addEventListener('touchstart', e => {
-                    e.preventDefault();
-                    player.keys[dir] = true;
-                    player.autopilot = null;
-                });
-                btn.addEventListener('touchend', e => {
-                    e.preventDefault();
-                    player.keys[dir] = false;
-                });
-            });
-
-            // Destination Pills (Smooth First-Person Glide)
+            // Destination Pills (Smooth Curated Camera Glide)
             document.querySelectorAll('.nav-pill').forEach(pill => {
                 pill.addEventListener('click', () => {
-                    const idx = Number(pill.dataset.dest);
-                    const target = LANDMARKS[idx];
-                    closeDrawer();
-                    player.autopilot = {
-                        targetPos: target.standPos.clone(),
-                        lookAt: target.lookAt.clone()
-                    };
+                    if (pill.dataset.dest === 'street') {
+                        goToStreetView();
+                    } else {
+                        goToLandmark(Number(pill.dataset.dest));
+                    }
                 });
             });
 
@@ -2280,7 +2350,9 @@
             const pills = document.querySelectorAll('.nav-pill');
 
             // Update District Label
-            if (player.pos.z > -48) {
+            if (player.pos.z > -10) {
+                zoneEl.textContent = 'FIFTH AVENUE \u2022 STREET VIEW';
+            } else if (player.pos.z > -48) {
                 zoneEl.textContent = 'FIFTH AVENUE \u2022 MIDTOWN';
             } else if (player.pos.z > -88) {
                 zoneEl.textContent = 'MERCER STREET \u2022 SOHO';
@@ -2304,8 +2376,12 @@
 
             player.activeLandmark = closestIdx;
 
-            pills.forEach((p, idx) => {
-                p.classList.toggle('active', idx === closestIdx);
+            pills.forEach(p => {
+                if (p.dataset.dest === 'street') {
+                    p.classList.toggle('active', closestIdx === null);
+                } else {
+                    p.classList.toggle('active', Number(p.dataset.dest) === closestIdx);
+                }
             });
 
             if (closestIdx !== null) {
@@ -2334,56 +2410,31 @@
             });
 
             if (player.started) {
-                // Smooth Autopilot Glide to Selected Landmark
+                // Smooth Curated Glide to Selected Landmark
                 if (player.autopilot) {
                     const target = player.autopilot.targetPos;
-                    player.pos.lerp(target, Math.min(1, dt * 3.2));
+                    player.pos.lerp(target, Math.min(1, dt * 3.0));
 
                     const dir = new THREE.Vector3().subVectors(player.autopilot.lookAt, player.pos).normalize();
                     const desiredYaw = Math.atan2(-dir.x, -dir.z);
                     const desiredPitch = Math.asin(Math.max(-0.5, Math.min(0.6, dir.y)));
 
-                    // Shortest angle interpolation
                     let diff = desiredYaw - player.yaw;
                     while (diff < -Math.PI) diff += Math.PI * 2;
                     while (diff > Math.PI) diff -= Math.PI * 2;
 
-                    player.yaw += diff * Math.min(1, dt * 4.5);
-                    player.pitch += (desiredPitch - player.pitch) * Math.min(1, dt * 4.5);
-
-                    if (player.pos.distanceTo(target) < 0.45) {
-                        player.autopilot = null;
-                    }
-                } else {
-                    // Manual First-Person Walk
-                    if (player.keys.turnLeft) player.yaw += 1.6 * dt;
-                    if (player.keys.turnRight) player.yaw -= 1.6 * dt;
-
-                    const forwardVec = new THREE.Vector3(-Math.sin(player.yaw), 0, -Math.cos(player.yaw));
-                    const rightVec = new THREE.Vector3(Math.cos(player.yaw), 0, -Math.sin(player.yaw));
-
-                    if (player.keys.forward) player.pos.addScaledVector(forwardVec, player.speed * dt);
-                    if (player.keys.backward) player.pos.addScaledVector(forwardVec, -player.speed * dt);
-                    if (player.keys.right) player.pos.addScaledVector(rightVec, player.speed * dt);
-                    if (player.keys.left) player.pos.addScaledVector(rightVec, -player.speed * dt);
-
-                    // Subtle First-Person Walking Head-Bob
-                    const isMoving = player.keys.forward || player.keys.backward || player.keys.left || player.keys.right;
-                    if (isMoving) {
-                        player.pos.y = 1.7 + Math.sin(elapsed * 9.5) * 0.045;
-                    } else {
-                        player.pos.y += (1.7 - player.pos.y) * Math.min(1, dt * 8);
-                    }
-
-                    // Avenue & Plaza Boundaries (No subways, pure street-level architectural corridor)
-                    const maxX = player.pos.z < -135 ? 14 : 6.2;
-                    player.pos.x = Math.max(-maxX, Math.min(maxX, player.pos.x));
-                    player.pos.z = Math.max(-154, Math.min(18, player.pos.z));
+                    player.yaw += diff * Math.min(1, dt * 4.2);
+                    player.pitch += (desiredPitch - player.pitch) * Math.min(1, dt * 4.2);
                 }
 
-                camera.position.copy(player.pos);
-                camera.rotation.y = player.yaw;
-                camera.rotation.x = player.pitch;
+                // Gentle breathing & subtle pointer parallax
+                camera.position.set(
+                    player.pos.x,
+                    player.pos.y + Math.sin(elapsed * 1.1) * 0.025,
+                    player.pos.z
+                );
+                camera.rotation.y = player.yaw + player.mouseParallax.x;
+                camera.rotation.x = player.pitch + player.mouseParallax.y;
 
                 updateProximityAndHUD();
                 drawRadar();
@@ -2415,6 +2466,7 @@
                 player.started = true;
                 document.getElementById('title-screen').classList.add('hidden');
                 document.getElementById('hud').classList.add('visible');
+                goToStreetView();
                 initAudio();
             });
         };
