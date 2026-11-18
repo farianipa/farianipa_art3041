@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nine Studies — Faria Hossain</title>
+<title>Chair Sequence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
@@ -93,24 +93,11 @@
     color: var(--ink);
   }
   .title-header .role{
-    margin: 0 0 8px;
+    margin: 0 0 36px;
     color: var(--gold-light);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     font-size: 0.85rem;
-  }
-  .title-header .email{
-    display: inline-block;
-    margin-bottom: 38px;
-    color: var(--muted);
-    font-size: 0.9rem;
-    letter-spacing: 0.04em;
-    transition: color 0.25s ease;
-  }
-  .title-header .email:hover{
-    color: var(--gold-light);
-    text-decoration: underline;
-    text-underline-offset: 4px;
   }
 
   .btn{
@@ -137,7 +124,7 @@
   main{
     position: relative;
     z-index: 1;
-    padding: 88px 24px;
+    padding: 88px 24px 112px;
   }
 
   .intro{
@@ -230,21 +217,10 @@
     color: rgba(250, 248, 245, 0.82);
   }
 
-  footer{
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 56px 24px 80px;
-    color: var(--muted);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    font-size: 0.78rem;
-  }
-
   /* ---------- breakpoint ---------- */
   @media (max-width: 768px){
     .title-header{ padding: 76px 20px 56px; }
-    main{ padding: 56px 20px; }
+    main{ padding: 56px 20px 80px; }
     .intro{ margin-bottom: 40px; }
     .grid-wrap{ padding: 32px 20px; }
     .grid{
@@ -279,15 +255,15 @@
 
   <header class="title-header">
     <h1>Chair Sequence</h1>
-    <p class="role">Faria Hossain</p>
+    <p class="role">Nine Studies</p>
     <div>
-      <a href="#sequence" class="btn">View Archive</a>
+      <a href="#sequence" class="btn">View Sequence</a>
     </div>
   </header>
 
   <main id="sequence">
     <div class="intro">
-      <h2>Archive</h2>
+      <h2>The Sequence</h2>
       <p>Each step builds on the last—a scene added, a style borrowed, a perspective corrected—tracing how a single chair became a fully realized room.</p>
     </div>
 
@@ -378,10 +354,6 @@
       </div>
     </div>
   </main>
-
-  <footer>
-    Faria Hossain · ART 3041 · Fall 2026
-  </footer>
 
 </body>
 </html>
