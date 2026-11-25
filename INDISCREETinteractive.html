@@ -3,2472 +3,963 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TOM FORD BEAUTY — INDISCREET | NEW YORK</title>
-    <!-- Three.js & Tone.js CDNs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>TOM FORD BEAUTY — INDISCREET</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
         /* ==========================================================================
            BRAND SYSTEM TOKENS & RESET
            ========================================================================== */
         :root {
+            --bg-pure: #FFFFFF;
+            --bg-ivory: #F9F9F7;
             --obsidian: #000000;
             --gold: #B59A57;
+            --gold-bright: #D4BE82;
             --crimson: #63000E;
-            --off-white: #F9F9F7;
-            --pure-white: #FFFFFF;
-            --border-gold: rgba(181, 154, 87, 0.35);
-            --glass-bg: rgba(5, 5, 5, 0.86);
+            --crimson-deep: #3B0008;
+            --muted: #7A7873;
+            --border: #E6E6E2;
+            color-scheme: light;
         }
 
         *, *::before, *::after {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+            background: var(--bg-pure);
+        }
+
+        body {
+            background: var(--bg-pure);
+            color: var(--obsidian);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            letter-spacing: 0.14em;
+            overflow-x: hidden;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: var(--obsidian);
-            color: var(--pure-white);
-            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-            letter-spacing: 0.14em;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        #canvas-container {
-            position: fixed;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            cursor: default;
-        }
-
-        /* Subtle 35mm Film Grain Overlay */
-        .film-grain {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 5;
-            opacity: 0.038;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-        }
-
         /* ==========================================================================
-           TITLE SCREEN OVERLAY
+           MINIMAL FIXED NAVIGATION & PROGRESS DOTS
            ========================================================================== */
-        #title-screen {
+        .top-header {
             position: fixed;
-            inset: 0;
-            z-index: 100;
-            background: radial-gradient(circle at center, rgba(18, 12, 8, 0.72) 0%, rgba(0, 0, 0, 0.96) 100%);
-            backdrop-filter: blur(6px);
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 60;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            text-align: center;
-            padding: 24px;
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.9s ease;
-        }
-
-        #title-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
+            padding: 24px clamp(20px, 5vw, 56px);
             pointer-events: none;
         }
 
-        .title-brand {
-            font-size: clamp(12px, 1.4vw, 15px);
+        .brand-lockup {
+            pointer-events: auto;
+            text-decoration: none;
+            color: var(--obsidian);
+            font-size: 10px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.36em;
-            color: var(--pure-white);
-            margin-bottom: 14px;
-        }
-
-        .title-main {
-            font-size: clamp(42px, 8.5vw, 112px);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--gold);
-            line-height: 1;
-            margin: 0;
-        }
-
-        .title-sub {
-            font-size: 11px;
-            font-weight: 400;
             text-transform: uppercase;
             letter-spacing: 0.28em;
-            color: var(--off-white);
-            margin-top: 22px;
-            opacity: 0.85;
         }
 
-        .title-rule {
-            width: 48px;
-            height: 1px;
-            background: var(--gold);
-            margin: 28px 0;
+        .brand-lockup span {
+            color: var(--gold);
+            margin-left: 10px;
         }
 
-        #enter-btn {
-            background: transparent;
-            color: var(--pure-white);
-            border: 1px solid var(--gold);
-            padding: 16px 46px;
-            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-            font-size: 11px;
+        .top-controls {
+            pointer-events: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .pill-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border);
+            color: var(--obsidian);
+            font-family: inherit;
+            font-size: 8px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.22em;
+            padding: 8px 14px;
             cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .pill-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .side-dots {
+            position: fixed;
+            right: clamp(16px, 3vw, 36px);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .side-dot {
+            width: 8px;
+            height: 8px;
+            border: 1px solid var(--gold);
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
             transition: all 0.3s ease;
         }
 
-        #enter-btn:hover {
-            background: var(--gold);
-            color: var(--obsidian);
-        }
-
-        .controls-hint {
-            margin-top: 32px;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.22em;
-            color: rgba(249, 249, 247, 0.55);
-            line-height: 1.8;
+        .side-dot.active {
+            background: var(--obsidian);
+            border-color: var(--obsidian);
+            transform: scale(1.25);
         }
 
         /* ==========================================================================
-           MINIMALIST EDITORIAL HUD
+           FULL-PAGE PRODUCT STAGES (100VH SNAP)
            ========================================================================== */
-        #hud {
-            position: fixed;
-            inset: 0;
-            z-index: 20;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.8s ease 0.2s;
-        }
-
-        #hud.visible {
-            opacity: 1;
-        }
-
-        /* Top-Left Brand Lockup */
-        .hud-brand {
-            position: absolute;
-            top: 28px;
-            left: 32px;
-            pointer-events: auto;
-        }
-
-        .hud-brand-top {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.24em;
-            color: var(--pure-white);
-            line-height: 1.2;
-        }
-
-        .hud-brand-sub {
-            font-size: 10px;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.28em;
-            color: var(--gold);
-            margin-top: 3px;
-        }
-
-        .hud-location {
-            margin-top: 14px;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.22em;
-            color: rgba(249, 249, 247, 0.65);
-            border-left: 1px solid var(--gold);
-            padding-left: 10px;
-        }
-
-        /* Top-Right Radar & Audio/Poster Controls */
-        .hud-top-right {
-            position: absolute;
-            top: 28px;
-            right: 32px;
+        .stage {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            background: radial-gradient(circle at 50% 48%, #FFFFFF 0%, #FAF9F6 78%, #F3F2EE 100%);
+            border-bottom: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
-            pointer-events: auto;
+            justify-content: space-between;
+            align-items: center;
+            padding: clamp(72px, 10vh, 96px) 24px clamp(32px, 5vh, 52px);
+            overflow: hidden;
         }
 
-        .radar-frame {
-            width: 126px;
-            height: 126px;
-            background: var(--glass-bg);
-            border: 1px solid var(--border-gold);
-            position: relative;
-        }
-
-        #radar-canvas {
+        /* Interactive Full-Bleed Canvas Behind Product */
+        .fx-canvas {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
-            display: block;
+            z-index: 2;
+            touch-action: none;
         }
 
-        .radar-label {
-            position: absolute;
-            bottom: 5px;
-            left: 7px;
-            font-size: 7px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--gold);
-            pointer-events: none;
-        }
-
-        .hud-utility-row {
-            display: flex;
-            gap: 8px;
-        }
-
-        .hud-mini-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-gold);
-            color: var(--off-white);
-            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-            font-size: 8px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            padding: 7px 11px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .hud-mini-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-        }
-
-        .hud-mini-btn.primary-slot {
-            background: rgba(181, 154, 87, 0.16);
-            border-color: var(--gold);
-            color: var(--pure-white);
-        }
-
-        .hud-mini-btn.primary-slot:hover {
-            background: var(--gold);
-            color: var(--obsidian);
-        }
-
-        /* Drag & Drop Poster Overlay */
-        #drop-overlay {
-            position: fixed;
-            inset: 18px;
-            z-index: 150;
-            background: rgba(5, 5, 5, 0.92);
-            border: 1px solid var(--gold);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* Editorial Title Block */
+        .stage-head {
+            position: relative;
+            z-index: 10;
             text-align: center;
             pointer-events: none;
         }
 
-        #drop-overlay.active {
-            display: flex;
-        }
-
-        #drop-overlay .drop-kicker {
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-
-        #drop-overlay .drop-title {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--pure-white);
-        }
-
-        /* Center Crosshair & Proximity Prompt */
-        .crosshair {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 4px;
-            height: 4px;
-            background: rgba(181, 154, 87, 0.7);
-            transform: translate(-50%, -50%);
-        }
-
-        #proximity-prompt {
-            position: absolute;
-            top: 58%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--glass-bg);
-            border: 1px solid var(--gold);
-            padding: 12px 24px;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease, transform 0.25s ease;
-        }
-
-        #proximity-prompt.active {
-            opacity: 1;
-            pointer-events: auto;
-            cursor: pointer;
-        }
-
-        .prompt-tag {
-            font-size: 8px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.24em;
-            color: var(--gold);
-            margin-bottom: 4px;
-        }
-
-        .prompt-action {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--pure-white);
-        }
-
-        /* Bottom Destination Fast-Walk Bar */
-        .hud-nav {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            width: max-content;
-            max-width: 94vw;
-            pointer-events: auto;
-        }
-
-        .hud-nav-kicker {
+        .stage-index {
             font-size: 9px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.32em;
             color: var(--gold);
-            background: rgba(5, 5, 5, 0.88);
-            border: 1px solid var(--border-gold);
-            padding: 6px 18px;
+            margin-bottom: 10px;
         }
 
-        .hud-nav-row {
+        .stage-title {
+            font-size: clamp(26px, 5vw, 56px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--obsidian);
+            line-height: 1.05;
+        }
+
+        .stage-sub {
+            font-size: 9px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.26em;
+            color: var(--muted);
+            margin-top: 10px;
+        }
+
+        /* Center Sculptural Object Wrapper */
+        .object-stage {
+            position: relative;
+            z-index: 12;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .object-stage:hover {
+            transform: translateY(-6px);
+        }
+
+        .object-stage:active {
+            transform: scale(0.97);
+        }
+
+        .product-art {
+            height: clamp(250px, 44vh, 390px);
+            width: auto;
+            overflow: visible;
+            filter: drop-shadow(0 24px 36px rgba(0, 0, 0, 0.1));
+            transition: transform 0.25s ease, filter 0.3s ease;
+        }
+
+        .object-stage:hover .product-art {
+            filter: drop-shadow(0 30px 44px rgba(181, 154, 87, 0.22));
+        }
+
+        /* Cap & Nozzle Mechanical Animations */
+        .nozzle-cap {
+            transition: transform 0.12s cubic-bezier(0.2, 0.9, 0.3, 1);
+        }
+
+        .spraying .nozzle-cap {
+            transform: translateY(7px);
+        }
+
+        .bullet-core {
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .retracted .bullet-core {
+            transform: translateY(46px);
+        }
+
+        /* Bottom Action Prompt & Notes */
+        .stage-foot {
+            position: relative;
+            z-index: 12;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .action-bar {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
-            background: rgba(5, 5, 5, 0.92);
-            border: 1px solid var(--gold);
-            padding: 10px;
-            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.85), 0 0 28px rgba(181, 154, 87, 0.14);
         }
 
-        .nav-pill {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-gold);
-            color: var(--pure-white);
-            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            padding: 14px 20px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .nav-pill:hover, .nav-pill.active {
-            background: var(--gold);
-            color: var(--obsidian);
-            border-color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-        .nav-pill {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-gold);
-            color: var(--off-white);
-            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        .action-btn {
+            background: var(--obsidian);
+            color: #FFFFFF;
+            border: 1px solid var(--obsidian);
+            font-family: inherit;
             font-size: 9px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.18em;
-            padding: 11px 16px;
+            letter-spacing: 0.24em;
+            padding: 12px 24px;
             cursor: pointer;
             transition: all 0.25s ease;
         }
 
-        .nav-pill:hover, .nav-pill.active {
+        .action-btn:hover {
             background: var(--gold);
-            color: var(--obsidian);
             border-color: var(--gold);
-        }
-
-        /* Mobile Touch D-Pad (Visible on Touch / Narrow Screens) */
-        .touch-pad {
-            display: none;
-            position: absolute;
-            bottom: 84px;
-            left: 24px;
-            gap: 6px;
-            pointer-events: auto;
-        }
-
-        @media (max-width: 820px) {
-            .touch-pad {
-                display: grid;
-                grid-template-columns: repeat(3, 40px);
-                grid-template-rows: repeat(2, 40px);
-            }
-            .hud-brand { top: 18px; left: 18px; }
-            .hud-top-right { top: 18px; right: 18px; }
-            .radar-frame { width: 92px; height: 92px; }
-            .nav-pill { padding: 8px 10px; font-size: 8px; }
-        }
-
-        .pad-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-gold);
-            color: var(--pure-white);
-            font-size: 11px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            touch-action: manipulation;
-        }
-
-        .pad-btn:active {
-            background: var(--gold);
             color: var(--obsidian);
         }
 
-        /* ==========================================================================
-           EDITORIAL INSPECTION DRAWER
-           ========================================================================== */
-        #inspection-drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: min(440px, 100vw);
-            z-index: 80;
-            background: rgba(4, 4, 4, 0.96);
-            border-left: 1px solid var(--gold);
-            padding: 40px 34px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transform: translateX(100%);
-            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow-y: auto;
+        .action-btn.ghost {
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--obsidian);
+            border: 1px solid var(--border);
         }
 
-        #inspection-drawer.open {
-            transform: translateX(0);
+        .action-btn.ghost:hover {
+            border-color: var(--crimson);
+            color: var(--crimson);
         }
 
-        .drawer-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-gold);
-            padding-bottom: 16px;
-        }
-
-        .drawer-index {
+        .scent-notes {
             font-size: 9px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.24em;
             color: var(--gold);
+            min-height: 14px;
+            opacity: 0.85;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        #drawer-close {
-            background: transparent;
-            border: 1px solid var(--border-gold);
-            color: var(--pure-white);
-            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        .scroll-cue {
             font-size: 8px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            padding: 7px 14px;
-            cursor: pointer;
+            letter-spacing: 0.3em;
+            color: var(--muted);
+            text-decoration: none;
+            margin-top: 2px;
         }
 
-        #drawer-close:hover {
-            background: var(--gold);
+        .scroll-cue:hover {
             color: var(--obsidian);
         }
 
-        .drawer-body {
-            margin: 32px 0;
+        /* Custom Pigment Cursor Follower on Lipstick & Pencil Stages */
+        .pigment-cursor {
+            position: fixed;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1px solid var(--crimson);
+            background: rgba(99, 0, 14, 0.16);
+            pointer-events: none;
+            z-index: 80;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
         }
 
-        .drawer-arch {
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.22em;
-            color: rgba(249, 249, 247, 0.6);
-            margin-bottom: 10px;
+        .pigment-cursor.visible {
+            opacity: 1;
         }
 
-        .drawer-title {
-            font-size: 24px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--pure-white);
-            line-height: 1.15;
-            margin: 0 0 10px 0;
-        }
-
-        .drawer-shade {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--gold);
-            margin-bottom: 24px;
-        }
-
-        .swatch-strip {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 26px;
-            padding: 12px;
-            border: 1px solid var(--border-gold);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .swatch-box {
-            width: 34px;
-            height: 34px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            flex-shrink: 0;
-        }
-
-        .swatch-meta {
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            line-height: 1.5;
-            color: var(--off-white);
-        }
-
-        .drawer-desc {
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 1.75;
-            letter-spacing: 0.06em;
-            color: rgba(249, 249, 247, 0.85);
-            margin: 0 0 28px 0;
-        }
-
-        .drawer-specs {
-            border-top: 1px solid var(--border-gold);
-            padding-top: 18px;
-            display: grid;
-            gap: 12px;
-        }
-
-        .spec-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-        }
-
-        .spec-row span:first-child {
-            color: rgba(249, 249, 247, 0.55);
-        }
-
-        .spec-row span:last-child {
-            color: var(--gold);
-            font-weight: 700;
-            text-align: right;
-        }
-
-        .drawer-footer {
-            border-top: 1px solid var(--border-gold);
-            padding-top: 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.22em;
-            color: var(--gold);
-        }
-
-        #poster-upload {
-            display: none;
+        .pigment-cursor.sharp {
+            width: 7px;
+            height: 7px;
+            background: var(--crimson);
         }
     </style>
 </head>
 <body>
 
-    <!-- 3D WebGL Viewport -->
-    <div id="canvas-container"></div>
-    <div class="film-grain"></div>
-
-    <!-- Title Screen Overlay -->
-    <div id="title-screen">
-        <div class="title-brand">Tom Ford Beauty</div>
-        <h1 class="title-main">INDISCREET</h1>
-        <div class="title-sub">New York &mdash; Architectural Exhibition</div>
-        <div class="title-rule"></div>
-        <button type="button" id="enter-btn">Enter The Exhibition</button>
-        <div class="controls-hint">
-            Select A Landmark Below To Explore &bull; Click Building To Inspect
+    <!-- Minimal Fixed Header -->
+    <header class="top-header">
+        <a href="#parfum-stage" class="brand-lockup">TOM FORD BEAUTY <span>INDISCREET</span></a>
+        <div class="top-controls">
+            <button type="button" class="pill-btn" id="soundToggle">Sound: Off</button>
         </div>
-    </div>
+    </header>
 
-    <!-- Minimalist Editorial HUD -->
-    <div id="hud">
-        <div class="hud-brand">
-            <div class="hud-brand-top">TOM FORD BEAUTY</div>
-            <div class="hud-brand-sub">INDISCREET</div>
-            <div class="hud-location" id="hud-zone">FIFTH AVENUE &bull; MIDTOWN</div>
+    <!-- Page Indicator Dots -->
+    <nav class="side-dots" aria-label="Product Pages">
+        <button type="button" class="side-dot active" data-target="parfum-stage" aria-label="01 Eau de Parfum"></button>
+        <button type="button" class="side-dot" data-target="lipstick-stage" aria-label="02 Indiscreet Lip Color"></button>
+        <button type="button" class="side-dot" data-target="pencil-stage" aria-label="03 Indiscreet Lip Pencil"></button>
+    </nav>
+
+    <div class="pigment-cursor" id="pigmentCursor"></div>
+
+    <!-- ==========================================================================
+         PAGE 01: INDISCREET EAU DE PARFUM (CLICK TO SPRAY MIST)
+         ========================================================================== -->
+    <section class="stage" id="parfum-stage">
+        <canvas class="fx-canvas" id="mistCanvas"></canvas>
+
+        <div class="stage-head">
+            <div class="stage-index">01 / 03 &mdash; Eau de Parfum</div>
+            <h1 class="stage-title">INDISCREET</h1>
+            <div class="stage-sub">Click Bottle To Release Mist</div>
         </div>
 
-        <div class="hud-top-right">
-            <div class="radar-frame">
-                <canvas id="radar-canvas" width="126" height="126"></canvas>
-                <span class="radar-label">NYC GRID</span>
+        <div class="object-stage" id="parfumTrigger" role="button" tabindex="0" aria-label="Spray Indiscreet Eau de Parfum">
+            <svg class="product-art" id="parfumSvg" viewBox="0 0 220 320" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="glassBody" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#120B08"/>
+                        <stop offset="20%" stop-color="#3D261A"/>
+                        <stop offset="50%" stop-color="#22150F"/>
+                        <stop offset="82%" stop-color="#4A2F21"/>
+                        <stop offset="100%" stop-color="#0D0806"/>
+                    </linearGradient>
+                    <linearGradient id="goldFoil" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#E3CE91"/>
+                        <stop offset="50%" stop-color="#B59A57"/>
+                        <stop offset="100%" stop-color="#876E32"/>
+                    </linearGradient>
+                    <linearGradient id="rimHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.65"/>
+                        <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.06"/>
+                    </linearGradient>
+                </defs>
+
+                <!-- Pressable T-Cap / Atomizer Head -->
+                <g class="nozzle-cap">
+                    <polygon points="46,22 174,22 162,44 58,44" fill="url(#glassBody)"/>
+                    <rect x="46" y="22" width="128" height="3.5" fill="url(#rimHighlight)"/>
+                    <rect x="80" y="44" width="60" height="24" fill="url(#glassBody)"/>
+                </g>
+
+                <!-- Gold Neck Cord & Collar -->
+                <rect x="76" y="66" width="68" height="5" rx="1.5" fill="url(#goldFoil)"/>
+                <rect x="80" y="71" width="60" height="12" fill="#170E0A"/>
+
+                <!-- Architectural Shoulders & Smoked Glass Flacon -->
+                <polygon points="60,83 160,83 172,100 48,100" fill="url(#glassBody)"/>
+                <rect x="48" y="100" width="124" height="190" rx="2" fill="url(#glassBody)"/>
+
+                <!-- Bevel Specular Highlights -->
+                <rect x="55" y="103" width="6" height="182" fill="url(#rimHighlight)"/>
+                <rect x="159" y="103" width="3.5" height="182" fill="url(#rimHighlight)" opacity="0.5"/>
+                <rect x="48" y="282" width="124" height="8" fill="#080504"/>
+
+                <!-- Brushed Gold Label Plaque -->
+                <rect x="69" y="124" width="82" height="104" fill="url(#goldFoil)"/>
+                <rect x="73" y="128" width="74" height="96" fill="none" stroke="#3B2E12" stroke-width="0.9"/>
+
+                <text x="110" y="162" text-anchor="middle" fill="#14110A" font-family="Arial, sans-serif" font-weight="700" font-size="10.5" letter-spacing="1.6">TOM FORD</text>
+                <text x="110" y="179" text-anchor="middle" fill="#14110A" font-family="Arial, sans-serif" font-weight="700" font-size="9" letter-spacing="1.4">INDISCREET</text>
+                <line x1="88" y1="191" x2="132" y2="191" stroke="#14110A" stroke-width="0.7"/>
+                <text x="110" y="206" text-anchor="middle" fill="#14110A" font-family="Arial, sans-serif" font-size="6" letter-spacing="1.4">EAU DE PARFUM</text>
+            </svg>
+        </div>
+
+        <div class="stage-foot">
+            <div class="scent-notes" id="scentReadout">SMOKED TOBACCO &bull; VANILLA BOURBON &bull; CRIMSON SPICE</div>
+            <div class="action-bar">
+                <button type="button" class="action-btn" id="sprayBtn">Spray Fragrance</button>
             </div>
-            <div class="hud-utility-row">
-                <button type="button" class="hud-mini-btn" id="audio-toggle">Sound: On</button>
-                <button type="button" class="hud-mini-btn" id="poster-btn">Load Poster</button>
-                <input type="file" id="poster-upload" accept="image/*">
-            </div>
+            <a href="#lipstick-stage" class="scroll-cue">Scroll &darr;</a>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         PAGE 02: INDISCREET LIP COLOR (CLICK OR DRAG TO SWATCH VELVET CRIMSON)
+         ========================================================================== -->
+    <section class="stage" id="lipstick-stage">
+        <canvas class="fx-canvas" id="lipstickCanvas"></canvas>
+
+        <div class="stage-head">
+            <div class="stage-index">02 / 03 &mdash; Lip Color</div>
+            <h2 class="stage-title">INDISCREET</h2>
+            <div class="stage-sub">Click Or Drag Across Canvas To Swatch</div>
         </div>
 
-        <div id="proximity-prompt">
-            <div class="prompt-tag" id="prompt-building">FIFTH AVE MONOLITH</div>
-            <div class="prompt-action">Click To Inspect</div>
+        <div class="object-stage" id="lipstickTrigger" role="button" tabindex="0" aria-label="Swatch Indiscreet Lip Color">
+            <svg class="product-art" id="lipstickSvg" viewBox="0 0 180 320" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="oxbloodBullet" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#360007"/>
+                        <stop offset="30%" stop-color="#7D0012"/>
+                        <stop offset="58%" stop-color="#58000C"/>
+                        <stop offset="88%" stop-color="#8C071B"/>
+                        <stop offset="100%" stop-color="#290005"/>
+                    </linearGradient>
+                    <linearGradient id="oxbloodTip" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#9A0B21"/>
+                        <stop offset="100%" stop-color="#47000A"/>
+                    </linearGradient>
+                    <linearGradient id="flutedCase" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#070708"/>
+                        <stop offset="32%" stop-color="#262629"/>
+                        <stop offset="70%" stop-color="#111113"/>
+                        <stop offset="100%" stop-color="#050506"/>
+                    </linearGradient>
+                </defs>
+
+                <!-- Sculpted Crimson Bullet (Retracts on Twist Toggle) -->
+                <g class="bullet-core">
+                    <path d="M 66,56 C 66,34 114,20 114,44 L 114,114 L 66,114 Z" fill="url(#oxbloodBullet)"/>
+                    <ellipse cx="90" cy="40" rx="22.5" ry="11.5" transform="rotate(-24 90 40)" fill="url(#oxbloodTip)"/>
+                    <rect x="73" y="54" width="4.5" height="54" rx="2" fill="#FFFFFF" opacity="0.28"/>
+                </g>
+
+                <!-- Gold Swivel Collar -->
+                <rect x="62" y="114" width="56" height="44" fill="url(#goldFoil)"/>
+                <rect x="67" y="116" width="6" height="40" fill="#FFFFFF" opacity="0.35"/>
+
+                <!-- Top Gold Bezel -->
+                <rect x="53" y="158" width="74" height="10" fill="url(#goldFoil)"/>
+
+                <!-- Square Fluted Obsidian Case -->
+                <rect x="55" y="168" width="70" height="122" fill="url(#flutedCase)"/>
+                <rect x="53" y="168" width="4.5" height="122" fill="url(#goldFoil)"/>
+                <rect x="122.5" y="168" width="4.5" height="122" fill="url(#goldFoil)"/>
+
+                <!-- Vertical Architectural Fluting -->
+                <g stroke="#3B3B40" stroke-width="1.4">
+                    <line x1="63" y1="170" x2="63" y2="288"/>
+                    <line x1="70" y1="170" x2="70" y2="288"/>
+                    <line x1="77" y1="170" x2="77" y2="288"/>
+                    <line x1="84" y1="170" x2="84" y2="288"/>
+                    <line x1="90" y1="170" x2="90" y2="288"/>
+                    <line x1="96" y1="170" x2="96" y2="288"/>
+                    <line x1="103" y1="170" x2="103" y2="288"/>
+                    <line x1="110" y1="170" x2="110" y2="288"/>
+                    <line x1="117" y1="170" x2="117" y2="288"/>
+                </g>
+
+                <!-- Bottom Gold Bezel -->
+                <rect x="53" y="290" width="74" height="10" fill="url(#goldFoil)"/>
+            </svg>
         </div>
 
-        <!-- Curated Landmark Navigation Bar -->
-        <nav class="hud-nav" aria-label="Architectural Landmarks">
-            <div class="hud-nav-kicker">Select Exhibition Destination</div>
-            <div class="hud-nav-row">
-                <button type="button" class="nav-pill active" data-dest="street">00. Avenue View</button>
-                <button type="button" class="nav-pill" data-dest="0">01. Fifth Ave Monolith</button>
-                <button type="button" class="nav-pill" data-dest="1">02. SoHo Cast-Iron</button>
-                <button type="button" class="nav-pill" data-dest="2">03. Madison Tower</button>
-                <button type="button" class="nav-pill" data-dest="3">04. Times Square Plaza</button>
+        <div class="stage-foot">
+            <div class="scent-notes">SHADE: INVITE ONLY &bull; #63000E</div>
+            <div class="action-bar">
+                <button type="button" class="action-btn" id="swatchBtn">Apply Swatch</button>
+                <button type="button" class="action-btn ghost" id="twistBtn">Twist Case</button>
+                <button type="button" class="action-btn ghost" id="clearLipBtn">Clear</button>
             </div>
-        </nav>
-    </div>
+            <a href="#pencil-stage" class="scroll-cue">Scroll &darr;</a>
+        </div>
+    </section>
 
-    <!-- Editorial Product & Architecture Inspection Drawer -->
-    <aside id="inspection-drawer" aria-hidden="true">
-        <div>
-            <div class="drawer-top">
-                <span class="drawer-index" id="drawer-index">LANDMARK 01 / 04</span>
-                <button type="button" id="drawer-close">Close [ESC]</button>
-            </div>
-            <div class="drawer-body">
-                <div class="drawer-arch" id="drawer-arch">FIFTH AVENUE MONOLITH</div>
-                <h2 class="drawer-title" id="drawer-title">INDISCREET EAU DE PARFUM</h2>
-                <div class="drawer-shade" id="drawer-shade">SMOKED TOBACCO &bull; VANILLA &bull; CRIMSON SPICE</div>
+    <!-- ==========================================================================
+         PAGE 03: INDISCREET LIP PENCIL (CLICK OR DRAG TO DRAW OXBLOOD CONTOUR)
+         ========================================================================== -->
+    <section class="stage" id="pencil-stage">
+        <canvas class="fx-canvas" id="pencilCanvas"></canvas>
 
-                <div class="swatch-strip">
-                    <div class="swatch-box" id="drawer-swatch" style="background: #3A1F14;"></div>
-                    <div class="swatch-meta" id="drawer-swatch-label">
-                        ACCORD: SMOKED AMBER &amp; OXBLOOD<br>
-                        ARCHITECTURAL VITRINE 01
-                    </div>
-                </div>
-
-                <p class="drawer-desc" id="drawer-desc">
-                    Housed within a towering smoked-amber glass and brushed gold Art Deco monolith modeled after the iconic Private Blend flacon. Warm chiaroscuro spotlights illuminate the sculptural bottle rotating inside the ground-floor atrium.
-                </p>
-
-                <div class="drawer-specs" id="drawer-specs">
-                    <div class="spec-row"><span>Silhouette</span><span>Private Blend Flacon Tower</span></div>
-                    <div class="spec-row"><span>Palette</span><span>Obsidian / Smoked Amber / Gold</span></div>
-                    <div class="spec-row"><span>District</span><span>Fifth Avenue, New York</span></div>
-                </div>
-            </div>
+        <div class="stage-head">
+            <div class="stage-index">03 / 03 &mdash; Lip Pencil</div>
+            <h2 class="stage-title">INDISCREET</h2>
+            <div class="stage-sub">Click Or Drag Across Canvas To Trace Contour</div>
         </div>
 
-        <div class="drawer-footer">
-            <span>TOM FORD BEAUTY</span>
-            <span>INDISCREET</span>
-        </div>
-    </aside>
+        <div class="object-stage" id="pencilTrigger" role="button" tabindex="0" aria-label="Draw with Indiscreet Lip Pencil">
+            <svg class="product-art" id="pencilSvg" viewBox="0 0 160 320" xmlns="http://www.w3.org/2000/svg">
+                <g transform="rotate(14 80 165)">
+                    <!-- Brushed Gold End Cap -->
+                    <rect x="70" y="18" width="20" height="58" rx="1.5" fill="url(#goldFoil)"/>
+                    <rect x="74" y="20" width="3" height="54" fill="#FFFFFF" opacity="0.42"/>
+                    <rect x="70" y="73" width="20" height="3.5" fill="#6E5824"/>
 
-    <!-- Drag & Drop Poster Slot Feedback -->
-    <div id="drop-overlay">
-        <div class="drop-kicker">Times Square Billboard Slot</div>
-        <div class="drop-title">Drop Poster Image To Mount</div>
-    </div>
+                    <!-- Gloss Black Lacquer Barrel -->
+                    <rect x="70" y="76.5" width="20" height="168" fill="#0B0B0D"/>
+                    <rect x="74" y="78" width="2.5" height="164" fill="#FFFFFF" opacity="0.22"/>
+
+                    <!-- Gold TOM FORD Barrel Stamp -->
+                    <text x="80" y="162" text-anchor="middle" fill="#B59A57" font-family="Arial, sans-serif" font-weight="700" font-size="8" letter-spacing="1.8" transform="rotate(-90 80 162)">TOM FORD</text>
+
+                    <!-- Gold Ferrule -->
+                    <rect x="70" y="244.5" width="20" height="7" fill="url(#goldFoil)"/>
+
+                    <!-- Sharpened Collar & Oxblood Precision Point -->
+                    <polygon points="70,251.5 90,251.5 84,276 76,276" fill="#1C1613"/>
+                    <polygon points="76,276 84,276 80,298" fill="#63000E"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="stage-foot">
+            <div class="scent-notes">CONTOUR: OXBLOOD LINE &bull; #4A0404</div>
+            <div class="action-bar">
+                <button type="button" class="action-btn" id="traceBtn">Trace Signature Line</button>
+                <button type="button" class="action-btn ghost" id="clearPencilBtn">Clear</button>
+            </div>
+            <a href="#parfum-stage" class="scroll-cue">Top &uarr;</a>
+        </div>
+    </section>
 
     <script>
         /* ==========================================================================
-           LANDMARK EDITORIAL DATA
+           SUBTLE TACTILE AUDIO ENGINE (OPTIONAL SOUND TOGGLE)
            ========================================================================== */
-        const LANDMARKS = [
-            {
-                id: 'monolith',
-                index: 'LANDMARK 01 / 04',
-                arch: 'FIFTH AVENUE MONOLITH',
-                title: 'INDISCREET EAU DE PARFUM',
-                shade: 'SMOKED TOBACCO \u2022 VANILLA \u2022 CRIMSON SPICE',
-                swatchColor: '#3A1F14',
-                swatchText: 'ACCORD: SMOKED TOBACCO & VANILLA\nARCHITECTURAL VITRINE 01',
-                desc: 'A monumental smoked-amber glass and brushed gold Art Deco skyscraper engineered in the exact proportions of the Private Blend flacon. Inside its double-height street atrium vitrine, the sculptural Eau de Parfum rotates beneath warm chiaroscuro beams.',
-                specs: [
-                    ['Structure', 'Chamfered Flacon Skyscraper'],
-                    ['Notes', 'Tobacco Leaf, Vanilla, Dark Spice'],
-                    ['Location', 'Fifth Avenue & 57th St']
-                ],
-                pos: new THREE.Vector3(-14, 0, -28),
-                standPos: new THREE.Vector3(-4.5, 1.7, -28),
-                lookAt: new THREE.Vector3(-14, 3.2, -28)
-            },
-            {
-                id: 'soho',
-                index: 'LANDMARK 02 / 04',
-                arch: 'SOHO CAST-IRON GALLERY',
-                title: 'INDISCREET LIP COLOR',
-                shade: 'INVITE ONLY \u2022 #63000E',
-                swatchColor: '#63000E',
-                swatchText: 'PIGMENT: DEEP OXBLOOD CRIMSON (#63000E)\nARCHITECTURAL VITRINE 02',
-                desc: 'An obsidian and fluted campaign-gold cast-iron building echoing the signature ribbed Tom Ford Lip Color case. Recessed into its corner stone facade is an illuminated glass vitrine housing the sculptural oxblood bullet over reflective black marble.',
-                specs: [
-                    ['Structure', 'Fluted Gold & Cast-Iron Facade'],
-                    ['Finish', 'High-Pigment Velvet Crimson'],
-                    ['Location', 'Mercer Street, SoHo']
-                ],
-                pos: new THREE.Vector3(14, 0, -68),
-                standPos: new THREE.Vector3(4.5, 1.7, -68),
-                lookAt: new THREE.Vector3(14, 3.0, -68)
-            },
-            {
-                id: 'madison',
-                index: 'LANDMARK 03 / 04',
-                arch: 'MADISON AVENUE SPIRE',
-                title: 'INDISCREET LIP PENCIL',
-                shade: 'OXBLOOD CONTOUR \u2022 #4A0404',
-                swatchColor: '#4A0404',
-                swatchText: 'PIGMENT: PRECISION OXBLOOD CONTOUR\nARCHITECTURAL VITRINE 03',
-                desc: 'A razor-sharp obsidian needle tower crowned in brushed campaign gold, mirroring the silhouette of the Indiscreet Lip Pencil. Its street-level glass gallery suspends the precision contour pencil above a crimson-lit stone plinth.',
-                specs: [
-                    ['Structure', 'Obsidian & Gold Needle Spire'],
-                    ['Precision', 'Sculpted Velvet Lip Contour'],
-                    ['Location', 'Madison Avenue']
-                ],
-                pos: new THREE.Vector3(-14, 0, -108),
-                standPos: new THREE.Vector3(-4.5, 1.7, -108),
-                lookAt: new THREE.Vector3(-14, 3.0, -108)
-            },
-            {
-                id: 'timessquare',
-                index: 'LANDMARK 04 / 04',
-                arch: 'TIMES SQUARE PLAZA',
-                title: 'THE COMPLETE COLLECTION',
-                shade: 'EAU DE PARFUM \u2022 INDISCREET LIP COLOR \u2022 INDISCREET LIP PENCIL',
-                swatchColor: '#B59A57',
-                swatchText: 'EDITION: COMPLETE INDISCREET TRILOGY\nCENTRAL PAVILION & BILLBOARD',
-                desc: 'Where the avenue opens into the nocturnal glow of Times Square. Towering digital billboards project the INDISCREET campaign above a central obsidian-and-glass pavilion exhibiting all three sculptural icons together on a triangular gold dais.',
-                specs: [
-                    ['Installation', 'Triangular Pavilion & Corner Billboard'],
-                    ['Collection', 'Parfum, Indiscreet Lip Color, Lip Pencil'],
-                    ['Location', 'Broadway & 45th St Plaza']
-                ],
-                pos: { x: 0, y: 0, z: -162 },
-                standPos: { x: 0, y: 1.7, z: -148 },
-                lookAt: { x: 0, y: 5.5, z: -168 }
-            }
-        ];
-
-        /* ==========================================================================
-           GLOBAL SCENE & PLAYER STATE
-           ========================================================================== */
-        let scene, camera, renderer;
-        let clock = new THREE.Clock();
-        const animatedObjects = [];
-        const interactiveMeshes = [];
-        let billboardMaterial = null;
-        let billboardSideMaterials = [];
-
-        // First-Person Curated Camera State (Starts in Street View Looking Down the Avenue)
-        const STREET_VIEW = {
-            pos: new THREE.Vector3(0, 1.7, 14),
-            lookAt: new THREE.Vector3(0, 5.5, -60)
-        };
-
-        const player = {
-            pos: STREET_VIEW.pos.clone(),
-            yaw: 0,
-            pitch: 0.05,
-            mouseParallax: { x: 0, y: 0 },
-            autopilot: null,
-            activeLandmark: null,
-            started: false
-        };
-
-        // Ambient Audio State
-        let synthPad = null;
-        let audioMuted = false;
-
-        /* ==========================================================================
-           PROCEDURAL CANVAS TEXTURES (FACADES, ASPHALT, & TIMES SQUARE BILLBOARD)
-           ========================================================================== */
-        function createBuildingWindowTexture(accentHex = '#B59A57', density = 0.28) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 256;
-            canvas.height = 512;
-            const ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = '#060607';
-            ctx.fillRect(0, 0, 256, 512);
-
-            // Subtle architectural vertical mullions
-            ctx.fillStyle = '#111114';
-            for (let x = 0; x < 256; x += 32) {
-                ctx.fillRect(x, 0, 2, 512);
-            }
-
-            // Lit windows with warm champagne/amber glow
-            const cols = 8;
-            const rows = 24;
-            const padX = 6;
-            const padY = 5;
-            const cellW = 256 / cols;
-            const cellH = 512 / rows;
-
-            for (let r = 0; r < rows; r++) {
-                for (let c = 0; c < cols; c++) {
-                    if (Math.random() < density) {
-                        const warm = Math.random() > 0.25;
-                        ctx.fillStyle = warm ? accentHex : '#F9F9F7';
-                        ctx.globalAlpha = 0.14 + Math.random() * 0.42;
-                        ctx.fillRect(
-                            c * cellW + padX,
-                            r * cellH + padY,
-                            cellW - padX * 2,
-                            cellH - padY * 2
-                        );
-                    }
-                }
-            }
-            ctx.globalAlpha = 1;
-
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.wrapS = THREE.RepeatWrapping;
-            tex.wrapT = THREE.RepeatWrapping;
-            return tex;
-        }
-
-        function createWetAsphaltTexture() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 512;
-            const ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = '#070708';
-            ctx.fillRect(0, 0, 512, 512);
-
-            // Micro grain & wet puddle streaks
-            for (let i = 0; i < 4500; i++) {
-                const x = Math.random() * 512;
-                const y = Math.random() * 512;
-                const v = 10 + Math.floor(Math.random() * 18);
-                ctx.fillStyle = `rgb(${v},${v},${v + 2})`;
-                ctx.fillRect(x, y, 2, 2);
-            }
-
-            // Subtle dark lane markings
-            ctx.fillStyle = 'rgba(181, 154, 87, 0.16)';
-            ctx.fillRect(253, 0, 6, 512);
-
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.wrapS = THREE.RepeatWrapping;
-            tex.wrapT = THREE.RepeatWrapping;
-            tex.repeat.set(4, 36);
-            return tex;
-        }
-
-        function createPlaqueTexture(topText, bottomText, bgHex = '#050505', borderHex = '#B59A57') {
-            const canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 512;
-            const ctx = canvas.getContext('2d');
-
-            ctx.fillStyle = bgHex;
-            ctx.fillRect(0, 0, 512, 512);
-
-            ctx.strokeStyle = borderHex;
-            ctx.lineWidth = 10;
-            ctx.strokeRect(20, 20, 472, 472);
-
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 46px Arial, Helvetica, sans-serif';
-            ctx.fillText(topText, 256, 225);
-
-            ctx.fillStyle = '#B59A57';
-            ctx.font = '400 32px Arial, Helvetica, sans-serif';
-            ctx.fillText(bottomText, 256, 295);
-
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.anisotropy = 4;
-            return tex;
-        }
-
-        function createTimesSquarePosterTexture(variant = 'hero') {
-            const canvas = document.createElement('canvas');
-            canvas.width = 900;
-            canvas.height = 1400;
-            const ctx = canvas.getContext('2d');
-
-            // Obsidian base
-            ctx.fillStyle = '#030304';
-            ctx.fillRect(0, 0, 900, 1400);
-
-            // Dramatic chiaroscuro crimson & gold studio radial glow
-            const grad = ctx.createRadialGradient(450, 580, 40, 450, 620, 520);
-            if (variant === 'hero') {
-                grad.addColorStop(0, 'rgba(99, 0, 14, 0.85)');
-                grad.addColorStop(0.55, 'rgba(58, 22, 14, 0.35)');
-                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            } else {
-                grad.addColorStop(0, 'rgba(181, 154, 87, 0.42)');
-                grad.addColorStop(0.6, 'rgba(99, 0, 14, 0.25)');
-                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            }
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 900, 1400);
-
-            // High-fashion geometric editorial composition
-            if (variant === 'hero') {
-                // Stylized glossy crimson lip contour & gold architectural framing
-                ctx.save();
-                ctx.translate(450, 560);
-
-                // Avant-garde dark visor silhouette
-                ctx.fillStyle = '#0A0A0C';
-                ctx.strokeStyle = '#B59A57';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.roundRect(-250, -170, 225, 115, 36);
-                ctx.roundRect(25, -170, 225, 115, 36);
-                ctx.fill();
-                ctx.stroke();
-
-                // Bridge
-                ctx.fillRect(-30, -135, 60, 14);
-
-                // Sculpted Crimson Lips (#63000E)
-                ctx.fillStyle = '#63000E';
-                ctx.beginPath();
-                ctx.moveTo(-125, 110);
-                ctx.quadraticCurveTo(-55, 55, 0, 82);
-                ctx.quadraticCurveTo(55, 55, 125, 110);
-                ctx.quadraticCurveTo(55, 175, 0, 175);
-                ctx.quadraticCurveTo(-55, 175, -125, 110);
-                ctx.fill();
-
-                // Glossy highlight & signature indiscreet trace
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
-                ctx.beginPath();
-                ctx.ellipse(-28, 136, 36, 7, -0.1, 0, Math.PI * 2);
-                ctx.fill();
-
-                const smear = ctx.createLinearGradient(115, 110, 215, 95);
-                smear.addColorStop(0, 'rgba(99, 0, 14, 0.9)');
-                smear.addColorStop(1, 'rgba(99, 0, 14, 0)');
-                ctx.fillStyle = smear;
-                ctx.fillRect(115, 102, 100, 14);
-                ctx.restore();
-            } else {
-                // Editorial Trilogy Silhouette Poster
-                ctx.save();
-                ctx.translate(450, 590);
-
-                // Parfum Flacon Silhouette
-                ctx.fillStyle = '#140C08';
-                ctx.strokeStyle = '#B59A57';
-                ctx.lineWidth = 3;
-                ctx.fillRect(-190, -120, 160, 240);
-                ctx.strokeRect(-190, -120, 160, 240);
-                ctx.fillRect(-155, -175, 90, 55);
-                ctx.strokeRect(-155, -175, 90, 55);
-                ctx.fillStyle = '#B59A57';
-                ctx.fillRect(-155, -55, 90, 110);
-
-                // Lip Color Bullet Silhouette
-                ctx.fillStyle = '#080808';
-                ctx.fillRect(40, -10, 76, 130);
-                ctx.strokeRect(40, -10, 76, 130);
-                ctx.fillStyle = '#B59A57';
-                ctx.fillRect(48, -75, 60, 65);
-                ctx.fillStyle = '#63000E';
-                ctx.beginPath();
-                ctx.moveTo(54, -75);
-                ctx.lineTo(54, -155);
-                ctx.lineTo(102, -130);
-                ctx.lineTo(102, -75);
-                ctx.closePath();
-                ctx.fill();
-
-                // Lip Pencil Silhouette
-                ctx.fillStyle = '#080808';
-                ctx.fillRect(165, -165, 18, 285);
-                ctx.strokeRect(165, -165, 18, 285);
-                ctx.fillStyle = '#63000E';
-                ctx.beginPath();
-                ctx.moveTo(165, -165);
-                ctx.lineTo(174, -205);
-                ctx.lineTo(183, -165);
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
-            }
-
-            // Outer Gold Hairline Frame
-            ctx.strokeStyle = '#B59A57';
-            ctx.lineWidth = 4;
-            ctx.strokeRect(36, 36, 828, 1328);
-
-            // Strict Campaign Typographic Lockup (Centered Low)
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'bold 64px Arial, Helvetica, sans-serif';
-            ctx.fillText('TOM FORD', 450, 1175);
-
-            ctx.fillStyle = '#B59A57';
-            ctx.font = '400 32px Arial, Helvetica, sans-serif';
-            ctx.fillText('INDISCREET', 450, 1235);
-
-            ctx.fillStyle = 'rgba(249, 249, 247, 0.55)';
-            ctx.font = '400 18px Arial, Helvetica, sans-serif';
-            ctx.fillText('NEW YORK  \u2022  EAU DE PARFUM & INDISCREET LIP', 450, 1295);
-
-            const tex = new THREE.CanvasTexture(canvas);
-            tex.anisotropy = 4;
-            return tex;
-        }
-
-        /* ==========================================================================
-           3D SCULPTURAL PRODUCT BUILDERS
-           ========================================================================== */
-        function createPerfumeSculpture(scale = 1) {
-            const group = new THREE.Group();
-
-            const smokedGlassMat = new THREE.MeshPhysicalMaterial({
-                color: 0x2b170e,
-                emissive: 0x160a05,
-                metalness: 0.15,
-                roughness: 0.12,
-                transparent: true,
-                opacity: 0.88,
-                clearcoat: 1.0,
-                clearcoatRoughness: 0.08
-            });
-
-            const innerLiquidMat = new THREE.MeshStandardMaterial({
-                color: 0x4d2814,
-                emissive: 0x261106,
-                roughness: 0.2
-            });
-
-            const goldMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                metalness: 0.88,
-                roughness: 0.22
-            });
-
-            // Main Flacon Body
-            const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 2.2, 0.85), smokedGlassMat);
-            body.position.y = 1.1;
-            group.add(body);
-
-            // Inner Amber Fragrance Core
-            const core = new THREE.Mesh(new THREE.BoxGeometry(1.25, 1.9, 0.62), innerLiquidMat);
-            core.position.y = 1.08;
-            group.add(core);
-
-            // Flacon Neck & Iconic Flat Chamfered Cap
-            const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.34, 0.35, 16), goldMat);
-            neck.position.y = 2.35;
-            group.add(neck);
-
-            const cap = new THREE.Mesh(new THREE.BoxGeometry(1.38, 0.48, 0.78), smokedGlassMat);
-            cap.position.y = 2.74;
-            group.add(cap);
-
-            // Gold Neck Cord & Front Label Plaque
-            const cord = new THREE.Mesh(new THREE.TorusGeometry(0.33, 0.03, 8, 24), goldMat);
-            cord.rotation.x = Math.PI / 2;
-            cord.position.y = 2.24;
-            group.add(cord);
-
-            const labelTex = createPlaqueTexture('TOM FORD', 'INDISCREET', '#090706', '#B59A57');
-            const plaqueMat = new THREE.MeshStandardMaterial({
-                map: labelTex,
-                metalness: 0.5,
-                roughness: 0.3
-            });
-            const plaque = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 1.15), plaqueMat);
-            plaque.position.set(0, 1.12, 0.435);
-            group.add(plaque);
-
-            group.scale.setScalar(scale);
-            return group;
-        }
-
-        function createLipstickSculpture(scale = 1) {
-            const group = new THREE.Group();
-
-            const obsidianMat = new THREE.MeshStandardMaterial({
-                color: 0x080809,
-                metalness: 0.45,
-                roughness: 0.25
-            });
-
-            const goldMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                metalness: 0.9,
-                roughness: 0.2
-            });
-
-            const crimsonMat = new THREE.MeshPhysicalMaterial({
-                color: 0x63000E,
-                emissive: 0x260005,
-                metalness: 0.05,
-                roughness: 0.22,
-                clearcoat: 0.65,
-                clearcoatRoughness: 0.18
-            });
-
-            // Square Obsidian Base Case
-            const base = new THREE.Mesh(new THREE.BoxGeometry(0.86, 1.45, 0.86), obsidianMat);
-            base.position.y = 0.725;
-            group.add(base);
-
-            // Signature Gold Corner Trim Edges
-            const trim = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.48, 0.9), new THREE.MeshBasicMaterial({
-                color: 0xB59A57,
-                wireframe: true
-            }));
-            trim.position.y = 0.725;
-            group.add(trim);
-
-            // Gold Collar Sleeve
-            const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.75, 24), goldMat);
-            collar.position.y = 1.8;
-            group.add(collar);
-
-            // Sculpted Oxblood Crimson Bullet with Slanted Tip
-            const bulletGeo = new THREE.CylinderGeometry(0.26, 0.27, 0.95, 24);
-            const posAttr = bulletGeo.attributes.position;
-            for (let i = 0; i < posAttr.count; i++) {
-                const y = posAttr.getY(i);
-                const z = posAttr.getZ(i);
-                if (y > 0.15) {
-                    posAttr.setY(i, y - (z + 0.27) * 0.55);
-                }
-            }
-            bulletGeo.computeVertexNormals();
-
-            const bullet = new THREE.Mesh(bulletGeo, crimsonMat);
-            bullet.position.y = 2.55;
-            group.add(bullet);
-
-            group.scale.setScalar(scale);
-            return group;
-        }
-
-        function createLipPencilSculpture(scale = 1) {
-            const group = new THREE.Group();
-
-            const obsidianMat = new THREE.MeshStandardMaterial({
-                color: 0x070708,
-                metalness: 0.35,
-                roughness: 0.28
-            });
-
-            const goldMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                metalness: 0.9,
-                roughness: 0.2
-            });
-
-            const crimsonMat = new THREE.MeshPhysicalMaterial({
-                color: 0x63000E,
-                emissive: 0x2A0006,
-                roughness: 0.25,
-                clearcoat: 0.5
-            });
-
-            // Sleek Elongated Barrel
-            const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 2.7, 20), obsidianMat);
-            shaft.position.y = 1.55;
-            group.add(shaft);
-
-            // Gold End Cap & Ferrule
-            const endCap = new THREE.Mesh(new THREE.CylinderGeometry(0.115, 0.115, 0.35, 20), goldMat);
-            endCap.position.y = 0.25;
-            group.add(endCap);
-
-            const ferrule = new THREE.Mesh(new THREE.CylinderGeometry(0.115, 0.115, 0.28, 20), goldMat);
-            ferrule.position.y = 2.95;
-            group.add(ferrule);
-
-            // Sharpened Taper & Crimson Tip
-            const woodCone = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.38, 20), new THREE.MeshStandardMaterial({
-                color: 0x241811,
-                roughness: 0.6
-            }));
-            woodCone.position.y = 3.28;
-            group.add(woodCone);
-
-            const tip = new THREE.Mesh(new THREE.ConeGeometry(0.048, 0.18, 20), crimsonMat);
-            tip.position.y = 3.48;
-            group.add(tip);
-
-            // Tilt dynamically like an editorial still-life
-            group.rotation.z = -0.22;
-            group.scale.setScalar(scale);
-            return group;
-        }
-
-        /* ==========================================================================
-           NYC ARCHITECTURAL LANDMARKS & STREETSCAPE
-           ========================================================================== */
-        function buildHeroLandmark1_FifthAveMonolith() {
-            const building = new THREE.Group();
-            building.position.set(-14, 0, -28);
-
-            const smokedFacadeMat = new THREE.MeshPhysicalMaterial({
-                color: 0x1e110a,
-                metalness: 0.65,
-                roughness: 0.18,
-                map: createBuildingWindowTexture('#B59A57', 0.22)
-            });
-
-            const goldTrimMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                metalness: 0.88,
-                roughness: 0.24
-            });
-
-            const obsidianStoneMat = new THREE.MeshStandardMaterial({
-                color: 0x070708,
-                roughness: 0.35,
-                metalness: 0.3
-            });
-
-            // Ground Atrium Vitrine Frame (Open toward the avenue on +X)
-            const backWall = new THREE.Mesh(new THREE.BoxGeometry(1.5, 7.5, 11), obsidianStoneMat);
-            backWall.position.set(-4.5, 3.75, 0);
-            building.add(backWall);
-
-            const sideWallN = new THREE.Mesh(new THREE.BoxGeometry(10, 7.5, 1.2), obsidianStoneMat);
-            sideWallN.position.set(0, 3.75, -5.2);
-            building.add(sideWallN);
-
-            const sideWallS = new THREE.Mesh(new THREE.BoxGeometry(10, 7.5, 1.2), obsidianStoneMat);
-            sideWallS.position.set(0, 3.75, 5.2);
-            building.add(sideWallS);
-
-            // Gold Vitrine Frame Columns
-            const col1 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 7.5, 0.45), goldTrimMat);
-            col1.position.set(4.8, 3.75, -4.5);
-            building.add(col1);
-
-            const col2 = new THREE.Mesh(new THREE.BoxGeometry(0.45, 7.5, 0.45), goldTrimMat);
-            col2.position.set(4.8, 3.75, 4.5);
-            building.add(col2);
-
-            // Translucent Atrium Glass Pane
-            const glassPane = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.6, 6.8),
-                new THREE.MeshBasicMaterial({
-                    color: 0xffd98e,
-                    transparent: true,
-                    opacity: 0.24,
-                    side: THREE.DoubleSide
-                })
-            );
-            glassPane.rotation.y = Math.PI / 2;
-            glassPane.position.set(4.75, 3.6, 0);
-            building.add(glassPane);
-
-            // Luminous Back Wall & Floor Glow Panels Inside Vitrine (Pure Glow, Zero Street Reflection)
-            const backGlowPanel = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.8, 6.6),
-                new THREE.MeshBasicMaterial({ color: 0x3b2610 })
-            );
-            backGlowPanel.rotation.y = Math.PI / 2;
-            backGlowPanel.position.set(-3.7, 3.6, 0);
-            building.add(backGlowPanel);
-
-            const floorGlowPad = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.2, 8.8),
-                new THREE.MeshBasicMaterial({ color: 0x2b1b0a })
-            );
-            floorGlowPad.rotation.x = -Math.PI / 2;
-            floorGlowPad.position.set(0.4, 0.04, 0);
-            building.add(floorGlowPad);
-
-            // Illuminated Plinth & Rotating Giant Eau de Parfum Inside Building
-            const plinth = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.5, 0.65, 32), obsidianStoneMat);
-            plinth.position.set(0.6, 0.325, 0);
-            building.add(plinth);
-
-            const plinthRing = new THREE.Mesh(new THREE.TorusGeometry(2.22, 0.09, 8, 32), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
-            plinthRing.rotation.x = Math.PI / 2;
-            plinthRing.position.set(0.6, 0.66, 0);
-            building.add(plinthRing);
-
-            const giantPerfume = createPerfumeSculpture(1.55);
-            giantPerfume.position.set(0.6, 0.72, 0);
-            giantPerfume.rotation.y = Math.PI / 2;
-            building.add(giantPerfume);
-            animatedObjects.push({ mesh: giantPerfume, rotSpeed: 0.45, bobAmp: 0.06, baseY: 0.72 });
-
-            // Upper Skyscraper Tower Styled After Private Blend Flacon
-            const upperTower = new THREE.Mesh(new THREE.BoxGeometry(10.5, 34, 11.5), smokedFacadeMat);
-            upperTower.position.set(0, 24.5, 0);
-            building.add(upperTower);
-
-            // Gold Collar & Flacon-Cap Architectural Crown
-            const crownNeck = new THREE.Mesh(new THREE.BoxGeometry(6.2, 2.2, 6.8), goldTrimMat);
-            crownNeck.position.set(0, 42.6, 0);
-            building.add(crownNeck);
-
-            const crownCap = new THREE.Mesh(new THREE.BoxGeometry(11.4, 3.6, 12.4), smokedFacadeMat);
-            crownCap.position.set(0, 45.5, 0);
-            building.add(crownCap);
-
-            const crownRim = new THREE.Mesh(new THREE.BoxGeometry(11.6, 0.25, 12.6), goldTrimMat);
-            crownRim.position.set(0, 43.7, 0);
-            building.add(crownRim);
-
-            // Architectural Gold Plaque on Facade
-            const signTex = createPlaqueTexture('TOM FORD', 'INDISCREET', '#050505', '#B59A57');
-            const sign = new THREE.Mesh(
-                new THREE.PlaneGeometry(5.2, 5.2),
-                new THREE.MeshBasicMaterial({ map: signTex })
-            );
-            sign.rotation.y = Math.PI / 2;
-            sign.position.set(5.32, 12.5, 0);
-            building.add(sign);
-
-            // Dedicated Bright Vitrine Spotlights (Tightly Contained Inside Glass Box)
-            const spot = new THREE.PointLight(0xffeaa8, 18.0, 9.5, 2.0);
-            spot.position.set(2.2, 5.8, 0);
-            building.add(spot);
-
-            const innerGlow = new THREE.PointLight(0xffd97d, 15.0, 8.5, 2.0);
-            innerGlow.position.set(-1.2, 3.0, 0);
-            building.add(innerGlow);
-
-            const floorBounce = new THREE.PointLight(0xffebb3, 10.5, 6.8, 2.0);
-            floorBounce.position.set(1.6, 1.3, 0);
-            building.add(floorBounce);
-
-            // Hitbox for clicking building
-            const hitbox = new THREE.Mesh(
-                new THREE.BoxGeometry(11, 14, 12),
-                new THREE.MeshBasicMaterial({ visible: false })
-            );
-            hitbox.position.set(0, 7, 0);
-            hitbox.userData.landmarkIndex = 0;
-            building.add(hitbox);
-            interactiveMeshes.push(hitbox);
-
-            scene.add(building);
-        }
-
-        function buildHeroLandmark2_SohoCastIron() {
-            const building = new THREE.Group();
-            building.position.set(14, 0, -68);
-
-            const obsidianMat = new THREE.MeshStandardMaterial({
-                color: 0x080809,
-                metalness: 0.55,
-                roughness: 0.22,
-                map: createBuildingWindowTexture('#63000E', 0.2)
-            });
-
-            const goldMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                metalness: 0.9,
-                roughness: 0.2
-            });
-
-            // Ground Vitrine Facing Avenue (-X)
-            const backWall = new THREE.Mesh(new THREE.BoxGeometry(1.5, 7.5, 11), obsidianMat);
-            backWall.position.set(4.5, 3.75, 0);
-            building.add(backWall);
-
-            const sideWallN = new THREE.Mesh(new THREE.BoxGeometry(10, 7.5, 1.2), obsidianMat);
-            sideWallN.position.set(0, 3.75, -5.2);
-            building.add(sideWallN);
-
-            const sideWallS = new THREE.Mesh(new THREE.BoxGeometry(10, 7.5, 1.2), obsidianMat);
-            sideWallS.position.set(0, 3.75, 5.2);
-            building.add(sideWallS);
-
-            // Fluted Cast-Iron & Campaign Gold Columns
-            for (let z = -4.6; z <= 4.6; z += 9.2) {
-                const col = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 7.5, 16), goldMat);
-                col.position.set(-4.8, 3.75, z);
-                building.add(col);
-            }
-
-            // Vitrine Glass
-            const glassPane = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.6, 6.8),
-                new THREE.MeshBasicMaterial({
-                    color: 0xffb8c6,
-                    transparent: true,
-                    opacity: 0.24,
-                    side: THREE.DoubleSide
-                })
-            );
-            glassPane.rotation.y = -Math.PI / 2;
-            glassPane.position.set(-4.75, 3.6, 0);
-            building.add(glassPane);
-
-            // Luminous Back Wall & Floor Glow Panels Inside Vitrine
-            const backGlowPanel = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.8, 6.6),
-                new THREE.MeshBasicMaterial({ color: 0x380812 })
-            );
-            backGlowPanel.rotation.y = -Math.PI / 2;
-            backGlowPanel.position.set(3.7, 3.6, 0);
-            building.add(backGlowPanel);
-
-            const floorGlowPad = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.2, 8.8),
-                new THREE.MeshBasicMaterial({ color: 0x26060d })
-            );
-            floorGlowPad.rotation.x = -Math.PI / 2;
-            floorGlowPad.position.set(-0.4, 0.04, 0);
-            building.add(floorGlowPad);
-
-            // Glossy Crimson-Lit Plinth & Sculptural Indiscreet Lip Color Inside
-            const plinth = new THREE.Mesh(new THREE.BoxGeometry(3.4, 0.65, 3.4), new THREE.MeshStandardMaterial({
-                color: 0x050505,
-                roughness: 0.1,
-                metalness: 0.6
-            }));
-            plinth.position.set(-0.6, 0.325, 0);
-            building.add(plinth);
-
-            const plinthGlowEdge = new THREE.Mesh(new THREE.BoxGeometry(3.52, 0.11, 3.52), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
-            plinthGlowEdge.position.set(-0.6, 0.65, 0);
-            building.add(plinthGlowEdge);
-
-            const lipstick = createLipstickSculpture(1.65);
-            lipstick.position.set(-0.6, 0.7, 0);
-            lipstick.rotation.y = -Math.PI / 2;
-            building.add(lipstick);
-            animatedObjects.push({ mesh: lipstick, rotSpeed: -0.5, bobAmp: 0.06, baseY: 0.7 });
-
-            // Upper Fluted Lipstick-Case Tower
-            const upperTower = new THREE.Mesh(new THREE.BoxGeometry(10.5, 28, 11), obsidianMat);
-            upperTower.position.set(0, 21.5, 0);
-            building.add(upperTower);
-
-            // Vertical Fluted Gold Ribs Along Tower Facade
-            for (let z = -4.2; z <= 4.2; z += 1.4) {
-                const rib = new THREE.Mesh(new THREE.BoxGeometry(0.25, 27, 0.22), goldMat);
-                rib.position.set(-5.3, 21.5, z);
-                building.add(rib);
-            }
-
-            // Crimson & Gold Top Cornice
-            const crown = new THREE.Mesh(new THREE.BoxGeometry(11.2, 2.4, 11.6), goldMat);
-            crown.position.set(0, 36.7, 0);
-            building.add(crown);
-
-            // Bright Vitrine Crimson & Warm Gold Spotlights (Tightly Contained Inside Glass Box)
-            const spot = new THREE.PointLight(0xff788e, 16.5, 9.2, 2.0);
-            spot.position.set(-2.0, 5.8, 0);
-            building.add(spot);
-
-            const warmFill = new THREE.PointLight(0xffedb3, 16.5, 8.8, 2.0);
-            warmFill.position.set(-1.6, 3.8, 1.4);
-            building.add(warmFill);
-
-            const backKey = new THREE.PointLight(0xffdc8f, 11.5, 7.8, 2.0);
-            backKey.position.set(1.4, 3.2, -1.0);
-            building.add(backKey);
-
-            const hitbox = new THREE.Mesh(
-                new THREE.BoxGeometry(11, 14, 12),
-                new THREE.MeshBasicMaterial({ visible: false })
-            );
-            hitbox.position.set(0, 7, 0);
-            hitbox.userData.landmarkIndex = 1;
-            building.add(hitbox);
-            interactiveMeshes.push(hitbox);
-
-            scene.add(building);
-        }
-
-        function buildHeroLandmark3_MadisonSpire() {
-            const building = new THREE.Group();
-            building.position.set(-14, 0, -108);
-
-            const obsidianMat = new THREE.MeshStandardMaterial({
-                color: 0x060607,
-                metalness: 0.65,
-                roughness: 0.2,
-                map: createBuildingWindowTexture('#B59A57', 0.18)
-            });
-
-            const goldMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                metalness: 0.92,
-                roughness: 0.18
-            });
-
-            const crimsonGlowMat = new THREE.MeshStandardMaterial({
-                color: 0x63000E,
-                emissive: 0x63000E,
-                emissiveIntensity: 0.85
-            });
-
-            // Ground Vitrine Facing Avenue (+X)
-            const backWall = new THREE.Mesh(new THREE.BoxGeometry(1.5, 8.0, 10), obsidianMat);
-            backWall.position.set(-4.2, 4.0, 0);
-            building.add(backWall);
-
-            const sideWallN = new THREE.Mesh(new THREE.BoxGeometry(9.5, 8.0, 1.1), obsidianMat);
-            sideWallN.position.set(0, 4.0, -4.8);
-            building.add(sideWallN);
-
-            const sideWallS = new THREE.Mesh(new THREE.BoxGeometry(9.5, 8.0, 1.1), obsidianMat);
-            sideWallS.position.set(0, 4.0, 4.8);
-            building.add(sideWallS);
-
-            // Brushed Gold Framing Pillars
-            for (let z = -4.2; z <= 4.2; z += 8.4) {
-                const col = new THREE.Mesh(new THREE.BoxGeometry(0.4, 8.0, 0.4), goldMat);
-                col.position.set(4.5, 4.0, z);
-                building.add(col);
-            }
-
-            const glassPane = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.0, 7.2),
-                new THREE.MeshBasicMaterial({
-                    color: 0xffe2a6,
-                    transparent: true,
-                    opacity: 0.24,
-                    side: THREE.DoubleSide
-                })
-            );
-            glassPane.rotation.y = Math.PI / 2;
-            glassPane.position.set(4.45, 3.8, 0);
-            building.add(glassPane);
-
-            // Luminous Back Wall & Floor Glow Panels Inside Vitrine
-            const backGlowPanel = new THREE.Mesh(
-                new THREE.PlaneGeometry(8.2, 7.0),
-                new THREE.MeshBasicMaterial({ color: 0x362411 })
-            );
-            backGlowPanel.rotation.y = Math.PI / 2;
-            backGlowPanel.position.set(-3.4, 3.8, 0);
-            building.add(backGlowPanel);
-
-            const floorGlowPad = new THREE.Mesh(
-                new THREE.PlaneGeometry(7.6, 8.2),
-                new THREE.MeshBasicMaterial({ color: 0x26190b })
-            );
-            floorGlowPad.rotation.x = -Math.PI / 2;
-            floorGlowPad.position.set(0.4, 0.04, 0);
-            building.add(floorGlowPad);
-
-            // Sculptural Indiscreet Lip Pencil Suspended in Gallery
-            const plinth = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 2.1, 0.5, 32), obsidianMat);
-            plinth.position.set(0.5, 0.25, 0);
-            building.add(plinth);
-
-            const plinthHalo = new THREE.Mesh(new THREE.TorusGeometry(1.84, 0.08, 8, 32), new THREE.MeshBasicMaterial({ color: 0xfff4c2 }));
-            plinthHalo.rotation.x = Math.PI / 2;
-            plinthHalo.position.set(0.5, 0.51, 0);
-            building.add(plinthHalo);
-
-            const pencil = createLipPencilSculpture(1.65);
-            pencil.position.set(0.5, 0.9, 0);
-            building.add(pencil);
-            animatedObjects.push({ mesh: pencil, rotSpeed: 0.55, bobAmp: 0.1, baseY: 0.9 });
-
-            // Slender Needle Skyscraper Above
-            const spireShaft = new THREE.Mesh(new THREE.BoxGeometry(7.5, 38, 7.5), obsidianMat);
-            spireShaft.position.set(0, 27, 0);
-            building.add(spireShaft);
-
-            const goldBand = new THREE.Mesh(new THREE.BoxGeometry(7.8, 2.2, 7.8), goldMat);
-            goldBand.position.set(0, 47, 0);
-            building.add(goldBand);
-
-            // Tapered Architectural Pencil Crown & Crimson Beacon Tip
-            const spirePyramid = new THREE.Mesh(new THREE.ConeGeometry(5.3, 9.5, 4), obsidianMat);
-            spirePyramid.rotation.y = Math.PI / 4;
-            spirePyramid.position.set(0, 52.8, 0);
-            building.add(spirePyramid);
-
-            const beaconTip = new THREE.Mesh(new THREE.ConeGeometry(1.4, 3.2, 4), crimsonGlowMat);
-            beaconTip.rotation.y = Math.PI / 4;
-            beaconTip.position.set(0, 58.2, 0);
-            building.add(beaconTip);
-
-            const spot = new THREE.PointLight(0xffecab, 17.5, 9.0, 2.0);
-            spot.position.set(2.0, 6.0, 0);
-            building.add(spot);
-
-            const backGlow = new THREE.PointLight(0xffdc88, 14.5, 8.0, 2.0);
-            backGlow.position.set(-1.4, 3.2, 0);
-            building.add(backGlow);
-
-            const lowGlow = new THREE.PointLight(0xffedb3, 10.0, 6.8, 2.0);
-            lowGlow.position.set(1.6, 1.4, 0);
-            building.add(lowGlow);
-
-            const hitbox = new THREE.Mesh(
-                new THREE.BoxGeometry(10, 14, 10),
-                new THREE.MeshBasicMaterial({ visible: false })
-            );
-            hitbox.position.set(0, 7, 0);
-            hitbox.userData.landmarkIndex = 2;
-            building.add(hitbox);
-            interactiveMeshes.push(hitbox);
-
-            scene.add(building);
-        }
-
-        function buildHeroLandmark4_TimesSquarePlaza() {
-            const plaza = new THREE.Group();
-            plaza.position.set(0, 0, -162);
-
-            const obsidianMat = new THREE.MeshStandardMaterial({
-                color: 0x050506,
-                metalness: 0.6,
-                roughness: 0.2
-            });
-
-            const goldMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                metalness: 0.9,
-                roughness: 0.2
-            });
-
-            // 1. Iconic Tiered Times Square Corner Tower Backdrop Directly Facing Avenue
-            const towerBase = new THREE.Mesh(new THREE.BoxGeometry(24, 22, 14), obsidianMat);
-            towerBase.position.set(0, 11, -15);
-            plaza.add(towerBase);
-
-            const towerMid = new THREE.Mesh(new THREE.BoxGeometry(18, 22, 11), obsidianMat);
-            towerMid.position.set(0, 33, -15);
-            plaza.add(towerMid);
-
-            const towerTop = new THREE.Mesh(new THREE.BoxGeometry(12, 16, 8), obsidianMat);
-            towerTop.position.set(0, 52, -15);
-            plaza.add(towerTop);
-
-            // Gold Architectural Horizontal Bands
-            [22, 44, 60].forEach(y => {
-                const band = new THREE.Mesh(new THREE.BoxGeometry(24.4, 0.35, 14.4), goldMat);
-                band.position.set(0, y, -15);
-                plaza.add(band);
-            });
-
-            // 2. Massive Illuminated Corner Digital Campaign Billboard (Pre-loaded with image_500b07.jpeg + Fallback)
-            const fallbackPosterTex = createTimesSquarePosterTexture('hero');
-            billboardMaterial = new THREE.MeshBasicMaterial({ map: fallbackPosterTex, color: 0xffffff, fog: false });
-
-            const loader = new THREE.TextureLoader();
-            loader.load(
-                'image_500b07.jpeg',
-                tex => {
-                    tex.anisotropy = 4;
-                    billboardMaterial.map = tex;
-                    billboardMaterial.needsUpdate = true;
-                    const pBtn = document.getElementById('poster-btn');
-                    if (pBtn) pBtn.textContent = 'Poster: image_500b07';
-                },
-                undefined,
-                () => {
-                    // Keep procedural hero poster fallback if image_500b07.jpeg is not found locally
-                }
-            );
-
-            // Towering 43:80 Proportion Billboard Screen Facing Down the Avenue
-            const mainBillboard = new THREE.Mesh(new THREE.PlaneGeometry(15.2, 28.2), billboardMaterial);
-            mainBillboard.position.set(0, 22.8, -7.85);
-            mainBillboard.userData.isBillboardScreen = true;
-            plaza.add(mainBillboard);
-            interactiveMeshes.push(mainBillboard);
-
-            // Brushed Campaign Gold Billboard Bezel & Top Crown Marquee
-            const bbFrame = new THREE.Mesh(new THREE.BoxGeometry(16.0, 29.0, 0.35), new THREE.MeshBasicMaterial({ color: 0xDFC47B, fog: false }));
-            bbFrame.position.set(0, 22.8, -8.05);
-            plaza.add(bbFrame);
-
-            const marqueeTex = createPlaqueTexture('TOM FORD BEAUTY', 'INDISCREET \u2022 NEW YORK', '#050505', '#B59A57');
-            const topMarquee = new THREE.Mesh(
-                new THREE.PlaneGeometry(15.2, 3.2),
-                new THREE.MeshBasicMaterial({ map: marqueeTex, fog: false })
-            );
-            topMarquee.position.set(0, 39.2, -7.85);
-            plaza.add(topMarquee);
-
-            // Flanking Secondary Campaign Billboards Featuring Gemini_Generated_Image.jpeg & image_5007c6.jpeg
-            const trilogyPosterTex = createTimesSquarePosterTexture('trilogy');
-            const leftSideMat = new THREE.MeshBasicMaterial({ map: trilogyPosterTex, color: 0xffffff, fog: false });
-            const rightSideMat = new THREE.MeshBasicMaterial({ map: trilogyPosterTex, color: 0xffffff, fog: false });
-            billboardSideMaterials = [leftSideMat, rightSideMat];
-
-            loader.load('Gemini_Generated_Image.jpeg', tex => {
-                tex.anisotropy = 4;
-                leftSideMat.map = tex;
-                leftSideMat.needsUpdate = true;
-            });
-
-            loader.load('image_5007c6.jpeg', tex => {
-                tex.anisotropy = 4;
-                rightSideMat.map = tex;
-                rightSideMat.needsUpdate = true;
-            });
-
-            const leftBillboard = new THREE.Mesh(new THREE.PlaneGeometry(8.8, 15.6), leftSideMat);
-            leftBillboard.position.set(-15.5, 16, -10.5);
-            leftBillboard.rotation.y = 0.38;
-            leftBillboard.userData.isBillboardScreen = true;
-            plaza.add(leftBillboard);
-            interactiveMeshes.push(leftBillboard);
-
-            const leftFrame = new THREE.Mesh(new THREE.BoxGeometry(9.4, 16.2, 0.3), new THREE.MeshBasicMaterial({ color: 0xDFC47B, fog: false }));
-            leftFrame.position.set(-15.58, 16, -10.68);
-            leftFrame.rotation.y = 0.38;
-            plaza.add(leftFrame);
-
-            const rightBillboard = new THREE.Mesh(new THREE.PlaneGeometry(8.8, 15.6), rightSideMat);
-            rightBillboard.position.set(15.5, 16, -10.5);
-            rightBillboard.rotation.y = -0.38;
-            rightBillboard.userData.isBillboardScreen = true;
-            plaza.add(rightBillboard);
-            interactiveMeshes.push(rightBillboard);
-
-            const rightFrame = new THREE.Mesh(new THREE.BoxGeometry(9.4, 16.2, 0.3), new THREE.MeshBasicMaterial({ color: 0xDFC47B, fog: false }));
-            rightFrame.position.set(15.58, 16, -10.68);
-            rightFrame.rotation.y = -0.38;
-            plaza.add(rightFrame);
-
-            // 3. Central Glass Pavilion Exhibiting ALL THREE Products Together
-            const dais = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 6.0, 0.6, 48), obsidianMat);
-            dais.position.set(0, 0.3, 2);
-            plaza.add(dais);
-
-            const daisGoldTrim = new THREE.Mesh(new THREE.TorusGeometry(5.62, 0.13, 8, 48), new THREE.MeshBasicMaterial({ color: 0xfff8d6, fog: false }));
-            daisGoldTrim.rotation.x = Math.PI / 2;
-            daisGoldTrim.position.set(0, 0.61, 2);
-            plaza.add(daisGoldTrim);
-
-            // Luminous Gold Floor Pad Inside Pavilion
-            const pavilionFloorGlow = new THREE.Mesh(
-                new THREE.CircleGeometry(5.45, 48),
-                new THREE.MeshBasicMaterial({ color: 0x4f3818, fog: false })
-            );
-            pavilionFloorGlow.rotation.x = -Math.PI / 2;
-            pavilionFloorGlow.position.set(0, 0.62, 2);
-            plaza.add(pavilionFloorGlow);
-
-            // Four Sleek Gold Pavilion Columns & Canopy Ring
-            for (let i = 0; i < 4; i++) {
-                const angle = (i * Math.PI) / 2 + Math.PI / 4;
-                const col = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, 6.8, 16), new THREE.MeshBasicMaterial({ color: 0xE5C97B, fog: false }));
-                col.position.set(Math.cos(angle) * 4.8, 3.7, 2 + Math.sin(angle) * 4.8);
-                plaza.add(col);
-            }
-
-            const canopyRing = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 5.2, 0.35, 48, 1, true), new THREE.MeshBasicMaterial({ color: 0xE5C97B, fog: false }));
-            canopyRing.position.set(0, 7.1, 2);
-            plaza.add(canopyRing);
-
-            // Luminous Warm Halo Ceiling Disc & Translucent Pavilion Glow Veil
-            const canopyDisc = new THREE.Mesh(
-                new THREE.CircleGeometry(5.1, 48),
-                new THREE.MeshBasicMaterial({ color: 0xfff4cf, side: THREE.DoubleSide, fog: false })
-            );
-            canopyDisc.rotation.x = Math.PI / 2;
-            canopyDisc.position.set(0, 7.05, 2);
-            plaza.add(canopyDisc);
-
-            const pavilionGlassVeil = new THREE.Mesh(
-                new THREE.CylinderGeometry(4.85, 4.85, 6.4, 48, 1, true),
-                new THREE.MeshBasicMaterial({
-                    color: 0xffe6a6,
-                    transparent: true,
-                    opacity: 0.24,
-                    side: THREE.DoubleSide,
-                    fog: false
-                })
-            );
-            pavilionGlassVeil.position.set(0, 3.8, 2);
-            plaza.add(pavilionGlassVeil);
-
-            // Triangular Collection Pedestal Inside Pavilion Holding All 3 Icons
-            const collectionGroup = new THREE.Group();
-            collectionGroup.position.set(0, 0.65, 2);
-
-            const parfum = createPerfumeSculpture(1.25);
-            parfum.position.set(-1.55, 0, -0.4);
-            parfum.rotation.y = 0.25;
-            collectionGroup.add(parfum);
-
-            const lipColor = createLipstickSculpture(1.25);
-            lipColor.position.set(0.35, 0, 0.85);
-            lipColor.rotation.y = -0.2;
-            collectionGroup.add(lipColor);
-
-            const lipPencil = createLipPencilSculpture(1.25);
-            lipPencil.position.set(1.75, 0.2, -0.25);
-            collectionGroup.add(lipPencil);
-
-            plaza.add(collectionGroup);
-            animatedObjects.push({ mesh: collectionGroup, rotSpeed: 0.25, bobAmp: 0, baseY: 0.65 });
-
-            // Dramatic Bright Plaza Spotlights (Contained Within Pavilion)
-            const plazaSpot = new THREE.PointLight(0xfff2bd, 26.0, 14.0, 2.0);
-            plazaSpot.position.set(0, 6.2, 2);
-            plaza.add(plazaSpot);
-
-            const frontKeyLight = new THREE.PointLight(0xffebb0, 20.0, 12.0, 2.0);
-            frontKeyLight.position.set(0, 3.8, 5.2);
-            plaza.add(frontKeyLight);
-
-            const crimsonAccent = new THREE.PointLight(0xe00024, 12.0, 15.0, 2.0);
-            crimsonAccent.position.set(0, 12, -5.5);
-            plaza.add(crimsonAccent);
-
-            // Clickable Hitbox for Plaza Pavilion
-            const hitbox = new THREE.Mesh(
-                new THREE.BoxGeometry(12, 8.5, 12),
-                new THREE.MeshBasicMaterial({ visible: false })
-            );
-            hitbox.position.set(0, 4.25, 2);
-            hitbox.userData.landmarkIndex = 3;
-            plaza.add(hitbox);
-            interactiveMeshes.push(hitbox);
-
-            scene.add(plaza);
-        }
-
-        function buildCityContext() {
-            // Strictly Matte Nocturnal Asphalt Street & Sidewalks (Zero Specular Reflection)
-            const asphaltTex = createWetAsphaltTexture();
-            const streetMat = new THREE.MeshStandardMaterial({
-                map: asphaltTex,
-                color: 0x0b0b0d,
-                roughness: 1.0,
-                metalness: 0.0
-            });
-
-            const street = new THREE.Mesh(new THREE.PlaneGeometry(90, 260), streetMat);
-            street.rotation.x = -Math.PI / 2;
-            street.position.set(0, 0, -90);
-            scene.add(street);
-
-            // Raised Obsidian Sidewalk Curbs
-            const sidewalkMat = new THREE.MeshStandardMaterial({
-                color: 0x09090b,
-                roughness: 1.0,
-                metalness: 0.0
-            });
-
-            const leftSidewalk = new THREE.Mesh(new THREE.BoxGeometry(24, 0.22, 220), sidewalkMat);
-            leftSidewalk.position.set(-19, 0.11, -80);
-            scene.add(leftSidewalk);
-
-            const rightSidewalk = new THREE.Mesh(new THREE.BoxGeometry(24, 0.22, 220), sidewalkMat);
-            rightSidewalk.position.set(19, 0.11, -80);
-            scene.add(rightSidewalk);
-
-            // Surrounding Manhattan Skyscraper Canyons (Non-hero architectural fillers)
-            const fillerTex1 = createBuildingWindowTexture('#B59A57', 0.24);
-            const fillerTex2 = createBuildingWindowTexture('#F9F9F7', 0.18);
-            const fillerTex3 = createBuildingWindowTexture('#63000E', 0.16);
-            const goldAccentMat = new THREE.MeshStandardMaterial({
-                color: 0xB59A57,
-                emissive: 0x3d3115,
-                metalness: 0.9,
-                roughness: 0.2
-            });
-            const crimsonBeaconMat = new THREE.MeshBasicMaterial({ color: 0x9e0018 });
-            const goldBeaconMat = new THREE.MeshBasicMaterial({ color: 0xffe09e });
-
-            const fillerCoords = [
-                // Near Avenue Canyon
-                { x: -15, z: 4, w: 12, h: 44, d: 14, tex: fillerTex2, spire: true },
-                { x: 15, z: 6, w: 12, h: 38, d: 14, tex: fillerTex1 },
-                { x: -15, z: -12, w: 11, h: 48, d: 13, tex: fillerTex1, crown: true },
-                { x: 15, z: -12, w: 11, h: 52, d: 15, tex: fillerTex2, spire: true },
-                { x: 15, z: -40, w: 11, h: 42, d: 14, tex: fillerTex1, crown: true },
-                { x: -15, z: -50, w: 11, h: 56, d: 14, tex: fillerTex2, spire: true },
-                { x: 15, z: -52, w: 11, h: 36, d: 12, tex: fillerTex3 },
-                { x: -15, z: -84, w: 11, h: 48, d: 14, tex: fillerTex1, crown: true },
-                { x: 15, z: -90, w: 11, h: 54, d: 15, tex: fillerTex2, spire: true },
-                { x: 15, z: -124, w: 11, h: 45, d: 14, tex: fillerTex1, crown: true },
-                { x: -15, z: -128, w: 11, h: 40, d: 13, tex: fillerTex3 },
-                // Times Square Perimeter Towers
-                { x: -24, z: -145, w: 14, h: 64, d: 16, tex: fillerTex2, spire: true },
-                { x: 24, z: -145, w: 14, h: 68, d: 16, tex: fillerTex1, crown: true },
-                { x: -26, z: -168, w: 16, h: 74, d: 18, tex: fillerTex1, spire: true },
-                { x: 26, z: -168, w: 16, h: 72, d: 18, tex: fillerTex2, crown: true },
-                { x: -16, z: -192, w: 18, h: 82, d: 18, tex: fillerTex2, spire: true },
-                { x: 16, z: -192, w: 18, h: 86, d: 18, tex: fillerTex1, spire: true },
-                // Second-Row Deep Skyline High-Rises
-                { x: -32, z: -18, w: 16, h: 66, d: 18, tex: fillerTex1, crown: true },
-                { x: 32, z: -24, w: 16, h: 70, d: 18, tex: fillerTex2, spire: true },
-                { x: -34, z: -64, w: 18, h: 78, d: 20, tex: fillerTex2, spire: true },
-                { x: 34, z: -74, w: 18, h: 74, d: 20, tex: fillerTex1, crown: true },
-                { x: -34, z: -112, w: 18, h: 84, d: 20, tex: fillerTex1, spire: true },
-                { x: 34, z: -116, w: 18, h: 80, d: 20, tex: fillerTex2, crown: true }
-            ];
-
-            fillerCoords.forEach((b, idx) => {
-                const mat = new THREE.MeshStandardMaterial({
-                    color: 0x09090b,
-                    map: b.tex,
-                    roughness: 0.25,
-                    metalness: 0.55
-                });
-                const mesh = new THREE.Mesh(new THREE.BoxGeometry(b.w, b.h, b.d), mat);
-                mesh.position.set(b.x, b.h / 2, b.z);
-                scene.add(mesh);
-
-                // Illuminated Gold Architectural Crown Band
-                if (b.crown || b.spire) {
-                    const collar = new THREE.Mesh(
-                        new THREE.BoxGeometry(b.w + 0.4, 0.55, b.d + 0.4),
-                        goldAccentMat
-                    );
-                    collar.position.set(b.x, b.h - 1.2, b.z);
-                    scene.add(collar);
-                }
-
-                // Skyscraper Spire & Aviation Beacon Light
-                if (b.spire) {
-                    const spire = new THREE.Mesh(
-                        new THREE.CylinderGeometry(0.08, 0.45, 9, 8),
-                        goldAccentMat
-                    );
-                    spire.position.set(b.x, b.h + 4.5, b.z);
-                    scene.add(spire);
-
-                    const beacon = new THREE.Mesh(
-                        new THREE.SphereGeometry(0.24, 8, 8),
-                        idx % 2 === 0 ? crimsonBeaconMat : goldBeaconMat
-                    );
-                    beacon.position.set(b.x, b.h + 9.2, b.z);
-                    scene.add(beacon);
-                }
-            });
-
-            // Classic NYC Streetlamps (Subtle Nocturnal Fixtures Only — No Bright Street Pools)
-            const lampMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1d, metalness: 0.8, roughness: 0.25 });
-            const bulbMat = new THREE.MeshBasicMaterial({ color: 0xd8c28a });
-
-            for (let z = 10; z >= -140; z -= 22) {
-                [-7.5, 7.5].forEach(x => {
-                    const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, 5.6, 10), lampMat);
-                    pole.position.set(x, 2.8, z);
-                    scene.add(pole);
-
-                    const arm = new THREE.Mesh(new THREE.BoxGeometry(x < 0 ? 1.45 : -1.45, 0.08, 0.08), lampMat);
-                    arm.position.set(x + (x < 0 ? 0.62 : -0.62), 5.5, z);
-                    scene.add(arm);
-
-                    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 10), bulbMat);
-                    bulb.position.set(x + (x < 0 ? 1.25 : -1.25), 5.38, z);
-                    scene.add(bulb);
-                });
-            }
-
-            // Atmospheric Nocturnal City Dust / Light Motes
-            const moteCount = 320;
-            const moteGeo = new THREE.BufferGeometry();
-            const motePositions = new Float32Array(moteCount * 3);
-            for (let i = 0; i < moteCount; i++) {
-                motePositions[i * 3] = (Math.random() - 0.5) * 44;
-                motePositions[i * 3 + 1] = 0.6 + Math.random() * 24;
-                motePositions[i * 3 + 2] = 15 - Math.random() * 195;
-            }
-            moteGeo.setAttribute('position', new THREE.BufferAttribute(motePositions, 3));
-            const moteMat = new THREE.PointsMaterial({
-                color: 0xffe4b5,
-                size: 0.11,
-                transparent: true,
-                opacity: 0.45
-            });
-            const cityMotes = new THREE.Points(moteGeo, moteMat);
-            scene.add(cityMotes);
-        }
-
-        /* ==========================================================================
-           INITIALIZE THREE.JS SCENE
-           ========================================================================== */
-        function initScene() {
-            const container = document.getElementById('canvas-container');
-
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x060609);
-            scene.fog = new THREE.FogExp2(0x060609, 0.0085);
-
-            camera = new THREE.PerspectiveCamera(58, window.innerWidth / window.innerHeight, 0.1, 320);
-            camera.position.copy(player.pos);
-            camera.rotation.order = 'YXZ';
-
-            renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.32;
-            container.appendChild(renderer.domElement);
-
-            // Base Nocturnal City Lighting (Dark Street Corridor so Product Vitrines Pop)
-            const hemiLight = new THREE.HemisphereLight(0x2a2833, 0x120e09, 0.85);
-            scene.add(hemiLight);
-
-            const moonDirLight = new THREE.DirectionalLight(0xd9c8a9, 0.65);
-            moonDirLight.position.set(25, 65, 30);
-            scene.add(moonDirLight);
-
-            // Build Environment & Hero Architectural Vitrines
-            buildCityContext();
-            buildHeroLandmark1_FifthAveMonolith();
-            buildHeroLandmark2_SohoCastIron();
-            buildHeroLandmark3_MadisonSpire();
-            buildHeroLandmark4_TimesSquarePlaza();
-        }
-
-        /* ==========================================================================
-           AMBIENT NOCTURNAL SYNTH (TONE.JS)
-           ========================================================================== */
-        async function initAudio() {
-            try {
+        let soundEnabled = false;
+        let sprayNoise = null;
+        let sprayFilter = null;
+
+        const soundToggle = document.getElementById('soundToggle');
+        soundToggle.addEventListener('click', async () => {
+            soundEnabled = !soundEnabled;
+            soundToggle.textContent = soundEnabled ? 'Sound: On' : 'Sound: Off';
+            if (soundEnabled && typeof Tone !== 'undefined') {
                 await Tone.start();
-                const reverb = new Tone.Reverb({ decay: 6, wet: 0.65 }).toDestination();
-                const filter = new Tone.Filter(340, 'lowpass').connect(reverb);
-                synthPad = new Tone.PolySynth(Tone.Synth, {
-                    oscillator: { type: 'sine' },
-                    envelope: { attack: 2.5, decay: 2, sustain: 0.8, release: 4 }
-                }).connect(filter);
-                synthPad.volume.value = -20;
-                synthPad.triggerAttack(['C2', 'G2', 'Eb3', 'Bb3']);
-            } catch (e) {
-                console.warn('Audio init skipped:', e);
+                if (!sprayNoise) {
+                    sprayFilter = new Tone.Filter(2400, 'bandpass').toDestination();
+                    sprayNoise = new Tone.NoiseSynth({
+                        noise: { type: 'white' },
+                        envelope: { attack: 0.015, decay: 0.22, sustain: 0, release: 0.1 }
+                    }).connect(sprayFilter);
+                    sprayNoise.volume.value = -14;
+                }
             }
-        }
-
-        /* ==========================================================================
-           CURATED LANDMARK NAVIGATION & INSPECTION DRAWER
-           ========================================================================== */
-        function goToStreetView() {
-            closeDrawer();
-            player.activeLandmark = null;
-            player.autopilot = {
-                targetPos: STREET_VIEW.pos.clone(),
-                lookAt: STREET_VIEW.lookAt.clone()
-            };
-        }
-
-        function goToLandmark(idx) {
-            const target = LANDMARKS[idx];
-            if (!target) return;
-            closeDrawer();
-            player.activeLandmark = idx;
-            player.autopilot = {
-                targetPos: new THREE.Vector3(target.standPos.x, target.standPos.y, target.standPos.z),
-                lookAt: new THREE.Vector3(target.lookAt.x, target.lookAt.y, target.lookAt.z)
-            };
-        }
-
-        function setupControls() {
-            const container = document.getElementById('canvas-container');
-            const raycaster = new THREE.Raycaster();
-            const mouse = new THREE.Vector2();
-
-            window.addEventListener('keydown', e => {
-                if (!player.started) return;
-                if (e.code === 'Escape') {
-                    closeDrawer();
-                } else if (e.code === 'ArrowRight' || e.code === 'ArrowDown') {
-                    const nextIdx = player.activeLandmark === null ? 0 : (player.activeLandmark + 1) % LANDMARKS.length;
-                    goToLandmark(nextIdx);
-                } else if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') {
-                    const prevIdx = player.activeLandmark === null ? LANDMARKS.length - 1 : (player.activeLandmark - 1 + LANDMARKS.length) % LANDMARKS.length;
-                    goToLandmark(prevIdx);
-                }
-            });
-
-            // Subtle Editorial Pointer Parallax
-            window.addEventListener('pointermove', e => {
-                if (!player.started) return;
-                player.mouseParallax.x = ((e.clientX / window.innerWidth) - 0.5) * -0.14;
-                player.mouseParallax.y = ((e.clientY / window.innerHeight) - 0.5) * -0.08;
-            }, { passive: true });
-
-            // Click-to-Inspect Vitrine or Billboard Screen
-            container.addEventListener('click', e => {
-                if (!player.started) return;
-                mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-                raycaster.setFromCamera(mouse, camera);
-                const hits = raycaster.intersectObjects(interactiveMeshes);
-                if (hits.length > 0) {
-                    const hitObj = hits[0].object;
-                    if (hitObj.userData.isBillboardScreen) {
-                        document.getElementById('poster-upload').click();
-                    } else if (hitObj.userData.landmarkIndex !== undefined) {
-                        openDrawer(hitObj.userData.landmarkIndex);
-                    }
-                }
-            });
-
-            // Destination Pills (Smooth Curated Camera Glide)
-            document.querySelectorAll('.nav-pill').forEach(pill => {
-                pill.addEventListener('click', () => {
-                    if (pill.dataset.dest === 'street') {
-                        goToStreetView();
-                    } else {
-                        goToLandmark(Number(pill.dataset.dest));
-                    }
-                });
-            });
-
-            // Proximity Prompt Click
-            document.getElementById('proximity-prompt').addEventListener('click', () => {
-                if (player.activeLandmark !== null) {
-                    openDrawer(player.activeLandmark);
-                }
-            });
-
-            // Drawer Close
-            document.getElementById('drawer-close').addEventListener('click', closeDrawer);
-
-            // Audio Toggle
-            const audioBtn = document.getElementById('audio-toggle');
-            audioBtn.addEventListener('click', () => {
-                audioMuted = !audioMuted;
-                if (typeof Tone !== 'undefined' && Tone.Destination) {
-                    Tone.Destination.mute = audioMuted;
-                }
-                audioBtn.textContent = audioMuted ? 'Sound: Off' : 'Sound: On';
-            });
-
-            // Custom Campaign Poster Upload & Drag-and-Drop for Times Square Billboard
-            const posterBtn = document.getElementById('poster-btn');
-            const posterUpload = document.getElementById('poster-upload');
-            const dropOverlay = document.getElementById('drop-overlay');
-
-            function applyPosterFile(file) {
-                if (!file || !file.type.startsWith('image/') || !billboardMaterial) return;
-                const reader = new FileReader();
-                reader.onload = ev => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const tex = new THREE.Texture(img);
-                        tex.anisotropy = 4;
-                        tex.needsUpdate = true;
-                        billboardMaterial.map = tex;
-                        billboardMaterial.needsUpdate = true;
-                        posterBtn.textContent = 'Poster Mounted';
-                    };
-                    img.src = ev.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-
-            posterBtn.addEventListener('click', () => posterUpload.click());
-            posterUpload.addEventListener('change', e => {
-                applyPosterFile(e.target.files[0]);
-            });
-
-            window.addEventListener('dragover', e => {
-                e.preventDefault();
-                dropOverlay.classList.add('active');
-            });
-
-            window.addEventListener('dragleave', e => {
-                if (e.relatedTarget === null) {
-                    dropOverlay.classList.remove('active');
-                }
-            });
-
-            window.addEventListener('drop', e => {
-                e.preventDefault();
-                dropOverlay.classList.remove('active');
-                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                    applyPosterFile(e.dataTransfer.files[0]);
-                }
-            });
-        }
-
-        function openDrawer(idx) {
-            const data = LANDMARKS[idx];
-            if (!data) return;
-
-            document.getElementById('drawer-index').textContent = data.index;
-            document.getElementById('drawer-arch').textContent = data.arch;
-            document.getElementById('drawer-title').textContent = data.title;
-            document.getElementById('drawer-shade').textContent = data.shade;
-            document.getElementById('drawer-swatch').style.background = data.swatchColor;
-            document.getElementById('drawer-swatch-label').innerText = data.swatchText;
-            document.getElementById('drawer-desc').textContent = data.desc;
-
-            const specsContainer = document.getElementById('drawer-specs');
-            specsContainer.innerHTML = data.specs
-                .map(([k, v]) => `<div class="spec-row"><span>${k}</span><span>${v}</span></div>`)
-                .join('');
-
-            const drawer = document.getElementById('inspection-drawer');
-            drawer.classList.add('open');
-            drawer.setAttribute('aria-hidden', 'false');
-        }
-
-        function closeDrawer() {
-            const drawer = document.getElementById('inspection-drawer');
-            drawer.classList.remove('open');
-            drawer.setAttribute('aria-hidden', 'true');
-        }
-
-        /* ==========================================================================
-           RADAR MINIMAP & HUD PROXIMITY UPDATES
-           ========================================================================== */
-        const radarCanvas = document.getElementById('radar-canvas');
-        const radarCtx = radarCanvas.getContext('2d');
-
-        function drawRadar() {
-            const w = radarCanvas.width;
-            const h = radarCanvas.height;
-            radarCtx.clearRect(0, 0, w, h);
-
-            // Avenue Centerline
-            radarCtx.strokeStyle = 'rgba(181, 154, 87, 0.22)';
-            radarCtx.lineWidth = 1;
-            radarCtx.beginPath();
-            radarCtx.moveTo(w / 2, 10);
-            radarCtx.lineTo(w / 2, h - 10);
-            radarCtx.stroke();
-
-            // Map world coordinates (z from 20 to -180, x from -30 to 30)
-            const mapX = x => (w / 2) + (x / 35) * (w * 0.42);
-            const mapY = z => h - 14 - ((20 - z) / 200) * (h - 26);
-
-            // Landmark Nodes
-            LANDMARKS.forEach((lm, idx) => {
-                const lx = mapX(lm.pos.x);
-                const ly = mapY(lm.pos.z);
-                const isNear = player.activeLandmark === idx;
-
-                radarCtx.fillStyle = isNear ? '#FFFFFF' : '#B59A57';
-                radarCtx.beginPath();
-                radarCtx.arc(lx, ly, isNear ? 4.5 : 3, 0, Math.PI * 2);
-                radarCtx.fill();
-
-                if (idx === 3) {
-                    radarCtx.strokeStyle = '#63000E';
-                    radarCtx.lineWidth = 1.5;
-                    radarCtx.strokeRect(lx - 7, ly - 5, 14, 10);
-                }
-            });
-
-            // Player Position & View Cone
-            const px = mapX(player.pos.x);
-            const py = mapY(player.pos.z);
-
-            radarCtx.save();
-            radarCtx.translate(px, py);
-            radarCtx.rotate(-player.yaw);
-
-            // View Cone
-            radarCtx.fillStyle = 'rgba(181, 154, 87, 0.25)';
-            radarCtx.beginPath();
-            radarCtx.moveTo(0, 0);
-            radarCtx.lineTo(-9, -18);
-            radarCtx.lineTo(9, -18);
-            radarCtx.closePath();
-            radarCtx.fill();
-
-            // Player Dot
-            radarCtx.fillStyle = '#FFFFFF';
-            radarCtx.beginPath();
-            radarCtx.arc(0, 0, 3, 0, Math.PI * 2);
-            radarCtx.fill();
-            radarCtx.restore();
-        }
-
-        function updateProximityAndHUD() {
-            const zoneEl = document.getElementById('hud-zone');
-            const promptEl = document.getElementById('proximity-prompt');
-            const promptTag = document.getElementById('prompt-building');
-            const pills = document.querySelectorAll('.nav-pill');
-
-            // Update District Label
-            if (player.pos.z > -10) {
-                zoneEl.textContent = 'FIFTH AVENUE \u2022 STREET VIEW';
-            } else if (player.pos.z > -48) {
-                zoneEl.textContent = 'FIFTH AVENUE \u2022 MIDTOWN';
-            } else if (player.pos.z > -88) {
-                zoneEl.textContent = 'MERCER STREET \u2022 SOHO';
-            } else if (player.pos.z > -130) {
-                zoneEl.textContent = 'MADISON AVENUE \u2022 UPPER EAST';
-            } else {
-                zoneEl.textContent = 'TIMES SQUARE \u2022 BROADWAY PLAZA';
-            }
-
-            // Nearest Landmark Check
-            let closestIdx = null;
-            let closestDist = Infinity;
-
-            LANDMARKS.forEach((lm, idx) => {
-                const dist = Math.hypot(player.pos.x - lm.pos.x, player.pos.z - lm.pos.z);
-                if (dist < 22 && dist < closestDist) {
-                    closestDist = dist;
-                    closestIdx = idx;
-                }
-            });
-
-            player.activeLandmark = closestIdx;
-
-            pills.forEach(p => {
-                if (p.dataset.dest === 'street') {
-                    p.classList.toggle('active', closestIdx === null);
-                } else {
-                    p.classList.toggle('active', Number(p.dataset.dest) === closestIdx);
-                }
-            });
-
-            if (closestIdx !== null) {
-                promptTag.textContent = LANDMARKS[closestIdx].arch;
-                promptEl.classList.add('active');
-            } else {
-                promptEl.classList.remove('active');
-            }
-        }
-
-        /* ==========================================================================
-           MAIN ANIMATION LOOP
-           ========================================================================== */
-        function animate() {
-            requestAnimationFrame(animate);
-
-            const dt = Math.min(clock.getDelta(), 0.05);
-            const elapsed = clock.getElapsedTime();
-
-            // Rotate & Float Sculptural Products Inside Architectural Vitrines
-            animatedObjects.forEach(item => {
-                item.mesh.rotation.y += item.rotSpeed * dt;
-                if (item.bobAmp > 0) {
-                    item.mesh.position.y = item.baseY + Math.sin(elapsed * 1.8) * item.bobAmp;
-                }
-            });
-
-            if (player.started) {
-                // Smooth Curated Glide to Selected Landmark
-                if (player.autopilot) {
-                    const target = player.autopilot.targetPos;
-                    player.pos.lerp(target, Math.min(1, dt * 3.0));
-
-                    const dir = new THREE.Vector3().subVectors(player.autopilot.lookAt, player.pos).normalize();
-                    const desiredYaw = Math.atan2(-dir.x, -dir.z);
-                    const desiredPitch = Math.asin(Math.max(-0.5, Math.min(0.6, dir.y)));
-
-                    let diff = desiredYaw - player.yaw;
-                    while (diff < -Math.PI) diff += Math.PI * 2;
-                    while (diff > Math.PI) diff -= Math.PI * 2;
-
-                    player.yaw += diff * Math.min(1, dt * 4.2);
-                    player.pitch += (desiredPitch - player.pitch) * Math.min(1, dt * 4.2);
-                }
-
-                // Gentle breathing & subtle pointer parallax
-                camera.position.set(
-                    player.pos.x,
-                    player.pos.y + Math.sin(elapsed * 1.1) * 0.025,
-                    player.pos.z
-                );
-                camera.rotation.y = player.yaw + player.mouseParallax.x;
-                camera.rotation.x = player.pitch + player.mouseParallax.y;
-
-                updateProximityAndHUD();
-                drawRadar();
-            } else {
-                // Slow atmospheric idle camera drift before entering
-                camera.position.set(Math.sin(elapsed * 0.25) * 1.4, 2.2, 14);
-                camera.lookAt(0, 4.5, -40);
-            }
-
-            renderer.render(scene, camera);
-        }
-
-        /* ==========================================================================
-           WINDOW LIFECYCLE & START TRIGGER
-           ========================================================================== */
-        window.addEventListener('resize', () => {
-            if (!camera || !renderer) return;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        window.onload = function () {
-            initScene();
-            setupControls();
-            animate();
+        function playSpraySound() {
+            if (!soundEnabled || !sprayNoise) return;
+            try {
+                sprayNoise.triggerAttackRelease('8n');
+            } catch (e) {}
+        }
 
-            document.getElementById('enter-btn').addEventListener('click', () => {
-                player.started = true;
-                document.getElementById('title-screen').classList.add('hidden');
-                document.getElementById('hud').classList.add('visible');
-                goToStreetView();
-                initAudio();
+        /* ==========================================================================
+           SCROLL NAVIGATION DOTS SYNC
+           ========================================================================== */
+        const stages = document.querySelectorAll('.stage');
+        const dots = document.querySelectorAll('.side-dot');
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const target = document.getElementById(dot.dataset.target);
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
+        });
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    dots.forEach(d => d.classList.toggle('active', d.dataset.target === id));
+                }
+            });
+        }, { threshold: 0.55 });
+
+        stages.forEach(s => observer.observe(s));
+
+        /* ==========================================================================
+           01. EAU DE PARFUM — INTERACTIVE ATOMIZER MIST SYSTEM
+           ========================================================================== */
+        const mistCanvas = document.getElementById('mistCanvas');
+        const mistCtx = mistCanvas.getContext('2d');
+        const parfumTrigger = document.getElementById('parfumTrigger');
+        const parfumSvg = document.getElementById('parfumSvg');
+        const sprayBtn = document.getElementById('sprayBtn');
+
+        let mistParticles = [];
+        let mistRings = [];
+
+        function resizeCanvas(canvas) {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        function releasePerfumeMist() {
+            const rect = parfumSvg.getBoundingClientRect();
+            const stageRect = mistCanvas.getBoundingClientRect();
+            const originX = rect.left - stageRect.left + rect.width * 0.5;
+            const originY = rect.top - stageRect.top + rect.height * 0.12;
+
+            // Cap depression animation
+            parfumSvg.classList.add('spraying');
+            setTimeout(() => parfumSvg.classList.remove('spraying'), 180);
+
+            playSpraySound();
+
+            // Expanding golden aura ring
+            mistRings.push({
+                x: originX,
+                y: originY,
+                radius: 8,
+                maxRadius: Math.min(stageRect.width, stageRect.height) * 0.42,
+                alpha: 0.35
+            });
+
+            // Fine atomized mist droplets fanning upward & outward
+            const count = 95;
+            for (let i = 0; i < count; i++) {
+                const spreadAngle = -Math.PI / 2 + (Math.random() - 0.5) * 1.45;
+                const speed = 2.2 + Math.random() * 6.8;
+                const isGold = Math.random() > 0.35;
+                mistParticles.push({
+                    x: originX + (Math.random() - 0.5) * 10,
+                    y: originY + (Math.random() - 0.5) * 6,
+                    vx: Math.cos(spreadAngle) * speed,
+                    vy: Math.sin(spreadAngle) * speed,
+                    radius: 1.2 + Math.random() * 3.8,
+                    alpha: 0.45 + Math.random() * 0.45,
+                    decay: 0.005 + Math.random() * 0.007,
+                    color: isGold ? '181, 154, 87' : '99, 0, 14'
+                });
+            }
+        }
+
+        parfumTrigger.addEventListener('click', releasePerfumeMist);
+        sprayBtn.addEventListener('click', releasePerfumeMist);
+        mistCanvas.addEventListener('click', releasePerfumeMist);
+
+        function animateMist() {
+            mistCtx.clearRect(0, 0, mistCanvas.clientWidth, mistCanvas.clientHeight);
+
+            for (let i = mistRings.length - 1; i >= 0; i--) {
+                const r = mistRings[i];
+                r.radius += (r.maxRadius - r.radius) * 0.055;
+                r.alpha *= 0.94;
+                mistCtx.beginPath();
+                mistCtx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+                mistCtx.strokeStyle = `rgba(181, 154, 87, ${r.alpha})`;
+                mistCtx.lineWidth = 1;
+                mistCtx.stroke();
+                if (r.alpha < 0.01) mistRings.splice(i, 1);
+            }
+
+            for (let i = mistParticles.length - 1; i >= 0; i--) {
+                const p = mistParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= 0.955;
+                p.vy *= 0.955;
+                p.vy -= 0.015; // Gentle upward drift
+                p.radius += 0.08;
+                p.alpha -= p.decay;
+
+                if (p.alpha <= 0) {
+                    mistParticles.splice(i, 1);
+                    continue;
+                }
+
+                const grad = mistCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2.2);
+                grad.addColorStop(0, `rgba(${p.color}, ${p.alpha})`);
+                grad.addColorStop(1, `rgba(${p.color}, 0)`);
+                mistCtx.fillStyle = grad;
+                mistCtx.beginPath();
+                mistCtx.arc(p.x, p.y, p.radius * 2.2, 0, Math.PI * 2);
+                mistCtx.fill();
+            }
+
+            requestAnimationFrame(animateMist);
+        }
+
+        /* ==========================================================================
+           02. INDISCREET LIP COLOR — INTERACTIVE VELVET CRIMSON SWATCHING
+           ========================================================================== */
+        const lipstickCanvas = document.getElementById('lipstickCanvas');
+        const lipCtx = lipstickCanvas.getContext('2d');
+        const lipstickTrigger = document.getElementById('lipstickTrigger');
+        const lipstickSvg = document.getElementById('lipstickSvg');
+        const swatchBtn = document.getElementById('swatchBtn');
+        const twistBtn = document.getElementById('twistBtn');
+        const clearLipBtn = document.getElementById('clearLipBtn');
+
+        let lipDrawing = false;
+        let lastLipPt = null;
+        let lipRetracted = false;
+
+        function paintVelvetSwatch(x1, y1, x2, y2) {
+            const dist = Math.hypot(x2 - x1, y2 - y1);
+            const steps = Math.max(1, Math.floor(dist / 2.5));
+
+            for (let i = 0; i <= steps; i++) {
+                const t = i / steps;
+                const x = x1 + (x2 - x1) * t;
+                const y = y1 + (y2 - y1) * t;
+
+                lipCtx.save();
+                lipCtx.translate(x, y);
+                lipCtx.rotate(-0.38);
+
+                // Rich creamy oxblood core
+                lipCtx.fillStyle = 'rgba(99, 0, 14, 0.24)';
+                lipCtx.beginPath();
+                lipCtx.ellipse(0, 0, 22, 9, 0, 0, Math.PI * 2);
+                lipCtx.fill();
+
+                // Fine pigment grain streaks
+                lipCtx.fillStyle = 'rgba(65, 0, 9, 0.28)';
+                lipCtx.fillRect(-16, -2, 32, 1.5);
+                lipCtx.fillRect(-12, 3, 24, 1);
+
+                // Satin sheen highlight
+                lipCtx.fillStyle = 'rgba(255, 255, 255, 0.14)';
+                lipCtx.beginPath();
+                lipCtx.ellipse(-4, -3, 10, 2, 0, 0, Math.PI * 2);
+                lipCtx.fill();
+
+                lipCtx.restore();
+            }
+        }
+
+        function applyEditorialSwatchStroke() {
+            if (lipRetracted) {
+                lipRetracted = false;
+                lipstickSvg.classList.remove('retracted');
+            }
+            const w = lipstickCanvas.clientWidth;
+            const h = lipstickCanvas.clientHeight;
+            const startX = w * (0.22 + Math.random() * 0.25);
+            const startY = h * (0.34 + Math.random() * 0.34);
+            const endX = startX + w * (0.26 + Math.random() * 0.16);
+            const endY = startY + (Math.random() - 0.5) * 70;
+
+            let progress = 0;
+            let prevX = startX;
+            let prevY = startY;
+
+            function stepStroke() {
+                progress += 0.08;
+                const t = Math.min(1, progress);
+                const ease = 1 - Math.pow(1 - t, 3);
+                const curX = startX + (endX - startX) * ease;
+                const curY = startY + (endY - startY) * ease + Math.sin(t * Math.PI) * 14;
+                paintVelvetSwatch(prevX, prevY, curX, curY);
+                prevX = curX;
+                prevY = curY;
+                if (t < 1) requestAnimationFrame(stepStroke);
+            }
+            requestAnimationFrame(stepStroke);
+        }
+
+        lipstickCanvas.addEventListener('pointerdown', e => {
+            if (lipRetracted) {
+                lipRetracted = false;
+                lipstickSvg.classList.remove('retracted');
+            }
+            lipDrawing = true;
+            const rect = lipstickCanvas.getBoundingClientRect();
+            lastLipPt = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            paintVelvetSwatch(lastLipPt.x, lastLipPt.y, lastLipPt.x + 1, lastLipPt.y + 1);
+        });
+
+        lipstickCanvas.addEventListener('pointermove', e => {
+            if (!lipDrawing || !lastLipPt) return;
+            const rect = lipstickCanvas.getBoundingClientRect();
+            const pt = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            paintVelvetSwatch(lastLipPt.x, lastLipPt.y, pt.x, pt.y);
+            lastLipPt = pt;
+        });
+
+        window.addEventListener('pointerup', () => {
+            lipDrawing = false;
+            lastLipPt = null;
+        });
+
+        lipstickTrigger.addEventListener('click', applyEditorialSwatchStroke);
+        swatchBtn.addEventListener('click', applyEditorialSwatchStroke);
+
+        twistBtn.addEventListener('click', () => {
+            lipRetracted = !lipRetracted;
+            lipstickSvg.classList.toggle('retracted', lipRetracted);
+        });
+
+        clearLipBtn.addEventListener('click', () => {
+            lipCtx.clearRect(0, 0, lipstickCanvas.clientWidth, lipstickCanvas.clientHeight);
+        });
+
+        /* ==========================================================================
+           03. INDISCREET LIP PENCIL — PRECISION OXBLOOD CONTOUR DRAWING
+           ========================================================================== */
+        const pencilCanvas = document.getElementById('pencilCanvas');
+        const penCtx = pencilCanvas.getContext('2d');
+        const pencilTrigger = document.getElementById('pencilTrigger');
+        const traceBtn = document.getElementById('traceBtn');
+        const clearPencilBtn = document.getElementById('clearPencilBtn');
+
+        let penDrawing = false;
+        let lastPenPt = null;
+
+        function drawContourLine(x1, y1, x2, y2) {
+            penCtx.save();
+            penCtx.lineCap = 'round';
+            penCtx.lineJoin = 'round';
+
+            // Crisp oxblood core line
+            penCtx.strokeStyle = 'rgba(74, 4, 4, 0.88)';
+            penCtx.lineWidth = 2.4;
+            penCtx.beginPath();
+            penCtx.moveTo(x1, y1);
+            penCtx.lineTo(x2, y2);
+            penCtx.stroke();
+
+            // Subtle soft feathered shadow edge
+            penCtx.strokeStyle = 'rgba(99, 0, 14, 0.18)';
+            penCtx.lineWidth = 5.5;
+            penCtx.beginPath();
+            penCtx.moveTo(x1, y1);
+            penCtx.lineTo(x2, y2);
+            penCtx.stroke();
+
+            penCtx.restore();
+        }
+
+        function traceSignatureContour() {
+            const w = pencilCanvas.clientWidth;
+            const h = pencilCanvas.clientHeight;
+            const cx = w * (0.28 + Math.random() * 0.44);
+            const cy = h * (0.36 + Math.random() * 0.28);
+            const scale = Math.min(w, h) * 0.16;
+
+            // Elegant Cupid's Bow & Lip Contour Curve
+            const points = [];
+            const totalSteps = 60;
+            for (let i = 0; i <= totalSteps; i++) {
+                const t = (i / totalSteps) * 2 - 1; // -1 to 1
+                const x = cx + t * scale;
+                const bow = -Math.abs(Math.sin(t * Math.PI)) * (scale * 0.28) + (Math.cos(t * Math.PI * 2) * scale * 0.08);
+                const y = cy + bow;
+                points.push({ x, y });
+            }
+
+            let idx = 1;
+            function stepContour() {
+                if (idx >= points.length) return;
+                drawContourLine(points[idx - 1].x, points[idx - 1].y, points[idx].x, points[idx].y);
+                idx++;
+                requestAnimationFrame(stepContour);
+            }
+            requestAnimationFrame(stepContour);
+        }
+
+        pencilCanvas.addEventListener('pointerdown', e => {
+            penDrawing = true;
+            const rect = pencilCanvas.getBoundingClientRect();
+            lastPenPt = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            drawContourLine(lastPenPt.x, lastPenPt.y, lastPenPt.x + 0.5, lastPenPt.y + 0.5);
+        });
+
+        pencilCanvas.addEventListener('pointermove', e => {
+            if (!penDrawing || !lastPenPt) return;
+            const rect = pencilCanvas.getBoundingClientRect();
+            const pt = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+            drawContourLine(lastPenPt.x, lastPenPt.y, pt.x, pt.y);
+            lastPenPt = pt;
+        });
+
+        window.addEventListener('pointerup', () => {
+            penDrawing = false;
+            lastPenPt = null;
+        });
+
+        pencilTrigger.addEventListener('click', traceSignatureContour);
+        traceBtn.addEventListener('click', traceSignatureContour);
+
+        clearPencilBtn.addEventListener('click', () => {
+            penCtx.clearRect(0, 0, pencilCanvas.clientWidth, pencilCanvas.clientHeight);
+        });
+
+        /* ==========================================================================
+           CUSTOM PIGMENT CURSOR ON SWATCH & CONTOUR STAGES
+           ========================================================================== */
+        const pigmentCursor = document.getElementById('pigmentCursor');
+
+        window.addEventListener('pointermove', e => {
+            pigmentCursor.style.left = e.clientX + 'px';
+            pigmentCursor.style.top = e.clientY + 'px';
+
+            const overLip = e.target === lipstickCanvas;
+            const overPen = e.target === pencilCanvas;
+
+            pigmentCursor.classList.toggle('visible', overLip || overPen);
+            pigmentCursor.classList.toggle('sharp', overPen);
+        }, { passive: true });
+
+        /* ==========================================================================
+           INIT & RESIZE
+           ========================================================================== */
+        function handleResize() {
+            resizeCanvas(mistCanvas);
+            resizeCanvas(lipstickCanvas);
+            resizeCanvas(pencilCanvas);
+        }
+
+        window.addEventListener('resize', handleResize);
+        window.onload = function () {
+            handleResize();
+            animateMist();
         };
     </script>
 </body>
