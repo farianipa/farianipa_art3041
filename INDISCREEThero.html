@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TOM FORD — INDISCREET</title>
+    <style>
+        /* ==========================================================================
+           1. TOM FORD DESIGN TOKENS & LUXURY GALLERY PALETTE
+           ========================================================================== */
+        :root {
+            --bg-pure: #FFFFFF;
+            --bg-ivory: #F9F9F7;
+            --tf-black: #000000;
+            --tf-gold: #B59A57;
+            --tf-gold-shimmer: #DFC784;
+            --tf-crimson: #63000E;
+            --tf-muted: #7C7A75;
+            --border-hairline: #E6E6E2;
+            color-scheme: light;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-pure);
+            color: var(--tf-black);
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            letter-spacing: 0.16em;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* ==========================================================================
+           2. FULL-VIEWPORT DYNAMIC HERO STAGE
+           ========================================================================== */
+        .hero-canvas-wrap {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #FAF9F6 74%, #F2F1EC 100%);
+            overflow: hidden;
+            cursor: default;
+        }
+
+        /* Interactive Canvas for Dynamic Light Rays & Crimson Trace */
+        #heroFxCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Architectural Framing Hairlines */
+        .frame-border {
+            position: absolute;
+            inset: clamp(14px, 2.5vw, 28px);
+            border: 1px solid rgba(181, 154, 87, 0.28);
+            pointer-events: none;
+            z-index: 5;
+            transition: border-color 0.4s ease;
+        }
+
+        .hero-canvas-wrap:hover .frame-border {
+            border-color: rgba(181, 154, 87, 0.55);
+        }
+
+        /* ==========================================================================
+           3. MINIMAL TOP & BOTTOM EDITORIAL SPACING & LOCKUP
+           ========================================================================== */
+        .logo-lockup {
+            position: relative;
+            z-index: 12;
+            margin: auto;
+            text-align: center;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform-style: preserve-3d;
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* TOM FORD in Crisp Obsidian Black */
+        .logo-brand {
+            font-size: clamp(32px, 5.8vw, 76px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.32em;
+            padding-left: 0.32em; /* Optical centering */
+            color: var(--tf-black);
+            line-height: 1;
+            opacity: 0;
+            transform: translateY(14px);
+            animation: lockupReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+            margin-bottom: clamp(14px, 2.2vh, 22px);
+        }
+
+        /* INDISCREET Underneath in Campaign Gold with Dynamic Light Sweep */
+        .logo-sub {
+            font-size: clamp(38px, 8.2vw, 118px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            padding-left: 0.16em; /* Optical centering */
+            line-height: 0.96;
+            background: linear-gradient(
+                110deg,
+                #9A7F3E 0%,
+                #B59A57 28%,
+                #E7D399 48%,
+                #B59A57 68%,
+                #9A7F3E 100%
+            );
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(18px);
+            animation:
+                lockupReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.28s forwards,
+                goldShimmer 7s ease-in-out infinite;
+        }
+
+        @keyframes lockupReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes goldShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ==========================================================================
+           4. BOTTOM MINIMAL COLLECTION CAPTION
+           ========================================================================== */
+        .hero-bottom {
+            position: absolute;
+            bottom: clamp(28px, 4.5vw, 48px);
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 15;
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.32em;
+            color: var(--tf-muted);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="hero-canvas-wrap" id="heroStage">
+        <canvas id="heroFxCanvas"></canvas>
+        <div class="frame-border"></div>
+
+        <!-- Center Logo Lockup: TOM FORD (Black) / INDISCREET (Gold) -->
+        <section class="logo-lockup" id="logoLockup" aria-label="TOM FORD INDISCREET">
+            <div class="logo-brand">TOM FORD</div>
+            <h1 class="logo-sub" id="indiscreetWord">INDISCREET</h1>
+        </section>
+
+        <!-- Bottom Minimalist Collection Line -->
+        <footer class="hero-bottom">
+            <span>Eau de Parfum &bull; Lip Color &bull; Lip Pencil</span>
+        </footer>
+    </main>
+
+    <script>
+        /* ==========================================================================
+           DYNAMIC HERO INTERACTION ENGINE (PARALLAX, GOLD LIGHT & CRIMSON TRACE)
+           ========================================================================== */
+        const stage = document.getElementById('heroStage');
+        const canvas = document.getElementById('heroFxCanvas');
+        const ctx = canvas.getContext('2d');
+        const lockup = document.getElementById('logoLockup');
+        const indiscreetWord = document.getElementById('indiscreetWord');
+
+        let width = 0;
+        let height = 0;
+
+        // Smooth pointer tracking
+        const pointer = {
+            x: window.innerWidth * 0.5,
+            y: window.innerHeight * 0.5,
+            targetX: window.innerWidth * 0.5,
+            targetY: window.innerHeight * 0.5,
+            prevX: null,
+            prevY: null,
+            isDown: false
+        };
+
+        // Pulse rings & velvet crimson trace strokes
+        const pulses = [];
+        const traceStrokes = [];
+
+        function resize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        // Pointer Events
+        stage.addEventListener('pointermove', (e) => {
+            pointer.targetX = e.clientX;
+            pointer.targetY = e.clientY;
+
+            // Update dynamic gold sheen angle on INDISCREET text
+            const pctX = (e.clientX / width) * 100;
+            indiscreetWord.style.backgroundPosition = `${pctX}% 50%`;
+
+            // Record velvet crimson trace when dragging across the hero canvas
+            if (pointer.isDown && pointer.prevX !== null) {
+                traceStrokes.push({
+                    x1: pointer.prevX,
+                    y1: pointer.prevY,
+                    x2: e.clientX,
+                    y2: e.clientY,
+                    alpha: 0.34
+                });
+            }
+            pointer.prevX = e.clientX;
+            pointer.prevY = e.clientY;
+        }, { passive: true });
+
+        stage.addEventListener('pointerdown', (e) => {
+            pointer.isDown = true;
+            pointer.prevX = e.clientX;
+            pointer.prevY = e.clientY;
+
+            // Emit subtle champagne-gold architectural light pulse
+            pulses.push({
+                x: e.clientX,
+                y: e.clientY,
+                r: 6,
+                maxR: Math.min(width, height) * 0.36,
+                alpha: 0.42
+            });
+        });
+
+        window.addEventListener('pointerup', () => {
+            pointer.isDown = false;
+            pointer.prevX = null;
+            pointer.prevY = null;
+        });
+
+        function render(time) {
+            // Smooth spring interpolation for pointer
+            pointer.x += (pointer.targetX - pointer.x) * 0.08;
+            pointer.y += (pointer.targetY - pointer.y) * 0.08;
+
+            // Subtle 3D parallax tilt on the center TOM FORD / INDISCREET lockup
+            const nx = (pointer.x / width) - 0.5;
+            const ny = (pointer.y / height) - 0.5;
+            lockup.style.transform = `translate3d(${nx * -14}px, ${ny * -10}px, 0)`;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Soft Moving Champagne Spotlight Following Cursor
+            const spotGrad = ctx.createRadialGradient(
+                pointer.x, pointer.y, 0,
+                pointer.x, pointer.y, Math.max(width, height) * 0.42
+            );
+            spotGrad.addColorStop(0, 'rgba(181, 154, 87, 0.11)');
+            spotGrad.addColorStop(0.55, 'rgba(181, 154, 87, 0.03)');
+            spotGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = spotGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            // 2. Diagonal Architectural Light Beams Slowly Breathing Across Studio
+            const drift = Math.sin(time * 0.0005) * (width * 0.12);
+            const beamGrad = ctx.createLinearGradient(width * 0.2 + drift, 0, width * 0.8 + drift, height);
+            beamGrad.addColorStop(0, 'rgba(181, 154, 87, 0)');
+            beamGrad.addColorStop(0.5, 'rgba(181, 154, 87, 0.055)');
+            beamGrad.addColorStop(1, 'rgba(181, 154, 87, 0)');
+            ctx.fillStyle = beamGrad;
+            ctx.fillRect(0, 0, width, height);
+
+            // 3. Velvet Crimson Swatch Strokes (Fade Slowly Like Scent/Pigment Trace)
+            for (let i = traceStrokes.length - 1; i >= 0; i--) {
+                const s = traceStrokes[i];
+                s.alpha *= 0.992;
+                if (s.alpha < 0.008) {
+                    traceStrokes.splice(i, 1);
+                    continue;
+                }
+                ctx.save();
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = `rgba(99, 0, 14, ${s.alpha})`;
+                ctx.lineWidth = 14;
+                ctx.beginPath();
+                ctx.moveTo(s.x1, s.y1);
+                ctx.lineTo(s.x2, s.y2);
+                ctx.stroke();
+
+                ctx.strokeStyle = `rgba(65, 0, 9, ${s.alpha * 0.7})`;
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(s.x1, s.y1);
+                ctx.lineTo(s.x2, s.y2);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // 4. Expanding Click Pulse Rings
+            for (let i = pulses.length - 1; i >= 0; i--) {
+                const p = pulses[i];
+                p.r += (p.maxR - p.r) * 0.05;
+                p.alpha *= 0.955;
+                if (p.alpha < 0.01) {
+                    pulses.splice(i, 1);
+                    continue;
+                }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(181, 154, 87, ${p.alpha})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        window.addEventListener('resize', resize);
+        window.onload = function () {
+            resize();
+            requestAnimationFrame(render);
+        };
+    </script>
+</body>
+</html>
