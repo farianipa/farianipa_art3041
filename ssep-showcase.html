@@ -24,6 +24,7 @@ hr{border:0;border-top:1px solid var(--line);margin:30px 0 44px}
 .box h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:32px;margin:0 0 12px}
 .box h3{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:400;font-size:21px;color:var(--acc);margin:22px 0 6px}
 .box p{margin:0 0 14px;font-size:16px}
+.box p.q{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:400;font-size:21px;color:var(--acc);margin:0 0 6px}
 .big svg{width:min(88vw,620px);height:auto;display:block}
 .x{float:right;font:inherit;background:none;border:1px solid var(--line);color:var(--fg);border-radius:999px;padding:4px 14px;cursor:pointer}
 .back{display:block;text-align:left;font-size:13px;color:var(--mute);text-decoration:none;text-transform:lowercase;margin:-20px 0 18px}
@@ -52,43 +53,17 @@ footer{margin-top:48px;color:var(--mute);font-size:12px;letter-spacing:.06em;tex
 
 <div class="modal" id="m-statement" onclick="if(event.target==this)closeM()"><div class="box"><button class="x" onclick="closeM()">close</button>
 <h2>Artist Statement</h2>
-<p>Orbit Bloom is a mission patch in which a flower and a solar system are the same shape. Eight petals are drawn as orbits, each carrying a small planet at its tip, all circling a bright center that is both the heart of the flower and a sun. It represents curiosity growing into discovery: something small and carefully tended that opens outward into space.</p>
+<p class="q">what does your patch represent?</p>
+<p>Orbit Bloom is a mission patch in which a flower and a solar system share the same shape. Eight petals are drawn as orbits, each carrying a small planet at its tip, all circling a bright center that represents both the pistil of a flower and the sun. The design represents curiosity growing into discovery, with each new question opening the door to something beyond what we already know.</p>
 <h3>1. What symbols or imagery did you choose, and why?</h3>
-<p>I wanted one simple idea that still reads at a glance, so I combined two things that seem unrelated. The flower stands for growth, beginnings, and care. The orbit stands for motion, cycles, and the physics of space. Drawing each petal as an orbit lets one image say both. The thinner inner orbits echo the diagrams of atoms and planets that I associate with science, from the very small to the very large.</p>
-<p>The planets at the petal tips act like pollen drifting off a bloom, and the yellow center is a sun that holds the whole system together. The rounded-square shape feels like a window, and the lines are kept thin and precise so the patch looks drawn the way a scientific diagram is. For color I chose a deep midnight blue for the night sky and a warm coral for the bloom, so the design is calm and a little hopeful. The lettering curves around the edge, “Baruch College” above and “SSEP Mission 2026” below, so the patch holds together as a single seal.</p>
+<p>I wanted one simple idea that still reads at a glance, so I combined two things that seem unrelated. The flower stands for growth and care. The orbit stands for cycles. Drawing each petal as an orbit lets one image say both. The thinner inner orbits echo the diagrams of planets.</p>
+<p>The planets at the petal tips act like pollen, and the yellow center can be represented as a sun that holds the whole system together. The lines are kept thin and precise so the patch looks drawn the way a scientific diagram is. For color I chose a deep midnight blue for the night sky and a warm pink for the petals, so the design is calm and a little hopeful. The lettering curves around the edge, “Baruch College” above and “SSEP Mission 2026” below.</p>
 <h3>2. How does the design reflect Baruch’s participation in scientific research and discovery in space?</h3>
-<p>A flower is something that is planted, watched, and cared for until it blooms. A student experiment is much the same: it begins as a question, is looked after carefully, and is finally sent somewhere new to see what happens. The orbits tie that idea directly to space, and the sun at the center stands for the shared mission that everything revolves around.</p>
-<p>The eight petals can also be read as many students and many contributions, each on its own path but circling the same center. Baruch is a college where people come from many places to work together, and I wanted the patch to show that research in space is a shared effort. The name and mission text keep the patch clearly tied to Baruch’s place in the program.</p>
+<p>A flower represents growth, discovery, and the process of reaching toward something new. I wanted to connect that idea to Baruch’s participation in space research, where scientific curiosity leads to exploration and new discoveries. The orbits tie that idea directly to space, and the sun at the center represents the shared mission that everything revolves around.</p>
+<p>The eight petals can also be seen as the many students and contributions. Baruch is a college where people come from many different backgrounds to learn and work together, and I wanted the patch to reflect how research in space is a collaborative effort. The name and mission text keep the patch clearly tied to Baruch’s place in the program.</p>
 </div></div>
 
 <div class="modal" id="m-ai" onclick="if(event.target==this)closeM()"><div class="box"><button class="x" onclick="closeM()">close</button>
 <h2>AI Disclosure</h2>
-<p>Yes, AI tools were used in developing this design. I used Claude, an AI assistant made by Anthropic, to brainstorm floral directions for the patch and to build the web-based patch generator that I used to explore variations, including its controls, colors, and layout. I chose the “petals as orbits” direction, picked the palette, decided on the default settings, and gave feedback through many rounds of changes, and I selected the final version myself. Claude also helped draft the wording of my artist statement, which I reviewed and edited.</p>
+<p>Yes, AI tools were used in developing this design. I used Claude, to help build the web-based patch generator that I used to explore variations, including its controls, colors, and layout. I drew my design, picked the palette, decided on the default settings, and gave feedback through many rounds of changes, and I selected the final version myself.</p>
 </div></div>
-
-<div class="modal" id="m-big" onclick="closeM()"><div class="big" id="bigp"></div></div>
-
-<script>
-function patch(u){
-var ring="#ff8fa3",bg="#14213d",p2="#ffd6e0",sun="#ffe66d",n=8,s="";
-s+='<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbit Bloom mission patch">';
-s+='<defs><path id="a'+u+'" d="M42,200 A158,158 0 0 1 358,200"/><path id="b'+u+'" d="M24,200 A176,176 0 0 0 376,200"/></defs>';
-s+='<rect x="5" y="5" width="390" height="390" rx="80" fill="'+ring+'"/><rect x="11" y="11" width="378" height="378" rx="74" fill="'+bg+'"/>';
-s+='<g transform="translate(200 200) scale(.92) translate(-200 -200)">';
-for(var i=0;i<n;i++){var g=' transform="rotate('+(i*360/n)+' 200 200)"';
- s+='<ellipse cx="200" cy="120" rx="56" ry="80" fill="'+ring+'" fill-opacity=".15" stroke="'+ring+'" stroke-width="1"'+g+'/>';
- s+='<ellipse cx="200" cy="156" rx="30.8" ry="44" fill="none" stroke="'+p2+'" stroke-width="1"'+g+'/>';
- s+='<circle cx="200" cy="40" r="7" fill="'+p2+'"'+g+'/>';}
-s+='<circle cx="200" cy="200" r="22" fill="'+sun+'"/></g>';
-var tf='font-family="\'Cormorant Garamond\',Georgia,serif" font-size="18" font-weight="400" letter-spacing="5" fill="'+ring+'" text-anchor="middle"';
-s+='<text '+tf+'><textPath href="#a'+u+'" startOffset="50%">BARUCH COLLEGE</textPath></text>';
-s+='<text '+tf+'><textPath href="#b'+u+'" startOffset="50%">SSEP MISSION 2026</textPath></text></svg>';
-return s}
-document.getElementById("patch").innerHTML=patch("s");
-document.getElementById("bigp").innerHTML=patch("l");
-function openM(k){closeM();document.getElementById("m-"+k).classList.add("on")}
-function closeM(){document.querySelectorAll(".modal").forEach(function(m){m.classList.remove("on")})}
-addEventListener("keydown",function(e){if(e.key=="Escape")closeM()});
-</script>
-</body>
-</html>
